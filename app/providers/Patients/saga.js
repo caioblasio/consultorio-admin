@@ -1,7 +1,7 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 // import fetchData from "utils/fetch";
 import { FETCH_PATIENTS } from "./constants";
-import { fetchPatients, fetchPatientsSuccess } from "./actions";
+import { fetchPatientsSuccess } from "./actions";
 
 export function* fetchPatients() {
   try {
@@ -13,7 +13,7 @@ export function* fetchPatients() {
 }
 
 function* saga() {
-  yield takeLatest(FETCH_PATIENTS, fetchContacts);
+  yield takeLatest(FETCH_PATIENTS, fetchPatients);
 }
 
 export default saga;

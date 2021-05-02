@@ -1,6 +1,6 @@
-import { all } from 'redux-saga/effects';
-import starWarsSaga from 'providers/StarWars/saga';
+import { all } from "redux-saga/effects";
+import patientsSaga from "providers/Patients/saga";
 
-export default function*() {
-  yield all([starWarsSaga()]);
+export default function* () {
+  yield all([patientsSaga()]);
 }

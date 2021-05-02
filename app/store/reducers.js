@@ -1,6 +1,11 @@
-import { combineReducers } from 'redux';
-import starWarsReducer from 'providers/StarWars/reducer';
+import { combineReducers } from "redux";
+import { connectRouter } from "connected-react-router";
+import patientsReducer from "providers/Patients/reducer";
 
-export default combineReducers({
-  starWars: starWarsReducer,
-});
+const createRootReducer = (history) =>
+  combineReducers({
+    router: connectRouter(history),
+    patients: patientsReducer,
+  });
+
+export default createRootReducer;
