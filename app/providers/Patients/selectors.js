@@ -9,6 +9,7 @@ const getPatients = () =>
       .get("data")
       .map((entry) => ({
         id: entry.get("id"),
+        name: entry.get("name"),
       }))
       .toJS()
   );
@@ -20,4 +21,4 @@ const getPatient = (id) => {
   );
 };
 
-export { getPatients, getPatients };
+export default { getPatients, getPatients };

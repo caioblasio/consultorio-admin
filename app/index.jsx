@@ -2,18 +2,28 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router/immutable";
-import { Route, Switch } from "react-router";
-import Main from "components/Main";
-import configureStore, { history } from "./store";
+import { ThemeProvider } from "styled-components";
+import {
+  ThemeProvider as MuiThemeProvider,
+  createMuiTheme,
+} from "@material-ui/core/styles";
+import App from "containers/App";
+import configureStore, { history } from "configs/store";
+import defaultTheme from "configs/theme.json";
+import "configs/firebase";
 
 const store = configureStore();
+
+const theme = createMuiTheme(defaultTheme);
 
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <Switch>
-        <Route exact path="/" render={Main} />
-      </Switch>
+      <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,
   document.getElementById("app")

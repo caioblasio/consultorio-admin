@@ -1,12 +1,12 @@
 import { takeLatest, call, put } from "redux-saga/effects";
-// import fetchData from "utils/fetch";
+import { fetchPatients as fetchPatientsFromDB } from "api/database/Patient";
 import { FETCH_PATIENTS } from "./constants";
-import { fetchPatientsSuccess } from "./actions";
+import Actions from "./actions";
 
 export function* fetchPatients() {
   try {
-    // const data = yield call(fetchData);
-    yield put(fetchPatientsSuccess(data));
+    const data = yield call(fetchPatientsFromDB);
+    yield put(Actions.fetchPatientsSuccess(data));
   } catch (err) {
     console.error(err);
   }
