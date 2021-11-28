@@ -1,20 +1,15 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { ConnectedRouter } from "connected-react-router/immutable";
-import { ThemeProvider } from "styled-components";
-import {
-  ThemeProvider as MuiThemeProvider,
-  createMuiTheme,
-} from "@material-ui/core/styles";
-import App from "containers/App";
-import configureStore, { history } from "configs/store";
-import defaultTheme from "configs/theme.json";
-import "configs/firebase";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { ConnectedRouter } from 'connected-react-router/immutable'
+import { ThemeProvider } from 'styled-components'
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles'
+import App from 'containers/App'
+import configureStore, { history } from 'configs/store'
+import theme from 'theme'
+import 'configs/firebase'
 
-const store = configureStore();
-
-const theme = createMuiTheme(defaultTheme);
+const store = configureStore()
 
 ReactDOM.render(
   <Provider store={store}>
@@ -26,5 +21,5 @@ ReactDOM.render(
       </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>,
-  document.getElementById("app")
-);
+  document.getElementById('app')
+)

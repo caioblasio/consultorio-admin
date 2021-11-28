@@ -1,20 +1,15 @@
-import React from "react";
-import { Route, Switch } from "react-router";
-import { CssBaseline } from "@material-ui/core";
-import Header from "containers/Header";
-import Home from "pages/dashboard/Home";
-import Patient from "pages/dashboard/Patient";
+import React from 'react'
+import { CssBaseline } from '@material-ui/core'
+import Header from 'containers/Header'
+import Navigation from 'routes'
 
 const Component = () => {
   return (
     <main className="main">
       <CssBaseline />
-      <Header />
-      <Switch>
-        <Route exact path="/" component={Patient} />
-      </Switch>
+      <Navigation />
     </main>
-  );
-};
+  )
+}
 
-export default Component;
+export default Component
