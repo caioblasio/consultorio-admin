@@ -1,16 +1,13 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useContext } from 'react'
 import Route from 'containers/Route'
-import { UserSelectors } from 'providers'
 import { loginURL } from 'configs/urls'
 import GeneralLayout from 'components/Layout/General'
+import { AuthContext } from 'contexts/Auth'
 
 const PrivateRoute = ({ validate, layout = GeneralLayout, ...rest }) => {
-  // const isSignedIn = useSelector(UserSelectors.isSignedIn())
+  const { currentUser } = useContext(AuthContext)
 
-  const isSignedIn = false
-
-  const isAuthorized = () => isSignedIn
+  const isAuthorized = () => currentUser
 
   return (
     <Route

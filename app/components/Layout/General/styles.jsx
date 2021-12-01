@@ -1,8 +1,6 @@
-import styled from 'styled-components'
+import { styled } from '@mui/system'
 
-const GeneralContainer = styled.div`
-  display: block;
-  padding: 60px 16px 0px 16px;
-`
-
-export default GeneralContainer
+export const GeneralContainer = styled('div')(({ theme }) => ({
+  marginLeft: 88,
+  padding: theme.spacing(2, 6),
+}))

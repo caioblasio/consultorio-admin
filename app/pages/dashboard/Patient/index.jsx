@@ -1,16 +1,7 @@
-import React, { useEffect } from "react";
-import Dashboard from "pages/dashboard";
-import { useDispatch, useSelector } from "react-redux";
-import { PatientActions, PatientSelectors } from "providers";
+import React from 'react'
+import Dashboard from 'pages/dashboard'
 
 const Patient = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(PatientActions.fetchPatients());
-  }, []);
-
-  const patients = useSelector(PatientSelectors.getPatients());
-
   return (
     <Dashboard title="Pacientes">
       <div>
@@ -19,7 +10,7 @@ const Patient = () => {
         ))}
       </div>
     </Dashboard>
-  );
-};
+  )
+}
 
-export default Patient;
+export default Patient

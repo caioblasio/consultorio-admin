@@ -1,17 +1,17 @@
-const { BannerPlugin, DefinePlugin } = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { BannerPlugin, DefinePlugin } = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const __root = process.cwd();
-const pkg = require(`${__root}/package.json`);
+const __root = process.cwd()
+const pkg = require(`${__root}/package.json`)
 
 const BANNER_METADATA = [
-  "/*!",
+  '/*!',
   ` * ${pkg.name} - ${pkg.description}`,
   ` * @version v${pkg.version}`,
   ` * @link ${pkg.homepage}`,
   ` * @license ${pkg.license}`,
-  " */",
-].join("\n");
+  ' */',
+].join('\n')
 
 module.exports = {
   entry: {
@@ -19,30 +19,30 @@ module.exports = {
   },
   output: {
     path: `${__root}/dist`,
-    filename: "[name].js",
-    publicPath: "/",
+    filename: '[name].js',
+    publicPath: '/',
   },
-  target: "web",
+  target: 'web',
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        loader: 'babel-loader',
       },
       {
         test: /\.(eot|otf|ttf|woff2?|jpe?g|png|gif|svg)$/,
-        loader: "file-loader",
+        loader: 'file-loader',
         options: {
-          name: "[name].[ext]",
-          outputPath: "media",
+          name: '[name].[ext]',
+          outputPath: 'media',
         },
       },
     ],
   },
   resolve: {
-    modules: [`${__root}/app`, "node_modules"],
-    extensions: [".jsx", ".js"],
+    modules: [`${__root}/app`, 'node_modules'],
+    extensions: ['.jsx', '.js'],
   },
   plugins: [
     new DefinePlugin({
@@ -55,8 +55,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       inject: true,
-      template: "public/index.html",
+      template: 'public/index.html',
       favicon: `${__root}/public/favicon.ico`,
     }),
   ],
-};
+}

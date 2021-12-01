@@ -1,18 +1,20 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
+import 'firebase/firestore'
+import 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBxHglKXsDG7jCyTC9Y3TdZFgIqFzRvcXQ",
-  authDomain: "consultorio-d3896.firebaseapp.com",
-  projectId: "consultorio-d3896",
-  storageBucket: "consultorio-d3896.appspot.com",
-  messagingSenderId: "889336786169",
-  appId: "1:889336786169:web:19779fd2cb0f7d39ff4628",
-  measurementId: "G-8TZGYVP3MZ",
-};
+  apiKey: 'AIzaSyBxHglKXsDG7jCyTC9Y3TdZFgIqFzRvcXQ',
+  authDomain: 'consultorio-d3896.firebaseapp.com',
+  projectId: 'consultorio-d3896',
+  storageBucket: 'consultorio-d3896.appspot.com',
+  messagingSenderId: '889336786169',
+  appId: '1:889336786169:web:19779fd2cb0f7d39ff4628',
+  measurementId: 'G-8TZGYVP3MZ',
+}
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig)
+const db = getFirestore()
 
-export default db;
+export { db }

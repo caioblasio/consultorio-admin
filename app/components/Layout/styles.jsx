@@ -1,9 +1,7 @@
-import styled from 'styled-components'
+import { styled } from '@mui/system'
 
-const StyledContainer = styled.div`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-`
-
-export default StyledContainer
+export const StyledContainer = styled('div')({
+  flexGrow: 1,
+  display: 'flex',
+  flexDirection: 'column',
+})

@@ -1,6 +1,4 @@
-import styled from "styled-components";
-import { Container } from "@material-ui/core";
+import { styled } from '@mui/system'
+import { Container } from '@mui/material'
 
-export const StyledContainer = styled(Container)`
-  padding-top: ${({ theme }) => theme.spacing(2)}px;
-`;
+export const StyledContainer = styled(Container)({})

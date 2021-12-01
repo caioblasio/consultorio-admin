@@ -1,8 +1,10 @@
-import { createTheme } from '@material-ui/core/styles'
+import { createTheme } from '@mui/material/styles'
 import palette from './colors'
+import typography from './typography'
 
 const theme = createTheme({
-    palette,
+  palette,
+  typography,
 })
 
 export default theme

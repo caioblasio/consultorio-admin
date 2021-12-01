@@ -1,13 +1,15 @@
 import React from 'react'
+import Drawer from 'containers/Drawer'
 import Header from 'containers/Header'
-import GeneralContainer from './styles'
-import StyledContainer from '../styles'
+import { GeneralContainer } from './styles'
+import { StyledContainer } from '../styles'
 
 const GeneralLayout = ({ children, ...rest }) => (
   <>
-    <Header />
+    <Drawer />
     <StyledContainer>
       <GeneralContainer data-testid="general-container" {...rest}>
+        <Header />
         {children}
       </GeneralContainer>
     </StyledContainer>

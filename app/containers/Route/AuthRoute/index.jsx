@@ -1,19 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Route from 'containers/Route'
-import { UserSelectors } from 'providers'
-import { useSelector } from 'react-redux'
 import AuthenticationLayout from 'components/Layout/Authentication'
+import { homeURL } from 'configs/urls'
+import { AuthContext } from 'contexts/Auth'
 
 const AuthRoute = ({ validate, layout = AuthenticationLayout, ...rest }) => {
-  // const isSignedIn = useSelector(UserSelectors.isSignedIn())
-
-  const isSignedIn = false
+  const { currentUser } = useContext(AuthContext)
 
   return (
     <Route
       {...rest}
       layout={layout}
-      validate={(props) => !isSignedIn && validate(props)}
+      validate={(props) => !!!currentUser && validate(props)}
     />
   )
 }
@@ -21,6 +19,7 @@ const AuthRoute = ({ validate, layout = AuthenticationLayout, ...rest }) => {
 AuthRoute.defaultProps = {
   ...Route.defaultProps,
   isSignedIn: false,
+  redirectOnInvalid: homeURL(),
 }
 
 export default AuthRoute

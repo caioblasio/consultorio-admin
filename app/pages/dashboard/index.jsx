@@ -1,6 +1,6 @@
-import React from "react";
-import { Grid, Typography } from "@material-ui/core";
-import Page from "pages";
+import React from 'react'
+import { Grid, Typography } from '@mui/material'
+import Page from 'pages'
 
 const Dashboard = ({ title, children }) => {
   return (
@@ -14,7 +14,7 @@ const Dashboard = ({ title, children }) => {
         </Grid>
       </Grid>
     </Page>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

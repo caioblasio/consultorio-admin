@@ -1,14 +1,17 @@
 import React from 'react'
-import { CssBaseline } from '@material-ui/core'
+import { CssBaseline } from '@mui/material'
 import Header from 'containers/Header'
 import Navigation from 'routes'
+import { AuthProvider } from 'contexts/Auth'
 
 const Component = () => {
   return (
-    <main className="main">
-      <CssBaseline />
-      <Navigation />
-    </main>
+    <AuthProvider>
+      <main className="main">
+        <CssBaseline />
+        <Navigation />
+      </main>
+    </AuthProvider>
   )
 }
 
