@@ -6,7 +6,7 @@ import {
   StyledInputBase,
 } from './styles'
 
-const SearchBar = ({ hasExpansion }) => {
+const SearchBar = () => {
   return (
     <StyledSearch>
       <StyledSearchIconWrapper>
@@ -15,7 +15,6 @@ const SearchBar = ({ hasExpansion }) => {
       <StyledInputBase
         placeholder="Buscar Pacientes..."
         inputProps={{ 'aria-label': 'search' }}
-        hasExpansion={hasExpansion}
       />
     </StyledSearch>
   )

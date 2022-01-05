@@ -10,15 +10,9 @@ import {
   Typography,
   Box,
 } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
 import { signOut } from 'api/authentication'
-import {
-  StyledSearch,
-  StyledSearchIconWrapper,
-  StyledInputBase,
-  StyledDivider,
-} from './styles'
 import SearchBar from 'components/SearchBar'
+import { StyledDivider } from './styles'
 
 const Header = () => {
   const { currentUser } = useContext(AuthContext)
@@ -43,7 +37,7 @@ const Header = () => {
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}></Box>
         <Box>
-          <SearchBar hasExpansion />
+          <SearchBar />
         </Box>
         <Box ml={4}>
           <IconButton onClick={handleMenu} sx={{ p: 0 }}>

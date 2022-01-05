@@ -37,14 +37,5 @@ export const StyledInputBase = styled(InputBase, {
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     borderRadius: theme.shape.borderRadius * 2,
     width: '100%',
-    ...(hasExpansion && {
-      transition: theme.transitions.create('width'),
-      [theme.breakpoints.up('sm')]: {
-        width: '36ch',
-        '&:focus': {
-          width: '48ch',
-        },
-      },
-    }),
   },
 }))
