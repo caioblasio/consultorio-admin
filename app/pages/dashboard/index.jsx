@@ -1,18 +1,26 @@
 import React from 'react'
-import { Grid, Typography } from '@mui/material'
+import { useHistory } from 'react-router-dom'
+import { Stack, Grid, Typography, IconButton } from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import Page from 'pages'
 
 const Dashboard = ({ title, children }) => {
+  const history = useHistory()
   return (
     <Page>
-      <Grid container direction="row" spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h1">{title}</Typography>
+      <Stack spacing={2}>
+        <Grid container alignItems="center">
+          <Grid item>
+            <IconButton onClick={() => history.goBack()}>
+              <ArrowBackIcon fontSize="large" />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <Typography variant="h1">{title}</Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          {children}
-        </Grid>
-      </Grid>
+        {children}
+      </Stack>
     </Page>
   )
 }

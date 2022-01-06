@@ -1,23 +1,30 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Typography } from '@mui/material'
+import { Grid } from '@mui/material'
 import { AuthContext } from 'contexts/Auth'
 import Dashboard from 'pages/dashboard'
-import { fetchPatientsCount } from 'api/database'
+import SummaryCard from 'containers/SummaryCard'
+import PatientsCard from 'containers/DataCard/PatientsCard'
+import PaymentsCard from 'containers/DataCard/PaymentsCard'
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext)
   const title = `Bem-vindo ${currentUser.displayName},`
 
-  const [count, setCount] = useState(0)
-
-  useEffect(async () => {
-    const count = await fetchPatientsCount()
-    setCount(count)
-  }, [])
-
   return (
     <Dashboard title={title}>
-      <Typography>{count}</Typography>
+      <Grid container spacing={2}>
+        <Grid item container spacing={2} xs={8} justifyContent="center">
+          <Grid item xs={6}>
+            <PaymentsCard />
+          </Grid>
+          <Grid item xs={6}>
+            <PatientsCard />
+          </Grid>
+        </Grid>
+        <Grid item xs={4} justifyContent="center">
+          <SummaryCard />
+        </Grid>
+      </Grid>
     </Dashboard>
   )
 }

@@ -18,6 +18,7 @@ import {
   StyledInputBase,
   StyledDivider,
 } from './styles'
+import SearchBar from 'components/SearchBar'
 
 const Header = () => {
   const { currentUser } = useContext(AuthContext)
@@ -42,15 +43,7 @@ const Header = () => {
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}></Box>
         <Box>
-          <StyledSearch>
-            <StyledSearchIconWrapper>
-              <SearchIcon />
-            </StyledSearchIconWrapper>
-            <StyledInputBase
-              placeholder="Buscar Pacientes..."
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </StyledSearch>
+          <SearchBar hasExpansion />
         </Box>
         <Box ml={4}>
           <IconButton onClick={handleMenu} sx={{ p: 0 }}>
