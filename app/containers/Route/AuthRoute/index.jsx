@@ -1,18 +1,13 @@
 import React, { useContext } from 'react'
 import Route from 'containers/Route'
-import AuthenticationLayout from 'components/Layout/Authentication'
 import { homeURL } from 'configs/urls'
 import { AuthContext } from 'contexts/Auth'
 
-const AuthRoute = ({ validate, layout = AuthenticationLayout, ...rest }) => {
+const AuthRoute = ({ validate, ...rest }) => {
   const { currentUser } = useContext(AuthContext)
 
   return (
-    <Route
-      {...rest}
-      layout={layout}
-      validate={(props) => !!!currentUser && validate(props)}
-    />
+    <Route {...rest} validate={(props) => !!!currentUser && validate(props)} />
   )
 }
 

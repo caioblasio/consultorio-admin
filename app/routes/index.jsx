@@ -5,12 +5,10 @@ import PublicRoutes from './Public'
 
 const Navigation = () => {
   return (
-    <div>
-      <Switch>
-        {PrivateRoutes}
-        {PublicRoutes}
-      </Switch>
-    </div>
+    <Switch>
+      {PrivateRoutes}
+      {PublicRoutes}
+    </Switch>
   )
 }
 

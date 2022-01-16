@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
-import { ThemeProvider } from '@mui/material/styles'
+import { ThemeProvider } from '@mui/material'
 import App from 'containers/App'
 import theme from 'theme'
 import 'configs/firebase'

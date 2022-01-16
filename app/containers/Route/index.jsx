@@ -3,13 +3,7 @@ import { Route as RouterRoute, Redirect } from 'react-router'
 
 import { homeURL } from 'configs/urls'
 
-function Route({
-  component,
-  validate,
-  redirectOnInvalid,
-  layout: Layout,
-  ...rest
-}) {
+function Route({ component, validate, redirectOnInvalid, ...rest }) {
   const Component = component
 
   return (
@@ -17,9 +11,7 @@ function Route({
       {...rest}
       render={(compProps) =>
         validate(compProps) ? (
-          <Layout>
-            <Component {...compProps} />
-          </Layout>
+          <Component {...compProps} />
         ) : (
           <Redirect to={redirectOnInvalid} />
         )

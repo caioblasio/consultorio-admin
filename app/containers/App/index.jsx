@@ -1,16 +1,17 @@
 import React from 'react'
 import { CssBaseline } from '@mui/material'
-import Header from 'containers/Header'
 import Navigation from 'routes'
 import { AuthProvider } from 'contexts/Auth'
+
+import { StyledMain } from './styles'
 
 const Component = () => {
   return (
     <AuthProvider>
-      <main className="main">
+      <StyledMain>
         <CssBaseline />
         <Navigation />
-      </main>
+      </StyledMain>
     </AuthProvider>
   )
 }

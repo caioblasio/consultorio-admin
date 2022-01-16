@@ -3,10 +3,6 @@ import GoogleButton from 'react-google-button'
 import { Box, Card } from '@mui/material'
 import LogoTitle from 'components/LogoTitle'
 
-export const StyledContainer = styled(Box)({
-  position: 'relative',
-})
-
 export const StyledLogoTitle = styled(LogoTitle)(({ theme }) => ({
   top: theme.spacing(2),
   position: 'absolute',

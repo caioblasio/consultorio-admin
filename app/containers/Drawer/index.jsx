@@ -1,18 +1,18 @@
 import * as React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Box, ListItemButton } from '@mui/material'
+import { Box } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
-import { patientsURL } from 'configs/urls'
+import { patientsURL, homeURL } from 'configs/urls'
 import Logo from 'assets/svg/logo.svg'
 import { StyledDrawer, StyledDrawerButton, StyledList } from './styles'
 
 const Drawer = () => {
   const history = useHistory()
   return (
-    <StyledDrawer variant="permanent" open={true}>
+    <StyledDrawer variant="permanent" open>
       <StyledList>
         <Box mb={4}>
-          <StyledDrawerButton onClick={() => history.push(patientsURL())}>
+          <StyledDrawerButton onClick={() => history.push(homeURL())}>
             <img src={Logo} />
           </StyledDrawerButton>
         </Box>

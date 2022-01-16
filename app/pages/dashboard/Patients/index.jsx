@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Grid, Stack, Button } from '@mui/material'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { fetchAllPatients } from 'api/database'
-import Dashboard from 'pages/dashboard'
 import SearchBar from 'components/SearchBar'
+import { homeURL } from 'configs/urls'
 import PatientsTable from './Table'
+import Dashboard from 'pages/dashboard'
 
-const Patient = () => {
+const Patients = () => {
   const [patients, setPatients] = useState([])
 
   useEffect(async () => {
@@ -15,7 +16,7 @@ const Patient = () => {
   }, [])
 
   return (
-    <Dashboard title="Pacientes">
+    <Dashboard title="Pacientes" backURL={homeURL()}>
       <Stack spacing={2}>
         <Grid container justifyContent="space-between">
           <Grid item>
@@ -33,4 +34,4 @@ const Patient = () => {
   )
 }
 
-export default Patient
+export default Patients
