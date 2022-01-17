@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import useAsyncEffect from 'use-async-effect'
 import { useTheme } from '@mui/system'
 import WarningIcon from '@mui/icons-material/Warning'
 import { fetchMissingPaymentsWithinRange } from 'api/database'
@@ -9,13 +10,14 @@ const PaymentsCard = () => {
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(true)
 
-  useEffect(async () => {
+  useAsyncEffect(async (isActive) => {
     // Date picker values
     const now = new Date()
     const startDate = new Date(now.getFullYear(), now.getMonth())
     const endDate = new Date(now.getFullYear(), now.getMonth() + 1)
 
     const count = await fetchMissingPaymentsWithinRange(startDate, endDate)
+    if (!isActive()) return
     setCount(count)
     setLoading(false)
   }, [])

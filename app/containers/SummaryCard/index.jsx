@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import useAsyncEffect from 'use-async-effect'
 import { CardContent, Typography, Skeleton, Stack } from '@mui/material'
 import {
   fetchPaymentsWithinRange,
@@ -12,7 +13,7 @@ const SummaryCard = () => {
   const [patientsCount, setPatientsCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(async () => {
+  useAsyncEffect(async (isActive) => {
     // Date picker values
     const now = new Date()
     const startDate = new Date(now.getFullYear(), now.getMonth())
@@ -21,6 +22,7 @@ const SummaryCard = () => {
     const amount = payments.reduce((_, cur) => cur.value, 0)
 
     const patients = await fetchPatientsWithinDateRange(startDate, endDate)
+    if (!isActive()) return
     setAmount(amount)
     setPatientsCount(patients.length)
     setIsLoading(false)

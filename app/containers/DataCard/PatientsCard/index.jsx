@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import useAsyncEffect from 'use-async-effect'
 import { useTheme } from '@mui/system'
 import PersonIcon from '@mui/icons-material/Person'
 import { homeURL, patientsURL } from 'configs/urls'
@@ -11,8 +12,9 @@ const PatientsCard = () => {
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(true)
 
-  useEffect(async () => {
+  useAsyncEffect(async (isActive) => {
     const count = await fetchPatientsCount()
+    if (!isActive()) return
     setCount(count)
     setLoading(false)
   }, [])
