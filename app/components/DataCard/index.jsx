@@ -1,30 +1,43 @@
 import React from 'react'
-import { Card, CardActionArea, Typography } from '@mui/material'
+import { CardActionArea, Typography } from '@mui/material'
 import {
   StyledIconContainer,
   StyledSkeleton,
+  StyledCard,
   StyledCardContent,
 } from './styles'
 
-const DataCard = ({ isLoading, title, data, icon, onClick }) => {
+const DataCard = ({
+  isLoading,
+  title,
+  data,
+  icon,
+  onClick,
+  className,
+  color,
+}) => {
   return (
     <>
       {isLoading ? (
-        <StyledSkeleton variant="rectangular" animation="wave" />
+        <StyledSkeleton
+          variant="rectangular"
+          animation="wave"
+          className={className}
+        />
       ) : (
-        <Card onClick={onClick}>
+        <StyledCard onClick={onClick} className={className} color={color}>
           <CardActionArea>
             <StyledCardContent>
-              <Typography gutterBottom variant="h5">
+              <Typography variant="subtitle1" component="span">
                 {title}
               </Typography>
-              <Typography variant="h1" component="p">
+              <Typography variant="h2" component="p">
                 {data}
               </Typography>
-              <StyledIconContainer>{icon}</StyledIconContainer>
+              <StyledIconContainer color={color}>{icon}</StyledIconContainer>
             </StyledCardContent>
           </CardActionArea>
-        </Card>
+        </StyledCard>
       )}
     </>
   )

@@ -10,7 +10,7 @@ import {
   Container,
 } from '@mui/material'
 import { signOut } from 'api/authentication'
-import SearchBar from 'components/SearchBar'
+import SearchField from 'components/SearchField'
 import { StyledAppBar, StyledDivider, StyledToolbar } from './styles'
 
 const Header = () => {
@@ -38,7 +38,7 @@ const Header = () => {
           <Grid container spacing={2} alignItems="center">
             <Grid item xs />
             <Grid item>
-              <SearchBar />
+              <SearchField placeholder="Buscar pacientes..." />
             </Grid>
             <Grid item>
               <IconButton onClick={handleMenu} sx={{ p: 0 }}>

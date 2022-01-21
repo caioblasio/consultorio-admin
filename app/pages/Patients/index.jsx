@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { Grid, Stack, Button } from '@mui/material'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
+
 import { fetchAllPatients } from 'api/database'
-import SearchBar from 'components/SearchBar'
+import SearchField from 'components/SearchField'
 import { homeURL } from 'configs/urls'
-import PatientsTable from './Table'
+import Table from './Table'
 import DashPage from 'components/DashPage'
 import CreateModal from './CreateModal'
 
@@ -24,14 +26,25 @@ const PatientsPage = () => {
   return (
     <>
       <DashPage title="Pacientes" backURL={homeURL()}>
-        <Stack spacing={2}>
-          <Grid container justifyContent="space-between">
+        <Stack spacing={4}>
+          <Grid
+            container
+            spacing={2}
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Grid item xs>
+              <SearchField placeholder="Buscar por nome, celular or CPF" />
+            </Grid>
             <Grid item>
-              <SearchBar />
+              <Button variant="outlined" startIcon={<CloudDownloadIcon />}>
+                Exportar
+              </Button>
             </Grid>
             <Grid item>
               <Button
                 variant="contained"
+                color="primary"
                 startIcon={<PersonAddIcon />}
                 onClick={handleOpen}
               >
@@ -39,7 +52,7 @@ const PatientsPage = () => {
               </Button>
             </Grid>
           </Grid>
-          <PatientsTable patients={patients} />
+          <Table data={patients} />
         </Stack>
       </DashPage>
       <CreateModal open={open} handleClose={handleClose} />

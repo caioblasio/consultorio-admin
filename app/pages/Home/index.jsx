@@ -2,8 +2,9 @@ import React, { useContext } from 'react'
 import { Grid } from '@mui/material'
 import { AuthContext } from 'contexts/Auth'
 import DashPage from 'components/DashPage'
-import PatientsCard from 'containers/PatientsCard'
-import PaymentsCard from 'containers/PaymentsCard'
+import PatientsCard from './PatientsCard'
+import PaymentsCard from './PaymentsCard'
+import SchedulesCard from './SchedulesCard'
 
 import { StyledGrid, StyledSummaryCard } from './styles'
 
@@ -13,16 +14,24 @@ const HomePage = () => {
 
   return (
     <DashPage title={title}>
-      <StyledGrid container spacing={2} alignItems="stretch">
+      <StyledGrid container spacing={6} alignItems="stretch">
         <Grid item xs={8}>
-          <Grid container spacing={2}>
+          <StyledGrid container spacing={2} direction="column" wrap="nowrap">
             <Grid item xs={6}>
-              <PaymentsCard />
+              <StyledGrid container spacing={2}>
+                <Grid item xs={6}>
+                  <PaymentsCard />
+                </Grid>
+                <Grid item xs={6}>
+                  <SchedulesCard />
+                </Grid>
+                <Grid item xs={6}>
+                  <PatientsCard />
+                </Grid>
+              </StyledGrid>
             </Grid>
-            <Grid item xs={6}>
-              <PatientsCard />
-            </Grid>
-          </Grid>
+            <Grid item xs={6}></Grid>
+          </StyledGrid>
         </Grid>
         <Grid item xs={4}>
           <StyledSummaryCard />

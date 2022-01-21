@@ -9,10 +9,10 @@ const Page = ({ title, children, backURL }) => {
   const history = useHistory()
   return (
     <StyledContainer maxWidth="lg">
-      <StyledGrid container spacing={2} direction="column">
+      <StyledGrid container spacing={6} direction="column">
         {(backURL || title) && (
           <Grid item>
-            <Grid container alignItems="center">
+            <Grid container spacing={2} alignItems="center">
               {backURL && (
                 <Grid item>
                   <IconButton onClick={() => history.replace(backURL)}>

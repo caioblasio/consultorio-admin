@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material'
 import { styled } from '@mui/system'
 
-import SummaryCard from 'containers/SummaryCard'
+import SummaryCard from './SummaryCard'
 
 export const StyledGrid = styled(Grid)({
   height: '100%',

@@ -27,10 +27,7 @@ export const StyledSearchIconWrapper = styled('div')(({ theme }) => ({
   justifyContent: 'center',
 }))
 
-export const StyledInputBase = styled(InputBase, {
-  // Configure which props should be forwarded on DOM
-  shouldForwardProp: (prop) => prop !== 'hasExpansion',
-})(({ theme, hasExpansion }) => ({
+export const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1.5, 1.5, 1.5, 0),

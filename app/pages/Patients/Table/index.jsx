@@ -3,7 +3,7 @@ import BasicTable from 'components/Table'
 import { formatCPF, formatPhone } from 'utils'
 import { ActiveDot, InactiveDot } from './styles'
 
-const PatientsTable = ({ patients }) => {
+const PatientsTable = ({ data }) => {
   const columns = [
     'Nome Completo',
     'Data de Nascimento',
@@ -22,7 +22,7 @@ const PatientsTable = ({ patients }) => {
     isActive: patient.isActive ? <ActiveDot /> : <InactiveDot />,
   })
 
-  const getUIRows = () => patients.map((patient) => createRow(patient))
+  const getUIRows = () => data.map((patient) => createRow(patient))
 
   return <BasicTable columns={columns} data={getUIRows()} />
 }

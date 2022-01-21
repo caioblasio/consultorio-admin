@@ -4,7 +4,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import { patientsURL } from 'configs/urls'
 import { fetchPatientsCount } from 'api/database'
 
-import { StyledDataCard } from './styles'
+import DataCard from 'containers/DataCard'
 
 const PatientsCard = () => {
   const [count, setCount] = useState(0)
@@ -18,8 +18,9 @@ const PatientsCard = () => {
   }, [])
 
   return (
-    <StyledDataCard
+    <DataCard
       title="Pacientes Ativos"
+      color="info"
       data={count}
       isLoading={loading}
       icon={<PersonIcon />}

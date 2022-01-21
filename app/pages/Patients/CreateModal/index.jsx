@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Modal, Typography, Stack } from '@mui/material'
-import TextField from 'components/TextField'
+import React from 'react'
+import { Modal, Stack, TextField } from '@mui/material'
 import {
   StyledModalContainer,
   StyledFormContainer,
@@ -17,10 +16,10 @@ const CreateModal = ({ open, handleClose }) => {
           </StyledTitle>
           <StyledFormContainer>
             <Stack spacing={4}>
-              <TextField label="Nome Completo do Paciente" variant="outlined" />
-              <TextField label="Celular" variant="outlined" />
-              <TextField label="Email" variant="outlined" />
-              <TextField label="CPF" variant="outlined" />
+              <TextField label="Nome Completo" />
+              <TextField label="Celular" />
+              <TextField label="Email" />
+              <TextField label="CPF" />
             </Stack>
           </StyledFormContainer>
         </Stack>

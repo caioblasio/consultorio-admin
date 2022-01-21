@@ -3,6 +3,7 @@ import useAsyncEffect from 'use-async-effect'
 import { useTheme } from '@mui/system'
 import WarningIcon from '@mui/icons-material/Warning'
 import { fetchMissingPaymentsWithinRange } from 'api/database'
+
 import DataCard from 'containers/DataCard'
 
 const PaymentsCard = () => {
@@ -25,9 +26,9 @@ const PaymentsCard = () => {
   return (
     <DataCard
       title="Pagamentos em Falta"
+      color="warning"
       data={count}
       isLoading={loading}
-      bgColor={theme.palette.warning.light}
       icon={<WarningIcon />}
     />
   )
