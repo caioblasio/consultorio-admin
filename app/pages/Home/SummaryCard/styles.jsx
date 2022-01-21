@@ -7,7 +7,7 @@ export const StyledCard = styled(Card)(({ theme }) => ({
 }))
 
 export const StyledSummarySectionTitle = styled(Typography)(({ theme }) => ({
-  color: theme.palette.grey['500'],
+  color: theme.palette.grey.dark,
 }))
 
 export const StyledSkeleton = styled(Skeleton)(({ theme }) => ({

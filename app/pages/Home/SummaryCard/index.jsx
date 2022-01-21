@@ -39,21 +39,21 @@ const SummaryCard = ({ className }) => {
       ) : (
         <StyledCard className={className}>
           <CardContent>
-            <Stack spacing={2}>
+            <Stack spacing={6}>
               <Typography variant="h1">Resumo</Typography>
               <div>
-                <StyledSummarySectionTitle variant="button">
+                <StyledSummarySectionTitle variant="subtitle1">
                   Saldo
                 </StyledSummarySectionTitle>
-                <Typography variant="h1">
+                <Typography variant="h2">
                   {formatCurrency(centesimalToStandard(amount))}
                 </Typography>
               </div>
               <div>
-                <StyledSummarySectionTitle variant="button">
+                <StyledSummarySectionTitle variant="subtitle1">
                   Pacientes
                 </StyledSummarySectionTitle>
-                <Typography variant="h1">{patientsCount}</Typography>
+                <Typography variant="h2">{patientsCount}</Typography>
               </div>
             </Stack>
           </CardContent>

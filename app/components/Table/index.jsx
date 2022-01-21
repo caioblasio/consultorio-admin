@@ -1,26 +1,22 @@
 import React from 'react'
 import {
-  Table,
+  Table as MuiTable,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material'
-import { StyledTableCell } from './styles'
 
 const DefaultTableRow = ({ row }) => {
-  return (
-    <>
-      {row.map((elem, idx) => {
-        return (
-          <TableCell key={`td-${row.id}-${idx}`} component="td" scope="row">
-            {elem}
-          </TableCell>
-        )
-      })}
-    </>
-  )
+  return row.map((elem, idx) => {
+    return (
+      <TableCell key={`td-${row.id}-${idx}`} component="td" scope="row">
+        {elem}
+      </TableCell>
+    )
+  })
 }
 
 const TableDefaultContent = ({ rows }) => {
@@ -36,21 +32,23 @@ const TableDefaultContent = ({ rows }) => {
   )
 }
 
-const BasicTable = ({ data, columns, children }) => {
+const Table = ({ data, columns, children }) => {
   return (
     <TableContainer>
-      <Table elevation={0} aria-label="simple table">
+      <MuiTable>
         <TableHead>
           <TableRow>
             {columns.map((column) => (
-              <StyledTableCell key={column}>{column}</StyledTableCell>
+              <TableCell key={column}>
+                <Typography variant="caption">{column}</Typography>
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
         {data && data.length ? <TableDefaultContent rows={data} /> : children}
-      </Table>
+      </MuiTable>
     </TableContainer>
   )
 }
 
-export default BasicTable
+export default Table

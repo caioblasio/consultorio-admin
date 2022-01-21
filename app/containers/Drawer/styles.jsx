@@ -1,5 +1,6 @@
 import { styled } from '@mui/system'
 import { Drawer, List, ListItemButton } from '@mui/material'
+import PersonIcon from '@mui/icons-material/Person'
 
 export const StyledDrawer = styled(Drawer)(({ theme }) => ({
   '& .MuiDrawer-paper': {
@@ -23,3 +24,7 @@ export const StyledDrawerButton = styled(ListItemButton)(({ theme }) => ({
     backgroundColor: 'transparent',
   },
 }))
+
+export const StyledPersonIcon = styled(PersonIcon)({
+  color: 'inherit',
+})

@@ -38,6 +38,16 @@ const components = {
       }),
     },
   },
+  MuiTableHead: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        '& .MuiTableCell-root': {
+          color: theme.palette.grey.dark,
+          padding: theme.spacing(1, 2),
+        },
+      }),
+    },
+  },
   MuiTextField: {
     defaultProps: {
       variant: 'outlined',

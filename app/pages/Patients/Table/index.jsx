@@ -3,7 +3,7 @@ import BasicTable from 'components/Table'
 import { formatCPF, formatPhone } from 'utils'
 import { ActiveDot, InactiveDot } from './styles'
 
-const PatientsTable = ({ data }) => {
+const Table = ({ data }) => {
   const columns = [
     'Nome Completo',
     'Data de Nascimento',
@@ -27,4 +27,4 @@ const PatientsTable = ({ data }) => {
   return <BasicTable columns={columns} data={getUIRows()} />
 }
 
-export default PatientsTable
+export default Table

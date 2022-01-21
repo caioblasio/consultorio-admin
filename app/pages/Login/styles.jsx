@@ -4,7 +4,7 @@ import { Box, Card } from '@mui/material'
 import LogoTitle from 'components/LogoTitle'
 
 export const StyledLogoTitle = styled(LogoTitle)(({ theme }) => ({
-  top: theme.spacing(2),
+  top: theme.spacing(4),
   position: 'absolute',
   transform: 'translateX(-50%)',
   left: '50%',

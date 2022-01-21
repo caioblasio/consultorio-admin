@@ -17,13 +17,14 @@ const typography = {
 
   h1: {
     fontFamily: 'Nunito Sans',
-    fontWeight: 700,
+    fontWeight: 400,
     fontSize: '2rem',
     letterSpacing: '0.05rem',
   },
   h2: {
+    fontFamily: 'Nunito Sans',
     fontWeight: 400,
-    fontSize: '1.625rem',
+    fontSize: '1.75rem',
     letterSpacing: '0.05rem',
   },
   title1: {
@@ -33,7 +34,7 @@ const typography = {
   },
   subtitle1: {
     fontWeight: 400,
-    fontSize: '0.875rem',
+    fontSize: '0.75rem',
     letterSpacing: '0.05rem',
     textTransform: 'uppercase',
   },
@@ -44,7 +45,7 @@ const typography = {
   },
   caption: {
     fontWeight: 600,
-    fontSize: '0.5rem',
+    fontSize: '0.675rem',
     letterSpacing: '0.04rem',
     textTransform: 'uppercase',
   },
