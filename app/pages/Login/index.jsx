@@ -1,15 +1,15 @@
 import React from 'react'
-import Authentication from 'pages/authentication'
+import AuthPage from 'components/AuthPage'
 import { useHistory } from 'react-router-dom'
 import { Box, CardContent, Typography } from '@mui/material'
 import Media from './Media'
 import { StyledGoogleButton, StyledCard, StyledLogoTitle } from './styles'
 import { signIn } from 'api/authentication'
 
-const Login = () => {
+const LoginPage = () => {
   const history = useHistory()
   return (
-    <Authentication>
+    <AuthPage>
       <Media />
       <StyledCard>
         <CardContent>
@@ -39,8 +39,8 @@ const Login = () => {
           </Box>
         </CardContent>
       </StyledCard>
-    </Authentication>
+    </AuthPage>
   )
 }
 
-export default Login
+export default LoginPage

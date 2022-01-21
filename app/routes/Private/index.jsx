@@ -1,3 +1,3 @@
-import DashboardRoutes from 'pages/dashboard/routes'
+import PrivateRoutes from './routes'
 
-export default [...DashboardRoutes]
+export default [...PrivateRoutes]

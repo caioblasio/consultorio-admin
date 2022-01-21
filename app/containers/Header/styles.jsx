@@ -1,6 +1,15 @@
 import { styled } from '@mui/system'
-import { Divider, InputBase } from '@mui/material'
+import { AppBar, Divider, InputBase, Toolbar } from '@mui/material'
 import { alpha } from '@mui/material/styles'
+
+export const StyledAppBar = styled(AppBar)({
+  left: 88,
+  width: 'auto',
+})
+
+export const StyledToolbar = styled(Toolbar)({
+  height: 96,
+})
 
 export const StyledSearch = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -45,7 +54,9 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 export const StyledDivider = styled(Divider)(({ theme }) => ({
-  marginTop: theme.spacing(2),
-  marginBottom: theme.spacing(2),
-  borderWidth: 1,
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  bottom: 0,
+  borderBottomWidth: 1,
 }))

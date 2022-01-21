@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { useTheme } from '@mui/system'
 import WarningIcon from '@mui/icons-material/Warning'
 import { fetchMissingPaymentsWithinRange } from 'api/database'
-import DataCard from '..'
+import DataCard from 'containers/DataCard'
 
 const PaymentsCard = () => {
   const theme = useTheme()

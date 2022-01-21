@@ -1,8 +1,8 @@
 import React from 'react'
 import { homeURL, patientsURL } from 'configs/urls'
-import PrivateRoute from 'containers/Route/PrivateRoute'
-import HomePage from './Home'
-import PatientsPage from './Patients'
+import PrivateRoute from 'containers/PrivateRoute'
+import HomePage from 'pages/Home'
+import PatientsPage from 'pages/Patients'
 
 const routes = [
   <PrivateRoute

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
-import { CardContent, Typography, Skeleton, Stack } from '@mui/material'
+import { CardContent, Typography, Stack } from '@mui/material'
 import {
   fetchPaymentsWithinRange,
   fetchPatientsWithinDateRange,
 } from 'api/database'
 import { formatCurrency, centesimalToStandard } from 'utils/currency'
-import { StyledCard, StyledSummarySectionTitle } from './styles'
+import { StyledCard, StyledSummarySectionTitle, StyledSkeleton } from './styles'
 
-const SummaryCard = () => {
+const SummaryCard = ({ className }) => {
   const [amount, setAmount] = useState(0)
   const [patientsCount, setPatientsCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
@@ -31,13 +31,13 @@ const SummaryCard = () => {
   return (
     <>
       {isLoading ? (
-        <Skeleton
+        <StyledSkeleton
           variant="rectangular"
           animation="wave"
-          sx={{ borderRadius: 4 }}
+          className={className}
         />
       ) : (
-        <StyledCard>
+        <StyledCard className={className}>
           <CardContent>
             <Stack spacing={2}>
               <Typography variant="h1">Resumo</Typography>

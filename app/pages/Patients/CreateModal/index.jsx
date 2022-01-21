@@ -7,7 +7,7 @@ import {
   StyledTitle,
 } from './styles'
 
-const CreatePatientModal = ({ open, handleClose }) => {
+const CreateModal = ({ open, handleClose }) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <StyledModalContainer elevation={3}>
@@ -24,10 +24,9 @@ const CreatePatientModal = ({ open, handleClose }) => {
             </Stack>
           </StyledFormContainer>
         </Stack>
-        
       </StyledModalContainer>
     </Modal>
   )
 }
 
-export default CreatePatientModal
+export default CreateModal

@@ -1,33 +1,37 @@
 import React from 'react'
 import { useHistory } from 'react-router'
-import { Grid, Typography, IconButton, Stack } from '@mui/material'
+import { Grid, Typography, IconButton } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { StyledContainer } from './styles'
+
+import { StyledContainer, StyledGrid } from './styles'
 
 const Page = ({ title, children, backURL }) => {
   const history = useHistory()
   return (
-    <StyledContainer maxWidth={false}>
-      <Stack>
+    <StyledContainer maxWidth="lg">
+      <StyledGrid container spacing={2} direction="column">
         {(backURL || title) && (
-          <Grid container alignItems="center">
-            {backURL && (
-              <Grid item>
-                <IconButton onClick={() => history.replace(backURL)}>
-                  <ArrowBackIcon fontSize="large" />
-                </IconButton>
-              </Grid>
-            )}
-            {title && (
-              <Grid item>
-                <Typography variant="h1">{title}</Typography>
-              </Grid>
-            )}
+          <Grid item>
+            <Grid container alignItems="center">
+              {backURL && (
+                <Grid item>
+                  <IconButton onClick={() => history.replace(backURL)}>
+                    <ArrowBackIcon fontSize="large" />
+                  </IconButton>
+                </Grid>
+              )}
+              {title && (
+                <Grid item>
+                  <Typography variant="h1">{title}</Typography>
+                </Grid>
+              )}
+            </Grid>
           </Grid>
         )}
-
-        {children}
-      </Stack>
+        <Grid item xs>
+          {children}
+        </Grid>
+      </StyledGrid>
     </StyledContainer>
   )
 }

@@ -1,20 +1,21 @@
 import React, { useContext } from 'react'
 import { Grid } from '@mui/material'
 import { AuthContext } from 'contexts/Auth'
-import Dashboard from 'pages/dashboard'
-import SummaryCard from 'containers/SummaryCard'
-import PatientsCard from 'containers/DataCard/PatientsCard'
-import PaymentsCard from 'containers/DataCard/PaymentsCard'
+import DashPage from 'components/DashPage'
+import PatientsCard from 'containers/PatientsCard'
+import PaymentsCard from 'containers/PaymentsCard'
 
-const Home = () => {
+import { StyledGrid, StyledSummaryCard } from './styles'
+
+const HomePage = () => {
   const { currentUser } = useContext(AuthContext)
   const title = `Bem-vindo ${currentUser.displayName},`
 
   return (
-    <Dashboard title={title}>
-      <Grid container spacing={2} alignItems="stretch">
+    <DashPage title={title}>
+      <StyledGrid container spacing={2} alignItems="stretch">
         <Grid item xs={8}>
-          <Grid container spacing={3}>
+          <Grid container spacing={2}>
             <Grid item xs={6}>
               <PaymentsCard />
             </Grid>
@@ -24,11 +25,11 @@ const Home = () => {
           </Grid>
         </Grid>
         <Grid item xs={4}>
-          <SummaryCard />
+          <StyledSummaryCard />
         </Grid>
-      </Grid>
-    </Dashboard>
+      </StyledGrid>
+    </DashPage>
   )
 }
 
-export default Home
+export default HomePage

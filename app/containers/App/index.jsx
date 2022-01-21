@@ -1,18 +1,25 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { CssBaseline } from '@mui/material'
+
+import { AuthContext } from 'contexts/Auth'
+import Drawer from 'containers/Drawer'
+import Header from 'containers/Header'
 import Navigation from 'routes'
-import { AuthProvider } from 'contexts/Auth'
 
 import { StyledMain } from './styles'
 
 const Component = () => {
+  const { currentUser } = useContext(AuthContext)
+
   return (
-    <AuthProvider>
+    <>
+      <CssBaseline />
+      {currentUser && <Drawer />}
+      {currentUser && <Header />}
       <StyledMain>
-        <CssBaseline />
         <Navigation />
       </StyledMain>
-    </AuthProvider>
+    </>
   )
 }
 

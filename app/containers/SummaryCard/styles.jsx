@@ -1,5 +1,5 @@
 import { styled } from '@mui/system'
-import { Card, Typography } from '@mui/material'
+import { Card, Skeleton, Typography } from '@mui/material'
 
 export const StyledCard = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.common.black,
@@ -8,4 +8,8 @@ export const StyledCard = styled(Card)(({ theme }) => ({
 
 export const StyledSummarySectionTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.grey['500'],
+}))
+
+export const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
 }))

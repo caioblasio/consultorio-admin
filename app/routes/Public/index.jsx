@@ -1,3 +1,3 @@
-import AuthenticationRoutes from 'pages/authentication/routes'
+import PublicRoutes from './routes'
 
-export default [...AuthenticationRoutes]
+export default [...PublicRoutes]

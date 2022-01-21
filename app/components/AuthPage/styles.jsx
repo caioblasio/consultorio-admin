@@ -1,5 +1,4 @@
 import { styled } from '@mui/system'
-import { Container } from '@mui/material'
 
 import BackgroundImage from 'assets/svg/background-mask.svg'
 
@@ -19,10 +18,10 @@ export const StyledBackground = styled('div')(({ theme }) => ({
   },
 }))
 
-export const StyledAuthBox = styled('div')(({ theme }) => ({
+export const StyledAuthBox = styled('div')({
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   textAlign: 'center',
-}))
+})
