@@ -4,7 +4,7 @@ import { Grid, Stack, Button } from '@mui/material'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 
-import { fetchAllPatients } from 'api/database'
+import { fetchAllPatients, createPatient } from 'api/database'
 import SearchField from 'components/SearchField'
 import { homeURL } from 'configs/urls'
 import Table from './Table'
@@ -22,6 +22,12 @@ const PatientsPage = () => {
     if (!isActive()) return
     setPatients(data)
   }, [])
+
+  const onCreatePatient = async (data) => {
+    handleClose()
+    const patient = await createPatient(data)
+    setPatients([...patients, patient])
+  }
 
   return (
     <>
@@ -55,7 +61,11 @@ const PatientsPage = () => {
           <Table data={patients} />
         </Stack>
       </DashPage>
-      <CreateModal open={open} handleClose={handleClose} />
+      <CreateModal
+        open={open}
+        handleClose={handleClose}
+        onSubmit={onCreatePatient}
+      />
     </>
   )
 }

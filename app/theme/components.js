@@ -56,18 +56,22 @@ const components = {
     styleOverrides: {
       root: ({ ownerState, theme }) => ({
         ...(ownerState.variant === 'outlined' && {
-          backgroundColor: theme.palette.grey.light,
-          borderRadius: theme.shape.borderRadius,
-
-          '& .MuiInputLabel-outlined:not(.Mui-focused)': {
-            transform: `translate(${theme.spacing(2)}, ${theme.spacing(
-              1
-            )}) scale(1)`,
+          '& .MuiInputBase-root': {
+            backgroundColor: theme.palette.grey.light,
+            borderRadius: theme.shape.borderRadius,
           },
 
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderWidth: 0,
-          },
+          '& .MuiInputLabel-outlined:not(.Mui-focused):not(.MuiFormLabel-filled)':
+            {
+              transform: `translate(${theme.spacing(2)}, ${theme.spacing(
+                1
+              )}) scale(1)`,
+            },
+
+          '& .MuiOutlinedInput-root:not(.Mui-error) .MuiOutlinedInput-notchedOutline':
+            {
+              borderWidth: 0,
+            },
 
           '& .MuiInputBase-adornedStart .MuiOutlinedInput-input': {
             paddingLeft: 0,

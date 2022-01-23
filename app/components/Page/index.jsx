@@ -9,7 +9,7 @@ const Page = ({ title, children, backURL }) => {
   const history = useHistory()
   return (
     <StyledContainer maxWidth="lg">
-      <StyledGrid container spacing={6} direction="column">
+      <StyledGrid container spacing={6} direction="column" wrap="nowrap">
         {(backURL || title) && (
           <Grid item>
             <Grid container spacing={2} alignItems="center">

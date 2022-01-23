@@ -16,8 +16,7 @@ export const validateCPF = (cpf) => {
     if (typeof cpf !== 'string') throw new TypeError('CPF must be String')
     cpf = cpf.replace(/[^\d]/g, '')
 
-    if (cpf.length < 11) throw new Error('CPF length too low')
-    if (cpf.length > 11) throw new Error('CPF length too high')
+    if (cpf.length !== 11) return false
 
     const firstBit = cpf.split('').slice(0, -2)
     let firstValidate = firstBit

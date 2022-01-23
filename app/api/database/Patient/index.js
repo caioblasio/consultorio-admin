@@ -1,5 +1,13 @@
 import { db } from 'configs/firebase'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  getDoc,
+  query,
+  where,
+  addDoc,
+  serverTimestamp,
+} from 'firebase/firestore'
 
 const COLLECTION_NAME = 'patients'
 
@@ -20,7 +28,6 @@ export const fetchActivePatients = async () => {
 
 export const fetchPatientsCount = async () => {
   const querySnapshot = await getDocs(collection(db, COLLECTION_NAME))
-  console.log(querySnapshot)
   return querySnapshot.size
 }
 
@@ -32,4 +39,13 @@ export const fetchPatientsWithinDateRange = async (startDate, endDate) => {
   )
   const snapshot = await getDocs(q)
   return snapshot.docs.map((doc) => doc.data())
+}
+
+export const createPatient = async (patient) => {
+  const docRef = await addDoc(collection(db, COLLECTION_NAME), {
+    ...patient,
+    createdAt: serverTimestamp(),
+  })
+  const snapshot = await getDoc(docRef)
+  return snapshot.data()
 }

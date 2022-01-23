@@ -16,9 +16,9 @@ const Table = ({ data }) => {
   const createRow = (patient) => ({
     name: patient.name,
     dob: patient.dob,
-    phone: formatPhone(patient.phone),
+    phone: patient.phone,
     email: patient.email,
-    cpf: formatCPF(patient.cpf),
+    cpf: patient.cpf,
     isActive: patient.isActive ? <ActiveDot /> : <InactiveDot />,
   })
 
