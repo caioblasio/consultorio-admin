@@ -5,8 +5,10 @@ import { svgIconClasses } from '@mui/material/SvgIcon'
 export const StyledCard = styled(Card, {
   shouldForwardProp: (prop) => prop !== 'color',
 })(({ theme, color }) => ({
+  transition: theme.transitions.create('all'),
   backgroundColor: theme.palette[color]['light'],
   '&:hover': {
+    transform: 'translateY(-3px)',
     boxShadow: theme.shadows[2],
   },
 }))

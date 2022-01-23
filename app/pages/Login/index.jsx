@@ -11,7 +11,7 @@ const LoginPage = () => {
   return (
     <AuthPage>
       <Media />
-      <StyledCard>
+      <StyledCard elevation={3}>
         <CardContent>
           <Box mb={6}>
             <StyledLogoTitle />

@@ -1,10 +1,10 @@
-const defaultShadow = '0px 20px 16px 0px #C6C6C633'
+const defaultShadow = 'rgb(200 203 207 / 20%) 0px 20px 16px'
 
 const shadows = [
   'none',
-  '0px 10px 16px 0px #C6C6C633',
-  '0px 20px 16px 0px #C6C6C655',
-  '0px 30px 16px 0px #C6C6C655',
+  defaultShadow,
+  'rgb(200 203 207 / 25%) 0px 30px 16px',
+  'rgb(0 0 0 / 20%) 0px 0px 16px',
   defaultShadow,
   defaultShadow,
   defaultShadow,

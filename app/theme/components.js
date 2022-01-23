@@ -25,7 +25,7 @@ const components = {
     styleOverrides: {
       root: ({ theme }) => ({
         '& .MuiPaper-root': {
-          boxShadow: theme.shadows[0],
+          boxShadow: theme.shadows[3],
         },
       }),
     },
