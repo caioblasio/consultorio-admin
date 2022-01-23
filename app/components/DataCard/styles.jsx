@@ -6,6 +6,9 @@ export const StyledCard = styled(Card, {
   shouldForwardProp: (prop) => prop !== 'color',
 })(({ theme, color }) => ({
   backgroundColor: theme.palette[color]['light'],
+  '&:hover': {
+    boxShadow: theme.shadows[2],
+  },
 }))
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({

@@ -40,7 +40,7 @@ const Table = ({ data, columns, children }) => {
           <TableRow>
             {columns.map((column) => (
               <TableCell key={column}>
-                <Typography variant="caption">{column}</Typography>
+                <Typography variant="table">{column}</Typography>
               </TableCell>
             ))}
           </TableRow>

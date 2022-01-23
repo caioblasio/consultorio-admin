@@ -21,11 +21,18 @@ const components = {
       }),
     },
   },
-  MuiCard: {
+  MuiModal: {
     styleOverrides: {
-      root: {
-        boxShadow: '0px 20px 16px 0px #C6C6C633',
-      },
+      root: ({ theme }) => ({
+        '& .MuiPaper-root': {
+          boxShadow: theme.shadows[0],
+        },
+      }),
+    },
+  },
+  MuiPaper: {
+    defaultProps: {
+      elevation: 1,
     },
   },
   MuiTooltip: {

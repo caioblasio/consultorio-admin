@@ -15,7 +15,7 @@ const colors = {
   },
   grey: {
     light: '#EBEBEB',
-    main: '#CFCFCF',
+    main: '#8A9699',
     dark: '#8A9699',
   },
   success: {

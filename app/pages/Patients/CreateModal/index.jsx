@@ -165,7 +165,7 @@ const CreateModal = ({ open, handleClose, onSubmit }) => {
           </StyledFormContainer>
           <Grid container justifyContent="flex-end" columnGap={1}>
             <Grid item>
-              <Button variant="text" color="inherit" onClick={onClose}>
+              <Button variant="text" onClick={onClose}>
                 Cancelar
               </Button>
             </Grid>

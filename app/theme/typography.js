@@ -44,16 +44,21 @@ const typography = {
     letterSpacing: 0,
   },
   caption: {
-    fontWeight: 600,
+    fontWeight: 400,
     fontSize: '0.675rem',
     letterSpacing: '0.04rem',
-    textTransform: 'uppercase',
   },
   button: {
     fontWeight: 600,
     fontSize: '0.875rem',
     letterSpacing: '0.02rem',
     textTransform: 'capitalize',
+  },
+  table: {
+    fontWeight: 600,
+    fontSize: '0.675rem',
+    letterSpacing: '0.04rem',
+    textTransform: 'uppercase',
   },
 }
 
