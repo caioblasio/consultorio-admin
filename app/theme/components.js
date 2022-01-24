@@ -1,14 +1,25 @@
 const components = {
+  MuiContainer: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        [theme.breakpoints.up('sm')]: {
+          padding: theme.spacing(8),
+        },
+      }),
+    },
+  },
+  MuiAppBar: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        [theme.breakpoints.up('sm')]: {
+          padding: theme.spacing(0, 8),
+        },
+      }),
+    },
+  },
   MuiButtonBase: {
     defaultProps: {
       disableRipple: true,
-    },
-  },
-  MuiCardActionArea: {
-    styleOverrides: {
-      root: {
-        opacity: 0,
-      },
     },
   },
   MuiButton: {

@@ -1,10 +1,8 @@
 import { styled } from '@mui/system'
-import { AppBar, Divider, InputBase, Toolbar } from '@mui/material'
-import { alpha } from '@mui/material/styles'
+import { AppBar, Divider, Toolbar } from '@mui/material'
 
 export const StyledAppBar = styled(AppBar)({
-  left: 88,
-  width: 'auto',
+  width: '100%',
 })
 
 export const StyledToolbar = styled(Toolbar)({
