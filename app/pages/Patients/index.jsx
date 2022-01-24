@@ -7,12 +7,13 @@ import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 import { fetchAllPatients, createPatient } from 'api/database'
 import SearchField from 'components/SearchField'
 import { homeURL } from 'configs/urls'
-import Table from './Table'
 import DashPage from 'components/DashPage'
 import CreateModal from './CreateModal'
+import Table from './Table'
 
 const PatientsPage = () => {
   const [patients, setPatients] = useState([])
+  const [loading, setLoading] = useState(true)
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -21,6 +22,7 @@ const PatientsPage = () => {
     const data = await fetchAllPatients()
     if (!isActive()) return
     setPatients(data)
+    setLoading(false)
   }, [])
 
   const onCreatePatient = async (data) => {
@@ -40,7 +42,7 @@ const PatientsPage = () => {
             alignItems="center"
           >
             <Grid item xs>
-              <SearchField placeholder="Buscar por nome, celular or CPF" />
+              <SearchField placeholder="Buscar por nome, celular ou CPF" />
             </Grid>
             <Grid item>
               <Button variant="outlined" startIcon={<CloudDownloadIcon />}>
@@ -58,7 +60,7 @@ const PatientsPage = () => {
               </Button>
             </Grid>
           </Grid>
-          <Table data={patients} />
+          <Table data={patients} isLoading={loading} />
         </Stack>
       </DashPage>
       <CreateModal

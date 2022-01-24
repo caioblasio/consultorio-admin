@@ -1,0 +1,25 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .line {
+            stroke-dasharray: 91;
+            stroke-dashoffset: 91;
+            animation: animate 2.5s infinite;
+        }
+
+        @keyframes animate {
+            0% {
+                stroke-dashoffset: 91;
+            }
+            45% {
+                stroke-dashoffset: 0;
+            }
+            90% {
+                stroke-dashoffset: -91;
+            }
+            100% {
+                stroke-dashoffset: -91;
+            }
+        }
+    </style>
+<path class="line" d="M1 20.5C1 20.5 7.5 20.5 10.5 20.5C13.5 20.5 15.5 1 16 1C16.5 1 18.5 35 19 35C19.5 35 21.5 20.5 24.5 20.5C27.5 20.5 35 20.5 35 20.5" stroke="#0799B9" stroke-width="2" stroke-linecap="round"/>
+</svg>

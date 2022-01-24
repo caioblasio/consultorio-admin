@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import { signOut } from 'api/authentication'
 import SearchField from 'components/SearchField'
+import LogoTitle from 'components/LogoTitle'
 import { StyledAppBar, StyledDivider, StyledToolbar } from './styles'
 
 const Header = () => {
@@ -36,7 +37,9 @@ const Header = () => {
       <Container maxWidth="lg">
         <StyledToolbar>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs />
+            <Grid item xs>
+              <LogoTitle />
+            </Grid>
             <Grid item>
               <SearchField placeholder="Buscar pacientes..." />
             </Grid>

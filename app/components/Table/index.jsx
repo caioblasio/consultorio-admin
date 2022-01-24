@@ -2,19 +2,51 @@ import React from 'react'
 import {
   Table as MuiTable,
   TableBody,
-  TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
 } from '@mui/material'
+import InboxIcon from '@mui/icons-material/Inbox'
+
+import Loader from 'components/Loader'
+
+import {
+  StyledTableLoader,
+  StyledTableContainer,
+  StyledTableCell,
+  StyledTableNoData,
+} from './styles'
+
+const TableLoader = () => {
+  return (
+    <StyledTableLoader>
+      <Loader />
+    </StyledTableLoader>
+  )
+}
+
+const TableNoData = () => {
+  return (
+    <StyledTableNoData spacing={2} alignItems="center">
+      <InboxIcon align="center" fontSize="large" color="grey" />
+      <Typography
+        component="span"
+        variant="body1"
+        color="grey.dark"
+        fontWeight="600"
+      >
+        No Data
+      </Typography>
+    </StyledTableNoData>
+  )
+}
 
 const DefaultTableRow = ({ row }) => {
   return row.map((elem, idx) => {
     return (
-      <TableCell key={`td-${row.id}-${idx}`} component="td" scope="row">
+      <StyledTableCell key={`td-${row.id}-${idx}`} component="td" scope="row">
         {elem}
-      </TableCell>
+      </StyledTableCell>
     )
   })
 }
@@ -32,22 +64,23 @@ const TableDefaultContent = ({ rows }) => {
   )
 }
 
-const Table = ({ data, columns, children }) => {
+const Table = ({ data = [], columns = [], isLoading = true }) => {
   return (
-    <TableContainer>
+    <StyledTableContainer>
       <MuiTable>
         <TableHead>
           <TableRow>
             {columns.map((column) => (
-              <TableCell key={column}>
+              <StyledTableCell key={column}>
                 <Typography variant="table">{column}</Typography>
-              </TableCell>
+              </StyledTableCell>
             ))}
           </TableRow>
         </TableHead>
-        {data && data.length ? <TableDefaultContent rows={data} /> : children}
+        {!isLoading && data.length > 0 && <TableDefaultContent rows={data} />}
       </MuiTable>
-    </TableContainer>
+      {isLoading ? <TableLoader /> : data.length === 0 && <TableNoData />}
+    </StyledTableContainer>
   )
 }
 

@@ -1,9 +1,8 @@
 import React from 'react'
 import BasicTable from 'components/Table'
-import { formatCPF, formatPhone } from 'utils'
 import { ActiveDot, InactiveDot } from './styles'
 
-const Table = ({ data }) => {
+const Table = ({ data, isLoading }) => {
   const columns = [
     'Nome Completo',
     'Data de Nascimento',
@@ -24,7 +23,9 @@ const Table = ({ data }) => {
 
   const getUIRows = () => data.map((patient) => createRow(patient))
 
-  return <BasicTable columns={columns} data={getUIRows()} />
+  return (
+    <BasicTable columns={columns} data={getUIRows()} isLoading={isLoading} />
+  )
 }
 
 export default Table

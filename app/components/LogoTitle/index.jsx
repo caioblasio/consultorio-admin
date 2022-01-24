@@ -3,10 +3,15 @@ import { Typography } from '@mui/material'
 
 const LogoTitle = ({ className }) => (
   <div className={className}>
-    <Typography component="span" variant="h1">
+    <Typography component="span" variant="h1" fontWeight="600">
       Dental
     </Typography>
-    <Typography component="span" variant="h1" color="primary.dark">
+    <Typography
+      component="span"
+      variant="h1"
+      color="primary.dark"
+      fontWeight="600"
+    >
       +
     </Typography>
   </div>

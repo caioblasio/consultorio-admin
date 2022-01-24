@@ -4,6 +4,13 @@ const components = {
       disableRipple: true,
     },
   },
+  MuiCardActionArea: {
+    styleOverrides: {
+      root: {
+        opacity: 0,
+      },
+    },
+  },
   MuiButton: {
     defaultProps: {
       color: 'grey',
