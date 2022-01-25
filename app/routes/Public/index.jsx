@@ -5,7 +5,7 @@ import { loginURL } from 'configs/urls'
 import LoginPage from 'pages/Login'
 
 const PublicRoutes = [
-  <Route key="loginPage" path={loginURL()} element={LoginPage} />,
+  <Route key="loginPage" path={loginURL()} element={<LoginPage />} />,
 ]
 
 export default PublicRoutes

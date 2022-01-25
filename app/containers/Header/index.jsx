@@ -7,12 +7,19 @@ import HomeIcon from '@mui/icons-material/Home'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 
-import { homeURL, patientsURL } from 'configs/urls'
+import {
+  homeURL,
+  patientsURL,
+  loginURL,
+  paymentsURL,
+  accountURL,
+  schedulesURL,
+} from 'configs/urls'
 import { signOut } from 'api/authentication'
 import NavLink from 'containers/NavLink'
 import LogoTitle from 'components/LogoTitle'
 import Logo from 'assets/svg/logo.svg'
-import { StyledAppBar, StyledToolbar } from './styles'
+import { StyledAppBar, StyledToolbar, StyledLogoutLink } from './styles'
 
 const Header = () => {
   return (
@@ -47,18 +54,28 @@ const Header = () => {
                 </NavLink>
               </Grid>
               <Grid item>
-                <NavLink icon={<CalendarTodayIcon />}>Agendamentos</NavLink>
-              </Grid>
-              <Grid item>
-                <NavLink icon={<AttachMoneyIcon />}>Pagamentos</NavLink>
-              </Grid>
-              <Grid item>
-                <NavLink icon={<FaceIcon />}>Minha Conta</NavLink>
-              </Grid>
-              <Grid item>
-                <NavLink onClick={signOut} icon={<LogoutIcon />}>
-                  Sair
+                <NavLink icon={<CalendarTodayIcon />} to={schedulesURL()}>
+                  Agendamentos
                 </NavLink>
+              </Grid>
+              <Grid item>
+                <NavLink icon={<AttachMoneyIcon />} to={paymentsURL()}>
+                  Pagamentos
+                </NavLink>
+              </Grid>
+              <Grid item>
+                <NavLink icon={<FaceIcon />} to={accountURL()}>
+                  Minha Conta
+                </NavLink>
+              </Grid>
+              <Grid item>
+                <StyledLogoutLink
+                  onClick={signOut}
+                  icon={<LogoutIcon />}
+                  to={loginURL()}
+                >
+                  Sair
+                </StyledLogoutLink>
               </Grid>
             </Grid>
           </Grid>
