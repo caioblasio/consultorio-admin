@@ -1,13 +1,14 @@
 import React from 'react'
 import AuthPage from 'components/AuthPage'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Box, CardContent, Typography } from '@mui/material'
 import Media from './Media'
 import { StyledGoogleButton, StyledCard, StyledLogoTitle } from './styles'
 import { signIn } from 'api/authentication'
+import { homeURL } from 'configs/urls'
 
 const LoginPage = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   return (
     <AuthPage>
       <Media />
@@ -32,7 +33,7 @@ const LoginPage = () => {
               onClick={async () => {
                 // dispatch(UserActions.signInWithGoogle())
                 await signIn()
-                history.push('/')
+                navigate(homeURL())
                 console.log('Google button clicked')
               }}
             />

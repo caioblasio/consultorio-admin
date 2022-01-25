@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import DataCardComponent from 'components/DataCard'
 
@@ -12,7 +12,7 @@ const DataCard = ({
   className,
   color,
 }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   return (
     <DataCardComponent
       isLoading={isLoading}
@@ -21,7 +21,7 @@ const DataCard = ({
       icon={icon}
       color={color}
       className={className}
-      onClick={() => history.replace(navigateTo)}
+      onClick={() => navigate(navigateTo)}
     />
   )
 }

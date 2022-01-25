@@ -54,8 +54,8 @@
     "react-google-button": "^0.7.2",
     "react-hook-form": "^7.25.0",
     "react-input-mask": "^2.0.4",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
+    "react-router": "^6.2.1",
+    "react-router-dom": "^6.2.1",
     "use-async-effect": "^2.2.5"
   }
 }

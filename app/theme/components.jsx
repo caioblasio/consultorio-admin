@@ -1,3 +1,11 @@
+import React, { forwardRef } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
+
+const LinkBehavior = forwardRef((props, ref) => {
+  const { href, ...other } = props
+  return <RouterLink ref={ref} to={href} {...other} />
+})
+
 const components = {
   MuiContainer: {
     styleOverrides: {
@@ -20,6 +28,22 @@ const components = {
   MuiButtonBase: {
     defaultProps: {
       disableRipple: true,
+      LinkComponent: LinkBehavior,
+    },
+  },
+  MuiLink: {
+    defaultProps: {
+      color: 'grey.dark',
+      underline: 'none',
+      component: LinkBehavior,
+    },
+    styleOverrides: {
+      root: ({ theme }) => ({
+        transition: theme.transitions.create('color'),
+        '&:hover': {
+          color: theme.palette.primary.dark,
+        },
+      }),
     },
   },
   MuiButton: {

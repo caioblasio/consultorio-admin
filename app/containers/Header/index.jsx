@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Button } from '@mui/material'
+import { Grid } from '@mui/material'
 import FaceIcon from '@mui/icons-material/Face'
 import LogoutIcon from '@mui/icons-material/Logout'
 import PeopleIcon from '@mui/icons-material/People'
@@ -7,10 +7,12 @@ import HomeIcon from '@mui/icons-material/Home'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 
+import { homeURL, patientsURL } from 'configs/urls'
 import { signOut } from 'api/authentication'
+import NavLink from 'containers/NavLink'
 import LogoTitle from 'components/LogoTitle'
 import Logo from 'assets/svg/logo.svg'
-import { StyledAppBar, StyledDivider, StyledToolbar } from './styles'
+import { StyledAppBar, StyledToolbar } from './styles'
 
 const Header = () => {
   return (
@@ -33,26 +35,30 @@ const Header = () => {
             </Grid>
           </Grid>
           <Grid item>
-            <Grid container>
+            <Grid container spacing={4}>
               <Grid item>
-                <Button startIcon={<HomeIcon />}>Inicio</Button>
+                <NavLink icon={<HomeIcon />} to={homeURL()}>
+                  Inicio
+                </NavLink>
               </Grid>
               <Grid item>
-                <Button startIcon={<PeopleIcon />}>Pacientes</Button>
+                <NavLink icon={<PeopleIcon />} to={patientsURL()}>
+                  Pacientes
+                </NavLink>
               </Grid>
               <Grid item>
-                <Button startIcon={<CalendarTodayIcon />}>Agendamentos</Button>
+                <NavLink icon={<CalendarTodayIcon />}>Agendamentos</NavLink>
               </Grid>
               <Grid item>
-                <Button startIcon={<AttachMoneyIcon />}>Pagamentos</Button>
+                <NavLink icon={<AttachMoneyIcon />}>Pagamentos</NavLink>
               </Grid>
               <Grid item>
-                <Button startIcon={<FaceIcon />}>Minha Conta</Button>
+                <NavLink icon={<FaceIcon />}>Minha Conta</NavLink>
               </Grid>
               <Grid item>
-                <Button onClick={signOut} startIcon={<LogoutIcon />}>
+                <NavLink onClick={signOut} icon={<LogoutIcon />}>
                   Sair
-                </Button>
+                </NavLink>
               </Grid>
             </Grid>
           </Grid>

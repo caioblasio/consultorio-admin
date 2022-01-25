@@ -1,21 +1,17 @@
 import React, { useContext } from 'react'
-import Route from 'containers/Route'
+import { Navigate } from 'react-router-dom'
+
 import { loginURL } from 'configs/urls'
 import { AuthContext } from 'contexts/Auth'
 
-const PrivateRoute = ({ validate, ...rest }) => {
+const PrivateRoute = ({ component: Component, redirectOnInvalid }) => {
   const { currentUser } = useContext(AuthContext)
+  const isAuthorized = !!currentUser
 
-  const isAuthorized = () => currentUser
-
-  return (
-    <Route {...rest} validate={(props) => isAuthorized() && validate(props)} />
-  )
+  return isAuthorized ? <Component /> : <Navigate to={redirectOnInvalid} />
 }
 
 PrivateRoute.defaultProps = {
-  ...Route.defaultProps,
-  isSignedIn: false,
   redirectOnInvalid: loginURL(),
 }
 

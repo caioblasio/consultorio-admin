@@ -1,12 +1,12 @@
 import React from 'react'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 import { Grid, Typography, IconButton } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 import { StyledContainer, StyledGrid } from './styles'
 
 const Page = ({ title, children, backURL }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   return (
     <StyledContainer maxWidth="lg">
       <StyledGrid container spacing={6} direction="column" wrap="nowrap">
@@ -15,7 +15,7 @@ const Page = ({ title, children, backURL }) => {
             <Grid container spacing={2} alignItems="center">
               {backURL && (
                 <Grid item>
-                  <IconButton onClick={() => history.replace(backURL)}>
+                  <IconButton onClick={() => navigate(backURL)}>
                     <ArrowBackIcon fontSize="large" />
                   </IconButton>
                 </Grid>

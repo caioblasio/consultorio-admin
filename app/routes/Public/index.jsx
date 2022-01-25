@@ -1,3 +1,11 @@
-import PublicRoutes from './routes'
+import React from 'react'
+import { Route } from 'react-router-dom'
 
-export default [...PublicRoutes]
+import { loginURL } from 'configs/urls'
+import LoginPage from 'pages/Login'
+
+const PublicRoutes = [
+  <Route key="loginPage" path={loginURL()} element={LoginPage} />,
+]
+
+export default PublicRoutes
