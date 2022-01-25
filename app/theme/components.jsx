@@ -128,10 +128,9 @@ const components = {
               )}) scale(1)`,
             },
 
-          '& .MuiOutlinedInput-root:not(.Mui-error) .MuiOutlinedInput-notchedOutline':
-            {
-              borderWidth: 0,
-            },
+          '& :not(.Mui-error) .MuiOutlinedInput-notchedOutline': {
+            borderWidth: 0,
+          },
 
           '& .MuiInputBase-adornedStart .MuiOutlinedInput-input': {
             paddingLeft: 0,
