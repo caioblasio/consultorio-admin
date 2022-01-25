@@ -1,22 +1,5 @@
 import { styled } from '@mui/system'
-
-import BackgroundImage from 'assets/svg/background-mask.svg'
-
-export const StyledBackground = styled('div')(({ theme }) => ({
-  '&::before': {
-    position: 'fixed',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: theme.palette.primary.dark,
-    backgroundImage: `url(${BackgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    content: '""',
-  },
-}))
+import Page from 'components/Page'
 
 export const StyledAuthBox = styled('div')({
   position: 'absolute',
@@ -25,3 +8,15 @@ export const StyledAuthBox = styled('div')({
   transform: 'translate(-50%, -50%)',
   textAlign: 'center',
 })
+
+export const StyledBackground = styled('div')(({ theme }) => ({
+  '&::before': {
+    position: 'fixed',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    background: `linear-gradient(120deg, ${theme.palette.primary.main} 25%, ${theme.palette.primary.dark} 75%);`,
+    content: '""',
+  },
+}))

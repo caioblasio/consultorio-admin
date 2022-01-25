@@ -41,7 +41,7 @@ const components = {
       root: ({ theme }) => ({
         transition: theme.transitions.create('color'),
         '&:hover': {
-          color: theme.palette.primary.dark,
+          color: theme.palette.primary.main,
         },
       }),
     },
@@ -54,6 +54,12 @@ const components = {
       root: ({ ownerState, theme }) => ({
         padding: theme.spacing(1, 2),
         boxShadow: 'none',
+
+        ...(ownerState.variant === 'contained' && {
+          '&:hover': {
+            boxShadow: theme.shadows[0],
+          },
+        }),
 
         ...(ownerState.variant === 'outlined' &&
           ownerState.color === 'grey' && {
@@ -95,6 +101,11 @@ const components = {
           padding: theme.spacing(1, 2),
         },
       }),
+    },
+  },
+  MuiIconButton: {
+    defaultProps: {
+      color: 'grey',
     },
   },
   MuiTextField: {

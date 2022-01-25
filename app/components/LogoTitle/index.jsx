@@ -9,7 +9,7 @@ const LogoTitle = ({ className }) => (
     <Typography
       component="span"
       variant="h1"
-      color="primary.dark"
+      color="primary.main"
       fontWeight="600"
     >
       +

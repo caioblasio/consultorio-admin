@@ -175,7 +175,7 @@ const CreateModal = ({ open, handleClose, onSubmit }) => {
                 color="primary"
                 onClick={handleSubmit(onSubmit)}
               >
-                Criar Paciente
+                Salvar
               </Button>
             </Grid>
           </Grid>

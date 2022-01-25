@@ -2,7 +2,7 @@ const colors = {
   primary: {
     main: '#0799B9',
     light: '#D2EAF5',
-    dark: '#0799B9',
+    dark: '#097289',
   },
   warning: {
     light: '#F8F1BA',

@@ -5,10 +5,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 import { StyledContainer, StyledGrid } from './styles'
 
-const Page = ({ title, children, backURL }) => {
+const Page = ({ title, children, backURL, className }) => {
   const navigate = useNavigate()
   return (
-    <StyledContainer maxWidth="lg">
+    <StyledContainer maxWidth="lg" className={className}>
       <StyledGrid container spacing={6} direction="column" wrap="nowrap">
         {(backURL || title) && (
           <Grid item>

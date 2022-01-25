@@ -31,10 +31,8 @@ const LoginPage = () => {
             <StyledGoogleButton
               label="Entrar com Google"
               onClick={async () => {
-                // dispatch(UserActions.signInWithGoogle())
                 await signIn()
                 navigate(homeURL())
-                console.log('Google button clicked')
               }}
             />
           </Box>
