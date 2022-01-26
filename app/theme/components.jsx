@@ -128,8 +128,15 @@ const components = {
               )}) scale(1)`,
             },
 
-          '& :not(.Mui-error) .MuiOutlinedInput-notchedOutline': {
-            borderWidth: 0,
+          '& .MuiOutlinedInput-root.MuiInputBase-root': {
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderWidth: 0,
+            },
+            '&.Mui-focused, &.Mui-error': {
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderWidth: 1,
+              },
+            },
           },
 
           '& .MuiInputBase-adornedStart .MuiOutlinedInput-input': {
