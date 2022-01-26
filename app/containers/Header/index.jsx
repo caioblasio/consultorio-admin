@@ -1,11 +1,19 @@
 import React from 'react'
 import { Grid } from '@mui/material'
-import FaceIcon from '@mui/icons-material/Face'
-import LogoutIcon from '@mui/icons-material/Logout'
-import PeopleIcon from '@mui/icons-material/People'
-import HomeIcon from '@mui/icons-material/Home'
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
+import {
+  Home,
+  HomeOutlined,
+  People,
+  PeopleOutlined,
+  Logout,
+  LogoutOutlined,
+  Face,
+  FaceOutlined,
+  CalendarToday,
+  CalendarTodayOutlined,
+  ShoppingCart,
+  ShoppingCartOutlined,
+} from '@mui/icons-material'
 
 import {
   homeURL,
@@ -16,9 +24,9 @@ import {
   schedulesURL,
 } from 'configs/urls'
 import { signOut } from 'api/authentication'
-import NavLink from 'containers/NavLink'
 import LogoTitle from 'components/LogoTitle'
 import Logo from 'assets/svg/logo.svg'
+import NavLink from 'containers/NavLink'
 import { StyledAppBar, StyledToolbar, StyledLogoutLink } from './styles'
 
 const Header = () => {
@@ -44,34 +52,55 @@ const Header = () => {
           <Grid item>
             <Grid container spacing={4}>
               <Grid item>
-                <NavLink icon={<HomeIcon />} to={homeURL()}>
+                <NavLink
+                  inactiveIcon={<HomeOutlined />}
+                  activeIcon={<Home />}
+                  to={homeURL()}
+                >
                   Inicio
                 </NavLink>
               </Grid>
               <Grid item>
-                <NavLink icon={<PeopleIcon />} to={patientsURL()}>
+                <NavLink
+                  inactiveIcon={<PeopleOutlined />}
+                  activeIcon={<People />}
+                  to={patientsURL()}
+                >
                   Pacientes
                 </NavLink>
               </Grid>
               <Grid item>
-                <NavLink icon={<CalendarTodayIcon />} to={schedulesURL()}>
+                <NavLink
+                  inactiveIcon={<CalendarTodayOutlined />}
+                  activeIcon={<CalendarToday />}
+                  to={schedulesURL()}
+                >
                   Agendamentos
                 </NavLink>
               </Grid>
               <Grid item>
-                <NavLink icon={<AttachMoneyIcon />} to={paymentsURL()}>
+                <NavLink
+                  inactiveIcon={<ShoppingCartOutlined />}
+                  activeIcon={<ShoppingCart />}
+                  to={paymentsURL()}
+                >
                   Pagamentos
                 </NavLink>
               </Grid>
               <Grid item>
-                <NavLink icon={<FaceIcon />} to={accountURL()}>
+                <NavLink
+                  inactiveIcon={<FaceOutlined />}
+                  activeIcon={<Face />}
+                  to={accountURL()}
+                >
                   Minha Conta
                 </NavLink>
               </Grid>
               <Grid item>
                 <StyledLogoutLink
                   onClick={signOut}
-                  icon={<LogoutIcon />}
+                  inactiveIcon={<LogoutOutlined />}
+                  activeIcon={<Logout />}
                   to={loginURL()}
                 >
                   Sair

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Grid, Link as MuiLink, Typography } from '@mui/material'
 
-const Link = ({ className, icon, to, children, onClick, component }) => {
+const Link = ({ className, icon, to, children, onClick, component, color }) => {
   const content = (
     <Typography variant="button" component="span">
       {children}
@@ -10,6 +10,7 @@ const Link = ({ className, icon, to, children, onClick, component }) => {
   )
   return (
     <MuiLink
+      color={color}
       className={className}
       href={to}
       onClick={onClick}

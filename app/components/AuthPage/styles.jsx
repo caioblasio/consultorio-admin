@@ -9,14 +9,14 @@ export const StyledAuthBox = styled('div')({
   textAlign: 'center',
 })
 
-export const StyledBackground = styled('div')(({ theme }) => ({
+export const StyledBackground = styled('div')({
   '&::before': {
     position: 'fixed',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    background: `linear-gradient(120deg, ${theme.palette.primary.main} 25%, ${theme.palette.primary.dark} 75%);`,
+    background: 'linear-gradient(116.94deg, #7BB0FF -5.72%, #FFA9E7 101.06%)',
     content: '""',
   },
-}))
+})

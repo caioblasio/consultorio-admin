@@ -1,33 +1,35 @@
-import React, { forwardRef } from 'react'
-import { useTheme } from '@mui/system'
+import React, { forwardRef, useState } from 'react'
 
 import { NavLink as RouterNavLink } from 'react-router-dom'
 import LinkComponent from 'components/Link'
 
-const NavLinkBehavior = forwardRef((props, ref) => {
-  const theme = useTheme()
-  const { href, style = {}, ...others } = props
-  return (
-    <RouterNavLink
-      ref={ref}
-      to={href}
-      style={({ isActive }) => ({
-        color: isActive ? theme.palette.primary.main : undefined,
-        ...style,
-      })}
-      {...others}
-    />
-  )
+const NavLinkBehavior = forwardRef(({ href, onStyle, ...rest }, ref) => {
+  return <RouterNavLink ref={ref} to={href} style={onStyle} {...rest} />
 })
 
-const NavLink = ({ className, icon, to, children, onClick }) => {
+const NavLink = ({
+  className,
+  inactiveIcon,
+  activeIcon,
+  to,
+  children,
+  onClick,
+}) => {
+  const [active, setActive] = useState(false)
+
   return (
     <LinkComponent
       className={className}
       to={to}
       onClick={onClick}
-      icon={icon}
-      component={NavLinkBehavior}
+      color={active ? 'primary' : undefined}
+      icon={active ? activeIcon : inactiveIcon}
+      component={(props) => (
+        <NavLinkBehavior
+          {...props}
+          onStyle={({ isActive }) => setActive(isActive)}
+        />
+      )}
     >
       {children}
     </LinkComponent>
