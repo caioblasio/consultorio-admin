@@ -7,6 +7,9 @@ import {
   where,
   addDoc,
   serverTimestamp,
+  setDoc,
+  doc,
+  deleteDoc,
 } from 'firebase/firestore'
 
 const COLLECTION_NAME = 'patients'
@@ -48,4 +51,20 @@ export const createPatient = async (patient) => {
   })
   const snapshot = await getDoc(docRef)
   return snapshot.data()
+}
+
+export const editPatient = async (id, patient) => {
+  const docRef = doc(collection(db, COLLECTION_NAME), id)
+  await setDoc(docRef, {
+    ...patient,
+  })
+  const snapshot = await getDoc(docRef)
+  return { ...snapshot.data(), id: snapshot.id }
+}
+
+export const deletePatient = async (id) => {
+  const docRef = doc(collection(db, COLLECTION_NAME), id)
+  const snapshot = await getDoc(docRef)
+  await deleteDoc(docRef)
+  return { ...snapshot.data(), id: snapshot.id }
 }

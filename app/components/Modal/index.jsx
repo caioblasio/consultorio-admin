@@ -31,9 +31,8 @@ const Modal = ({ children, title, open = false, onClose, actions = [] }) => {
           {actions.length > 0 && (
             <Grid container alignItems="center" direction="row-reverse">
               {actions.map(({ label, onClick }, index) => (
-                <Grid item>
+                <Grid item key={`action-${label}`}>
                   <Button
-                    key={`action-${label}`}
                     onClick={onClick}
                     variant={index === 0 ? 'contained' : undefined}
                     color={index === 0 ? 'primary' : undefined}

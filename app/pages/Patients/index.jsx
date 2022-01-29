@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 
-import { fetchAllPatients, createPatient } from 'api/database'
+import {
+  fetchAllPatients,
+  createPatient,
+  editPatient,
+  deletePatient,
+} from 'api/database'
 import { homeURL } from 'configs/urls'
 import DashPage from 'components/DashPage'
 import Table from './Table'
@@ -9,18 +14,50 @@ import Table from './Table'
 const PatientsPage = () => {
   const [patients, setPatients] = useState([])
   const [loading, setLoading] = useState(true)
+  // const [open, setOpen] = useState(false)
+  // const [patientToEdit, setPatientToEdit] = useState(null)
+  // const handleOpen = () => setOpen(true)
+  // const handleClose = () => {
+  //   if (patientToEdit) {
+  //     setPatientToEdit(null)
+  //   }
+  //   setOpen(false)
+  // }
 
   useAsyncEffect(async (isActive) => {
-    const data = await fetchAllPatients()
+    const allPatients = await fetchAllPatients()
     if (!isActive()) return
-    setPatients(data)
+    setPatients(allPatients)
     setLoading(false)
   }, [])
 
   const onCreatePatient = async (data) => {
-    handleClose()
-    const patient = await createPatient(data)
-    setPatients([...patients, patient])
+    // setOpen(false)
+    // setLoading(true)
+    // patientToEdit
+    //   ? await editPatient(patientToEdit.id, data)
+    //   : await createPatient(data)
+    // const allPatients = await fetchAllPatients()
+    // setPatients(allPatients)
+    // setPatientToEdit(null)
+    // setLoading(false)
+
+    console.log(data)
+    setLoading(true)
+    await createPatient(data)
+    const allPatients = await fetchAllPatients()
+    setPatients(allPatients)
+    setLoading(false)
+  }
+
+  const onEditPatient = (patient) => {
+    setPatientToEdit(patient)
+    handleOpen()
+  }
+
+  const onDeletePatient = async (id) => {
+    const p = await deletePatient(id)
+    console.log(p)
   }
 
   return (

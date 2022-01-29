@@ -3,13 +3,13 @@ import DataTable from 'components/DataTable'
 import columns from './columns'
 import FormModal from './FormModal'
 
-const Table = ({ data, isLoading }) => {
+const Table = ({ data, isLoading, onCreate }) => {
   return (
     <DataTable
       columns={columns}
       data={data.map((props, index) => ({ id: index, ...props }))}
       isLoading={isLoading}
-      onCreate={() => console.log('Create')}
+      onCreate={onCreate}
       onEdit={() => console.log('Edit')}
       onDelete={() => console.log('Delete')}
       components={{

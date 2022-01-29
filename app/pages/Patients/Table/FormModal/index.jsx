@@ -36,7 +36,7 @@ const FormModal = ({
   data = {
     name: '',
     phone: '',
-    email: '',
+    secondPhone: '',
     cpf: '',
     isActive: true,
   },
@@ -53,9 +53,9 @@ const FormModal = ({
     defaultValues: data,
   })
 
-  const handleConfirm = () => {
-    handleSubmit()
-    onConfirm()
+  const handleConfirm = (data) => {
+    onConfirm(data)
+    onClose()
   }
 
   const handleClose = () => {
@@ -75,7 +75,7 @@ const FormModal = ({
       onClose={handleClose}
       title={data ? 'Editar Paciente' : 'Criar Paciente'}
       actions={[
-        { label: 'Confirmar', onClick: handleConfirm },
+        { label: 'Confirmar', onClick: handleSubmit(handleConfirm) },
         { label: 'Cancelar', onClick: onClose },
       ]}
     >
@@ -107,17 +107,19 @@ const FormModal = ({
             )}
           />
           <Controller
-            name="email"
+            name="secondPhone"
             control={control}
-            rules={{ ...VALIDATION_SCHEMA.email }}
             render={({ field, fieldState: { invalid, error } }) => (
-              <TextField
-                label="Email"
-                type="email"
-                error={invalid}
-                helperText={error?.message}
-                {...field}
-              />
+              <InputMask mask="(99) 99999-9999" {...field}>
+                {(inputProps) => (
+                  <TextField
+                    label="Segundo Telefone"
+                    {...inputProps}
+                    error={invalid}
+                    helperText={error?.message}
+                  />
+                )}
+              </InputMask>
             )}
           />
 
@@ -148,8 +150,8 @@ const FormModal = ({
                     <Controller
                       name="isActive"
                       control={control}
-                      render={({ field }) => (
-                        <Switch defaultChecked {...field} />
+                      render={({ field: { value, ...rest } }) => (
+                        <Switch checked={value} {...rest} />
                       )}
                     />
                   }
