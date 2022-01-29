@@ -10,7 +10,7 @@ import { StyledGrid, StyledSummaryCard } from './styles'
 
 const HomePage = () => {
   const { currentUser } = useContext(AuthContext)
-  const title = `Bem-vindo ${currentUser.displayName},`
+  const title = `Bem-vindo ${currentUser.email},`
 
   return (
     <DashPage title={title}>
