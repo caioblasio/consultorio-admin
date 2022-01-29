@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import { initializeFirestore } from 'firebase/firestore'
 import 'firebase/firestore'
 import 'firebase/auth'
 
@@ -15,6 +15,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
-const db = getFirestore()
+const db = initializeFirestore(app, { experimentalForceLongPolling: true })
 
 export { db }
