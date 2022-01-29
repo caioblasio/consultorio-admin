@@ -4,15 +4,16 @@ import { DataGrid } from '@mui/x-data-grid'
 import Loader from 'components/Loader'
 import NoData from 'components/NoData'
 
-export const StyledDataGrid = styled(DataGrid)({
+export const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   border: 'none',
+  boxShadow: theme.shadows[1],
   '& .MuiDataGrid-columnHeaders': {
     border: 'none',
     '& .MuiDataGrid-columnSeparator': {
       display: 'none',
     },
   },
-})
+}))
 
 export const StyledLoader = styled(Loader)({
   position: 'absolute',

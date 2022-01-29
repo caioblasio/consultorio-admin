@@ -11,7 +11,7 @@ export const StyledModalContainer = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
 }))
 
-export const StyledFormContainer = styled(Box)(({ theme }) => ({
+export const StyledChildrenContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
 }))
 

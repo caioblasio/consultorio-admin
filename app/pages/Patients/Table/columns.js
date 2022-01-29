@@ -1,4 +1,3 @@
-import React from 'react'
 import Active from 'components/Active'
 
 const columns = [
@@ -26,7 +25,7 @@ const columns = [
   {
     field: 'isActive',
     headerName: 'Ativo?',
-    renderCell: ({ value }) => <Active value={value} />,
+    renderCell: ({ value }) => Active({ value }),
   },
 ]
 
