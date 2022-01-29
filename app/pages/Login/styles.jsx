@@ -1,5 +1,4 @@
 import { styled } from '@mui/system'
-import GoogleButton from 'react-google-button'
 import { Box, Card } from '@mui/material'
 import LogoTitle from 'components/LogoTitle'
 
@@ -17,8 +16,4 @@ export const StyledCard = styled(Card)(({ theme }) => ({
 export const StyledImgContainter = styled(Box)({
   borderRadius: '50%',
   textAlign: 'center',
-})
-
-export const StyledGoogleButton = styled(GoogleButton)({
-  margin: '0 auto',
 })

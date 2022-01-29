@@ -3,25 +3,15 @@ import {
   onAuthStateChanged as firebase_onAuthStateChanged,
   signOut as firebase_signOut,
 } from 'firebase/auth'
-import { signInWithPopup as _signInGoogle } from './google'
+import { signInWithEmailAndPassword } from './emailAndPassword'
 
-const signInGoogle = () => {
-  return _signInGoogle()
-}
-
-const signOutGoogle = () => {
-  return _signOutGoogle().then(() => _signOutFirebase())
-}
-
-const signOut = () => {
+const signOut = async () => {
   const auth = getAuth()
-  firebase_signOut(auth)
-    .then(() => {
-      Promise.resolve()
-    })
-    .catch((error) => {
-      Promise.reject(error)
-    })
+  try {
+    return await firebase_signOut(auth)
+  } catch (error) {
+    throw error
+  }
 }
 
 const onAuthStateChanged = (callback) => {
@@ -31,21 +21,23 @@ const onAuthStateChanged = (callback) => {
   })
 }
 
-// const signOut = (provider) => {
-//   let result
-//   switch (provider) {
-//     case 'google':
-//       result = signOutGoogle()
-//       break
-//   }
+const signIn = (credentials, provider = 'emailAndPassword') => {
+  const auth = getAuth()
+  const { email, password } = credentials
 
-//   if (!result) {
-//     throw new Error(
-//       `The provider ${provider} is not registered for authentication.`
-//     )
-//   }
+  const providers = {
+    emailAndPassword: signInWithEmailAndPassword(auth, email, password),
+  }
 
-//   return result
-// }
+  const signInMethod = providers[provider]
 
-export { signInGoogle as signIn, onAuthStateChanged, signOut }
+  if (!signInMethod) {
+    throw new Error(
+      `The provider ${provider} is not registered for authentication.`
+    )
+  }
+
+  return signInMethod
+}
+
+export { signIn, onAuthStateChanged, signOut }

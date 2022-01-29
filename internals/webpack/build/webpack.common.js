@@ -1,5 +1,6 @@
 const { BannerPlugin, DefinePlugin } = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+require('../../scripts/utils/dotenv')
 
 const __root = process.cwd()
 const pkg = require(`${__root}/package.json`)
@@ -46,7 +47,7 @@ module.exports = {
   },
   plugins: [
     new DefinePlugin({
-      ENVIRONMENT: JSON.stringify(process.env.NODE_ENV),
+      'process.env': JSON.stringify(process.env),
     }),
     new BannerPlugin({
       banner: BANNER_METADATA,

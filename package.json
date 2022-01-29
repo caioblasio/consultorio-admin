@@ -12,7 +12,8 @@
     "build": "npx webpack --config ./internals/webpack/webpack.build.js",
     "build:prod": "npx cross-env NODE_ENV=production npm run build",
     "build:dev": "npx cross-env NODE_ENV=development npm run build -- --colors --progress",
-    "start": "npx webpack serve --config ./internals/webpack/webpack.serve.js --progress"
+    "start": "npx webpack serve --config ./internals/webpack/webpack.serve.js --progress",
+    "addUser": "node ./internals/scripts/createUser.js"
   },
   "keywords": [],
   "author": "Caio De Blasio",
@@ -30,6 +31,7 @@
     "@babel/runtime-corejs3": "^7.14.0",
     "babel-loader": "^8.2.2",
     "cross-env": "^7.0.3",
+    "dotenv": "^14.3.2",
     "file-loader": "^6.2.0",
     "html-loader": "^2.1.2",
     "html-webpack-plugin": "^5.3.1",
