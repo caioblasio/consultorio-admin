@@ -1,14 +1,9 @@
 import React, { useEffect } from 'react'
-import {
-  Stack,
-  TextField,
-  Switch,
-  FormGroup,
-  FormControlLabel,
-  Grid,
-} from '@mui/material'
+import { Stack, TextField, Grid } from '@mui/material'
 import InputMask from 'react-input-mask'
 import { useForm, Controller } from 'react-hook-form'
+
+import Switch from 'components/Switch'
 import Modal from 'components/Modal'
 import VALIDATION_SCHEMA from './validations'
 
@@ -97,20 +92,11 @@ const FormModal = ({ data, onConfirm, onClose, open = false }) => {
               />
             </Grid>
             <Grid item>
-              <FormGroup>
-                <FormControlLabel
-                  control={
-                    <Controller
-                      name="isActive"
-                      control={control}
-                      render={({ field: { value, ...rest } }) => (
-                        <Switch checked={value} {...rest} />
-                      )}
-                    />
-                  }
-                  label="Ativo"
-                />
-              </FormGroup>
+              <Controller
+                name="isActive"
+                control={control}
+                render={({ field }) => <Switch label="Ativo" {...field} />}
+              />
             </Grid>
           </Grid>
         </Stack>
