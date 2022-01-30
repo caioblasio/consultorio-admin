@@ -11,6 +11,10 @@ export const formatCPF = (cpf) => {
   }
 }
 
+export const unformatCPF = (cpf) => {
+  return cpf.replace(/\.|-/g, '')
+}
+
 export const validateCPF = (cpf) => {
   try {
     if (typeof cpf !== 'string') throw new TypeError('CPF must be String')

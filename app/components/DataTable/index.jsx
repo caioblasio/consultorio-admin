@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Typography } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDownRounded'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUpRounded'
@@ -24,6 +24,8 @@ const DataTable = ({
   onEdit,
   onCreate,
   onDelete,
+  searchValue,
+  onSearchChange,
   disableExport,
   disableSearch = false,
   localeText: {
@@ -37,7 +39,6 @@ const DataTable = ({
 }) => {
   const [mode, setMode] = useState(Mode.READ)
   const [row, setRow] = useState()
-  const [search, setSearch] = useState('')
 
   const hasActions = onEdit || onDelete
   const hasToolbar = onCreate || !disableSearch || !disableExport
@@ -120,26 +121,7 @@ const DataTable = ({
         disableSelectionOnClick
         hideFooter
         components={{
-          Toolbar: hasToolbar
-            ? () => (
-                <DataTableToolbar
-                  disableExport={disableExport}
-                  onCreateClick={() => {
-                    setMode(Mode.CREATE)
-                    setRow(undefined)
-                  }}
-                  searchValue={search}
-                  onSearchChange={
-                    !disableSearch && ((newValue) => setSearch(newValue))
-                  }
-                  components={{ CreateButtonIcon }}
-                  localeText={{
-                    createLabel,
-                    searchPlaceholder,
-                  }}
-                />
-              )
-            : undefined,
+          Toolbar: DataTableToolbar,
           LoadingOverlay: StyledLoader,
           NoRowsOverlay: StyledNoData,
           ColumnSortedDescendingIcon: (props) => (
@@ -149,6 +131,22 @@ const DataTable = ({
             <ArrowDropDownIcon {...props} color="primary" />
           ),
           ExportIcon: CloudDownloadIcon,
+        }}
+        componentsProps={{
+          toolbar: {
+            disableExport,
+            onCreateClick: () => {
+              setMode(Mode.CREATE)
+              setRow(undefined)
+            },
+            searchValue,
+            onSearchChange: (value) => onSearchChange(value),
+            components: { CreateButtonIcon },
+            localeText: {
+              createLabel,
+              searchPlaceholder,
+            },
+          },
         }}
       />
       {onDelete && (

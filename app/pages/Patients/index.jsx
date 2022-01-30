@@ -9,11 +9,20 @@ import {
 } from 'api/database'
 import { homeURL } from 'configs/urls'
 import DashPage from 'components/DashPage'
+import { unformatCPF } from 'utils/cpf'
 import Table from './Table'
 
 const PatientsPage = () => {
   const [patients, setPatients] = useState([])
   const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+
+  const filteredPatients = patients.filter(
+    ({ name, phone, cpf }) =>
+      name.toLowerCase().includes(search.toLowerCase()) ||
+      phone.some((number) => number.includes(search)) ||
+      unformatCPF(cpf).includes(search)
+  )
 
   useAsyncEffect(async (isActive) => {
     const allPatients = await fetchAllPatients()
@@ -69,11 +78,13 @@ const PatientsPage = () => {
   return (
     <DashPage title="Pacientes" backURL={homeURL()}>
       <Table
-        data={patients}
+        data={filteredPatients}
         isLoading={loading}
         onCreate={onCreatePatient}
         onDelete={onDeletePatient}
         onEdit={onEditPatient}
+        searchValue={search}
+        onSearchChange={(value) => setSearch(value)}
       />
     </DashPage>
   )

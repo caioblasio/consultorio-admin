@@ -4,7 +4,15 @@ import DataTable from 'components/DataTable'
 import columns from './columns'
 import FormModal from './FormModal'
 
-const Table = ({ data, isLoading, onCreate, onEdit, onDelete }) => {
+const Table = ({
+  data,
+  isLoading,
+  onCreate,
+  onEdit,
+  onDelete,
+  searchValue,
+  onSearchChange,
+}) => {
   return (
     <DataTable
       columns={columns}
@@ -13,6 +21,8 @@ const Table = ({ data, isLoading, onCreate, onEdit, onDelete }) => {
       onCreate={onCreate}
       onEdit={onEdit}
       onDelete={onDelete}
+      searchValue={searchValue}
+      onSearchChange={onSearchChange}
       components={{
         FormModal,
         CreateButtonIcon: PersonAddIcon,
