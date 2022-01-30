@@ -13,18 +13,24 @@ import Modal from 'components/Modal'
 import VALIDATION_SCHEMA from './validations'
 
 const FormModal = ({ data, onConfirm, onClose, open = false }) => {
+  const defaultValues = {
+    name: '',
+    phone: '',
+    email: '',
+    cpf: '',
+    isActive: true,
+  }
   const { control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      name: '',
-      phone: '',
-      email: '',
-      cpf: '',
-      isActive: true,
-    },
+    defaultValues,
   })
 
   useEffect(() => {
-    reset(data)
+    let newData = defaultValues
+    if (data) {
+      newData = data
+    }
+
+    reset(newData)
   }, [data])
 
   const handleConfirm = (newData) => {

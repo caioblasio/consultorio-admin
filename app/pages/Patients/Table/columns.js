@@ -5,7 +5,7 @@ const columns = [
   {
     field: 'phone',
     headerName: 'N° Celular',
-    width: 480,
+    width: 470,
   },
   {
     field: 'cpf',
@@ -15,7 +15,7 @@ const columns = [
   {
     field: 'isActive',
     headerName: 'Ativo?',
-    width: 80,
+    width: 90,
     renderCell: ({ value }) => Active({ value }),
   },
 ]
