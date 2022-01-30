@@ -2,12 +2,17 @@ import React from 'react'
 import { InputAdornment, TextField } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 
-const SearchField = (props) => {
+const SearchField = ({
+  placeholder = 'Buscar...',
+  InputProps = {},
+  ...rest
+}) => {
   return (
     <TextField
-      {...props}
+      {...rest}
+      placeholder={placeholder}
       InputProps={{
-        ...props.InputProps,
+        ...InputProps,
         startAdornment: (
           <InputAdornment position="start">
             <SearchIcon />
@@ -16,10 +21,6 @@ const SearchField = (props) => {
       }}
     />
   )
-}
-
-SearchField.defaultProps = {
-  placeholder: 'Buscar...',
 }
 
 export default SearchField
