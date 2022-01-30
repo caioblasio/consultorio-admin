@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid, Button } from '@mui/material'
+import { GridToolbarExport } from '@mui/x-data-grid'
 import AddIcon from '@mui/icons-material/Add'
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 
 import SearchField from 'components/SearchField'
 
@@ -10,14 +10,10 @@ import { StyledContainer } from './styles'
 const DataTableToolbar = ({
   searchValue,
   onCreateClick,
-  onExportClick,
+  disableExport = false,
   onSearchChange,
   components: { CreateButtonIcon = AddIcon },
-  localeText: {
-    createLabel = 'Criar',
-    exportLabel = 'Exportar',
-    searchPlaceholder,
-  },
+  localeText: { createLabel = 'Criar', searchPlaceholder },
 }) => {
   return (
     <StyledContainer>
@@ -28,21 +24,16 @@ const DataTableToolbar = ({
               startIcon={<CreateButtonIcon />}
               variant="contained"
               color="primary"
+              size="small"
               onClick={onCreateClick}
             >
               {createLabel}
             </Button>
           </Grid>
         )}
-        {onExportClick && (
+        {!disableExport && (
           <Grid item>
-            <Button
-              startIcon={<CloudDownloadIcon />}
-              variant="outlined"
-              onClick={onExportClick}
-            >
-              {exportLabel}
-            </Button>
+            <GridToolbarExport variant="outlined" color="grey" size="small" />
           </Grid>
         )}
         {onSearchChange && (

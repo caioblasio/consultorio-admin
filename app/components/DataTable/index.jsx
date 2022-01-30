@@ -4,6 +4,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDownRounded'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUpRounded'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 
 import ConfirmModal from 'components/ConfirmModal'
 
@@ -23,13 +24,13 @@ const DataTable = ({
   onEdit,
   onCreate,
   onDelete,
-  disableExport = false,
+  disableExport,
   disableSearch = false,
   localeText: {
     deleteText,
     deleteTitle,
     createLabel,
-    exportLabel,
+    exportLabel = 'Exportar',
     searchPlaceholder,
   },
   components: { FormModal, CreateButtonIcon },
@@ -110,6 +111,11 @@ const DataTable = ({
         columns={styledActionableColumns}
         autoHeight
         loading={isLoading}
+        localeText={{
+          toolbarExport: exportLabel,
+          toolbarExportCSV: 'Descarregar ficheiro CSV',
+          toolbarExportPrint: 'Imprimir',
+        }}
         disableColumnMenu
         disableSelectionOnClick
         hideFooter
@@ -117,11 +123,11 @@ const DataTable = ({
           Toolbar: hasToolbar
             ? () => (
                 <DataTableToolbar
+                  disableExport={disableExport}
                   onCreateClick={() => {
                     setMode(Mode.CREATE)
                     setRow(undefined)
                   }}
-                  onExportClick={!disableExport && (() => {})}
                   searchValue={search}
                   onSearchChange={
                     !disableSearch && ((newValue) => setSearch(newValue))
@@ -129,7 +135,6 @@ const DataTable = ({
                   components={{ CreateButtonIcon }}
                   localeText={{
                     createLabel,
-                    exportLabel,
                     searchPlaceholder,
                   }}
                 />
@@ -143,6 +148,7 @@ const DataTable = ({
           ColumnSortedAscendingIcon: (props) => (
             <ArrowDropDownIcon {...props} color="primary" />
           ),
+          ExportIcon: CloudDownloadIcon,
         }}
       />
       {onDelete && (
