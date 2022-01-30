@@ -1,5 +1,6 @@
 import React from 'react'
 import { Grid, Button } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 
 import SearchField from 'components/SearchField'
@@ -11,14 +12,25 @@ const DataTableToolbar = ({
   onCreateClick,
   onExportClick,
   onSearchChange,
+  components: { CreateButtonIcon = AddIcon },
+  localeText: {
+    createLabel = 'Criar',
+    exportLabel = 'Exportar',
+    searchPlaceholder,
+  },
 }) => {
   return (
     <StyledContainer>
       <Grid container direction="row-reverse" spacing={2}>
         {onCreateClick && (
           <Grid item>
-            <Button variant="contained" color="primary" onClick={onCreateClick}>
-              Criar Paciente
+            <Button
+              startIcon={<CreateButtonIcon />}
+              variant="contained"
+              color="primary"
+              onClick={onCreateClick}
+            >
+              {createLabel}
             </Button>
           </Grid>
         )}
@@ -29,13 +41,17 @@ const DataTableToolbar = ({
               variant="outlined"
               onClick={onExportClick}
             >
-              Exportar
+              {exportLabel}
             </Button>
           </Grid>
         )}
         {onSearchChange && (
           <Grid item xs>
-            <SearchField onChange={onSearchChange} value={searchValue} />
+            <SearchField
+              onChange={({ target }) => onSearchChange(target.value)}
+              value={searchValue}
+              placeholder={searchPlaceholder}
+            />
           </Grid>
         )}
       </Grid>

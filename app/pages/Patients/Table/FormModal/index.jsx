@@ -9,70 +9,33 @@ import {
 } from '@mui/material'
 import InputMask from 'react-input-mask'
 import { useForm, Controller } from 'react-hook-form'
-import { validateCPF } from 'utils'
 import Modal from 'components/Modal'
+import VALIDATION_SCHEMA from './validations'
 
-const VALIDATION_SCHEMA = {
-  name: {
-    required: 'Este campo é obrigatório',
-  },
-  phone: {
-    required: 'Este campo é obrigatório',
-  },
-  email: {
-    pattern: {
-      value:
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      message: 'Email inválido',
+const FormModal = ({ data, onConfirm, onClose, open = false }) => {
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      name: '',
+      phone: '',
+      email: '',
+      cpf: '',
+      isActive: true,
     },
-  },
-  cpf: {
-    required: 'Este campo é obrigatório',
-    validate: (v) => validateCPF(v) || 'CPF inválido',
-  },
-}
-
-const FormModal = ({
-  data = {
-    name: '',
-    phone: '',
-    secondPhone: '',
-    cpf: '',
-    isActive: true,
-  },
-  onConfirm,
-  onClose,
-  open,
-}) => {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { isSubmitSuccessful },
-  } = useForm({
-    defaultValues: data,
   })
 
-  const handleConfirm = (data) => {
-    onConfirm(data)
-    onClose()
-  }
-
-  const handleClose = () => {
-    reset()
-    onClose()
-  }
-
   useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset()
-    }
-  }, [isSubmitSuccessful, reset])
+    reset(data)
+  }, [data])
+
+  const handleConfirm = (newData) => {
+    onConfirm(newData)
+    onClose()
+  }
 
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
       title={data ? 'Editar Paciente' : 'Criar Paciente'}
       actions={[
         { label: 'Confirmar', onClick: handleSubmit(handleConfirm) },
@@ -97,24 +60,8 @@ const FormModal = ({
               <InputMask mask="(99) 99999-9999" {...field}>
                 {(inputProps) => (
                   <TextField
+                    {...inputProps}
                     label="Celular"
-                    {...inputProps}
-                    error={invalid}
-                    helperText={error?.message}
-                  />
-                )}
-              </InputMask>
-            )}
-          />
-          <Controller
-            name="secondPhone"
-            control={control}
-            render={({ field, fieldState: { invalid, error } }) => (
-              <InputMask mask="(99) 99999-9999" {...field}>
-                {(inputProps) => (
-                  <TextField
-                    label="Segundo Telefone"
-                    {...inputProps}
                     error={invalid}
                     helperText={error?.message}
                   />

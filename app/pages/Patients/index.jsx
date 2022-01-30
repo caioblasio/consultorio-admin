@@ -14,55 +14,67 @@ import Table from './Table'
 const PatientsPage = () => {
   const [patients, setPatients] = useState([])
   const [loading, setLoading] = useState(true)
-  // const [open, setOpen] = useState(false)
-  // const [patientToEdit, setPatientToEdit] = useState(null)
-  // const handleOpen = () => setOpen(true)
-  // const handleClose = () => {
-  //   if (patientToEdit) {
-  //     setPatientToEdit(null)
-  //   }
-  //   setOpen(false)
-  // }
 
   useAsyncEffect(async (isActive) => {
     const allPatients = await fetchAllPatients()
-    if (!isActive()) return
+    if (!isActive()) {
+      return
+    }
+
     setPatients(allPatients)
     setLoading(false)
   }, [])
 
-  const onCreatePatient = async (data) => {
-    // setOpen(false)
-    // setLoading(true)
-    // patientToEdit
-    //   ? await editPatient(patientToEdit.id, data)
-    //   : await createPatient(data)
-    // const allPatients = await fetchAllPatients()
-    // setPatients(allPatients)
-    // setPatientToEdit(null)
-    // setLoading(false)
+  const onCreatePatient = async (patient) => {
+    try {
+      setLoading(true)
+      await createPatient(patient)
 
-    console.log(data)
-    setLoading(true)
-    await createPatient(data)
-    const allPatients = await fetchAllPatients()
-    setPatients(allPatients)
-    setLoading(false)
+      const newPatients = [...patients, patient]
+      setPatients(newPatients)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const onEditPatient = (patient) => {
-    setPatientToEdit(patient)
-    handleOpen()
+  const onEditPatient = async (patient) => {
+    try {
+      setLoading(true)
+
+      await editPatient(patient)
+
+      const patientIndex = patients.findIndex(({ id }) => id === patient.id)
+      const newPatients = [...patients]
+      newPatients[patientIndex] = patient
+      setPatients(newPatients)
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const onDeletePatient = async (id) => {
-    const p = await deletePatient(id)
-    console.log(p)
+  const onDeletePatient = async (patientId) => {
+    try {
+      setLoading(true)
+      await deletePatient(patientId)
+
+      const patientIndex = patients.findIndex(({ id }) => id === patientId)
+      const newPatients = [...patients]
+      newPatients.splice(patientIndex, 1)
+      setPatients(newPatients)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <DashPage title="Pacientes" backURL={homeURL()}>
-      <Table data={patients} isLoading={loading} onCreate={onCreatePatient} />
+      <Table
+        data={patients}
+        isLoading={loading}
+        onCreate={onCreatePatient}
+        onDelete={onDeletePatient}
+        onEdit={onEditPatient}
+      />
     </DashPage>
   )
 }

@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import { Typography } from '@mui/material'
-import { GridActionsCellItem, GridToolbar } from '@mui/x-data-grid'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDownRounded'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUpRounded'
 import EditIcon from '@mui/icons-material/Edit'
@@ -8,8 +7,14 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 import ConfirmModal from 'components/ConfirmModal'
 
-import { StyledLoader, StyledNoData, StyledDataGrid } from './styles'
+import {
+  StyledLoader,
+  StyledNoData,
+  StyledDataGrid,
+  StyledGridActionsCellItem,
+} from './styles'
 import DataTableToolbar from './Toolbar'
+import { Mode } from './constants'
 
 const DataTable = ({
   data = [],
@@ -20,9 +25,16 @@ const DataTable = ({
   onDelete,
   disableExport = false,
   disableSearch = false,
-  components: { formModal: FormModal },
+  localeText: {
+    deleteText,
+    deleteTitle,
+    createLabel,
+    exportLabel,
+    searchPlaceholder,
+  },
+  components: { FormModal, CreateButtonIcon },
 }) => {
-  const [mode, setMode] = useState('READ')
+  const [mode, setMode] = useState(Mode.READ)
   const [row, setRow] = useState()
   const [search, setSearch] = useState('')
 
@@ -46,18 +58,18 @@ const DataTable = ({
       newColumns = [
         ...styledColumns,
         {
-          name: 'actions',
+          field: 'actions',
           type: 'actions',
-          getActions: (row) => {
+          width: 80,
+          getActions: ({ row }) => {
             let newActions = []
             if (onEdit) {
               newActions = [
-                <GridActionsCellItem
-                  key="action-edit"
+                <StyledGridActionsCellItem
                   icon={<EditIcon />}
                   onClick={() => {
                     setRow(row)
-                    setMode('EDIT')
+                    setMode(Mode.EDIT)
                   }}
                   label="Editar"
                 />,
@@ -66,12 +78,11 @@ const DataTable = ({
             if (onDelete) {
               newActions = [
                 ...newActions,
-                <GridActionsCellItem
-                  key="action-delete"
+                <StyledGridActionsCellItem
                   icon={<DeleteIcon />}
                   onClick={() => {
                     setRow(row)
-                    setMode('DELETE')
+                    setMode(Mode.DELETE)
                   }}
                   label="Apagar"
                 />,
@@ -86,6 +97,11 @@ const DataTable = ({
 
     return newColumns
   }, [styledColumns, hasActions])
+
+  const handleClose = () => {
+    setMode(Mode.READ)
+    setRow(undefined)
+  }
 
   return (
     <>
@@ -102,12 +118,20 @@ const DataTable = ({
             ? () => (
                 <DataTableToolbar
                   onCreateClick={() => {
-                    setMode('CREATE')
+                    setMode(Mode.CREATE)
                     setRow(undefined)
                   }}
-                  onExportClick={() => {}}
+                  onExportClick={!disableExport && (() => {})}
                   searchValue={search}
-                  onSearchChange={(newValue) => setSearch(newValue)}
+                  onSearchChange={
+                    !disableSearch && ((newValue) => setSearch(newValue))
+                  }
+                  components={{ CreateButtonIcon }}
+                  localeText={{
+                    createLabel,
+                    exportLabel,
+                    searchPlaceholder,
+                  }}
                 />
               )
             : undefined,
@@ -121,22 +145,27 @@ const DataTable = ({
           ),
         }}
       />
-      <ConfirmModal
-        open={mode === 'DELETE'}
-        onConfirm={onDelete}
-        onClose={() => {
-          setMode('READ')
-          setRow(undefined)
-        }}
-      />
-      {FormModal && (
-        <FormModal
-          open={mode === 'EDIT' || mode === 'CREATE'}
-          onConfirm={onCreate}
-          onClose={() => {
-            setMode('READ')
-            setRow(undefined)
+      {onDelete && (
+        <ConfirmModal
+          open={mode === Mode.DELETE}
+          onConfirm={async () => {
+            await onDelete(row.id)
           }}
+          localeText={{
+            text: deleteText,
+            title: deleteTitle,
+          }}
+          onClose={handleClose}
+        />
+      )}
+      {(onCreate || onEdit) && FormModal && (
+        <FormModal
+          open={mode === Mode.EDIT || mode === Mode.CREATE}
+          onConfirm={async (params) => {
+            const call = mode === Mode.CREATE ? onCreate : onEdit
+            await call(params)
+          }}
+          onClose={handleClose}
           data={row}
         />
       )}

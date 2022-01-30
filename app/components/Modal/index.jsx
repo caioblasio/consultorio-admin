@@ -1,11 +1,6 @@
 import React from 'react'
-import {
-  Modal as MuiModal,
-  IconButton,
-  Stack,
-  Grid,
-  Button,
-} from '@mui/material'
+import { Modal as MuiModal, IconButton, Stack, Grid } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 import CloseIcon from '@mui/icons-material/Close'
 import {
   StyledModalContainer,
@@ -30,15 +25,16 @@ const Modal = ({ children, title, open = false, onClose, actions = [] }) => {
           <StyledChildrenContainer>{children}</StyledChildrenContainer>
           {actions.length > 0 && (
             <Grid container alignItems="center" direction="row-reverse">
-              {actions.map(({ label, onClick }, index) => (
+              {actions.map(({ label, onClick, isLoading = false }, index) => (
                 <Grid item key={`action-${label}`}>
-                  <Button
+                  <LoadingButton
                     onClick={onClick}
                     variant={index === 0 ? 'contained' : undefined}
                     color={index === 0 ? 'primary' : undefined}
+                    loading={isLoading}
                   >
                     {label}
-                  </Button>
+                  </LoadingButton>
                 </Grid>
               ))}
             </Grid>

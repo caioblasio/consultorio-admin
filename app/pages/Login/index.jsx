@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import AuthPage from 'components/AuthPage'
 import { useNavigate } from 'react-router-dom'
-import {
-  Stack,
-  Box,
-  Button,
-  CardContent,
-  Typography,
-  TextField,
-} from '@mui/material'
+import { Stack, Box, CardContent, Typography, TextField } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 import Media from './Media'
 import { StyledCard, StyledLogoTitle } from './styles'
 import { signIn } from 'api/authentication'
@@ -33,12 +27,8 @@ const VALIDATION_SCHEMA = {
 const LoginPage = () => {
   const navigate = useNavigate()
   const [loginErrorCode, setLoginErrorCode] = useState('')
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { isSubmitSuccessful },
-  } = useForm({
+  const [loading, setLoading] = useState(false)
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       email: '',
       password: '',
@@ -47,19 +37,15 @@ const LoginPage = () => {
 
   const onSubmit = async (data) => {
     try {
+      setLoading(true)
       await signIn(data)
       navigate(homeURL())
     } catch (error) {
-      console.log(error)
       setLoginErrorCode(error.code)
+    } finally {
+      setLoading(false)
     }
   }
-
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset()
-    }
-  }, [isSubmitSuccessful, reset])
 
   return (
     <AuthPage>
@@ -83,7 +69,7 @@ const LoginPage = () => {
                   rules={{ ...VALIDATION_SCHEMA.email }}
                   render={({ field, fieldState: { invalid, error } }) => (
                     <TextField
-                      label="Email"
+                      label="E-mail"
                       type="email"
                       error={invalid}
                       helperText={error?.message}
@@ -105,13 +91,14 @@ const LoginPage = () => {
                     />
                   )}
                 />
-                <Button
+                <LoadingButton
                   variant="contained"
                   color="primary"
                   onClick={handleSubmit(onSubmit)}
+                  loading={loading}
                 >
                   Entrar
-                </Button>
+                </LoadingButton>
                 {loginErrorCode && (
                   <Typography variant="caption">
                     {LOGIN_ERRORS[loginErrorCode] || LOGIN_ERRORS.default}

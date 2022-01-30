@@ -1,21 +1,11 @@
 import Active from 'components/Active'
 
 const columns = [
-  { field: 'name', headerName: 'Nome Completo', width: 175 },
-  {
-    field: 'dob',
-    headerName: 'Data de Nascimento',
-    width: 175,
-  },
+  { field: 'name', headerName: 'Nome Completo', width: 250 },
   {
     field: 'phone',
     headerName: 'N° Celular',
-    width: 175,
-  },
-  {
-    field: 'email',
-    headerName: 'E-mail',
-    width: 175,
+    width: 480,
   },
   {
     field: 'cpf',
@@ -25,6 +15,7 @@ const columns = [
   {
     field: 'isActive',
     headerName: 'Ativo?',
+    width: 80,
     renderCell: ({ value }) => Active({ value }),
   },
 ]

@@ -53,7 +53,8 @@ export const createPatient = async (patient) => {
   return snapshot.data()
 }
 
-export const editPatient = async (id, patient) => {
+export const editPatient = async (patient) => {
+  const id = patient.id
   const docRef = doc(collection(db, COLLECTION_NAME), id)
   await setDoc(docRef, {
     ...patient,
