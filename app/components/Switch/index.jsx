@@ -1,10 +1,12 @@
 import React, { forwardRef } from 'react'
-import { FormControlLabel, Switch as MuiSwitch } from '@mui/material'
+import { FormControlLabel } from '@mui/material'
+
+import { StyledSwitch } from './styles'
 
 const Switch = ({ label, value = false, ...rest }, ref) => {
   return (
     <FormControlLabel
-      control={<MuiSwitch ref={ref} checked={value} {...rest} />}
+      control={<StyledSwitch ref={ref} checked={value} {...rest} />}
       label={label}
     />
   )

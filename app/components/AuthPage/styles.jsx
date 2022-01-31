@@ -16,7 +16,7 @@ export const StyledBackground = styled('div')({
     bottom: 0,
     left: 0,
     right: 0,
-    background: 'linear-gradient(116.94deg, #7BB0FF -5.72%, #9EE497 101.06%)',
+    background: 'linear-gradient(121.16deg, #7BB0FF -5.11%, #C7F0C3 89.63%)',
     content: '""',
   },
 })
