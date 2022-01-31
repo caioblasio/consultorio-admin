@@ -9,7 +9,7 @@ const Page = ({ title, children, backURL, className }) => {
   const navigate = useNavigate()
   return (
     <StyledContainer maxWidth="lg" className={className}>
-      <StyledGrid container spacing={6} direction="column" wrap="nowrap">
+      <StyledGrid container spacing={4} direction="column" wrap="nowrap">
         {(backURL || title) && (
           <Grid item>
             <Grid container spacing={2} alignItems="center">
