@@ -18,15 +18,15 @@ const colors = {
     main: '#8A9699',
     dark: '#8A9699',
   },
-  success: {
-    light: '#FFC1B4',
-    main: '#9CE53E',
-    dark: '#6BAB19',
-  },
   error: {
-    light: '#D3EFB0',
+    light: '#FFC1B4',
     main: '#E55C3E',
     dark: '#A9513E',
+  },
+  success: {
+    light: '#D3EFB0',
+    main: '#9CE53E',
+    dark: '#6BAB19',
   },
   warning: {
     light: '#F8F1BA',

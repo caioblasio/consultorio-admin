@@ -1,5 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import { Slide } from '@mui/material'
+import { CheckCircle, Error, Warning, Info } from '@mui/icons-material'
 
 const LinkBehavior = forwardRef((props, ref) => {
   const { href, ...other } = props
@@ -66,6 +68,40 @@ const components = {
             color: theme.palette.grey.dark,
             borderColor: theme.palette.grey.dark,
           }),
+      }),
+    },
+  },
+  MuiSnackbar: {
+    defaultProps: {
+      anchorOrigin: { vertical: 'bottom', horizontal: 'right' },
+      TransitionComponent: (props) => <Slide {...props} direction="up" />,
+      autoHideDuration: 6000,
+    },
+  },
+  MuiAlert: {
+    defaultProps: {
+      iconMapping: {
+        success: <CheckCircle />,
+        info: <Info />,
+        warning: <Warning />,
+        danger: <Error />,
+      },
+    },
+    styleOverrides: {
+      root: ({ theme }) => ({
+        color: theme.palette.common.black,
+
+        '& .MuiAlert-icon': {
+          opacity: 1,
+        },
+
+        '&.MuiAlert-standardSuccess': {
+          backgroundColor: theme.palette.success.light,
+
+          '& .MuiAlert-icon': {
+            color: theme.palette.success.dark,
+          },
+        },
       }),
     },
   },

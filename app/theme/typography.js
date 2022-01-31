@@ -29,7 +29,7 @@ const typography = {
   },
   title1: {
     fontWeight: 600,
-    fontSize: '1.25rem',
+    fontSize: '1.05rem',
     letterSpacing: '0.05rem',
   },
   subtitle1: {
