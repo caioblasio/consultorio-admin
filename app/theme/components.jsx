@@ -84,7 +84,7 @@ const components = {
         success: <CheckCircle />,
         info: <Info />,
         warning: <Warning />,
-        danger: <Error />,
+        error: <Error />,
       },
     },
     styleOverrides: {
@@ -100,6 +100,14 @@ const components = {
 
           '& .MuiAlert-icon': {
             color: theme.palette.success.dark,
+          },
+        },
+
+        '&.MuiAlert-standardError': {
+          backgroundColor: theme.palette.error.light,
+
+          '& .MuiAlert-icon': {
+            color: theme.palette.error.dark,
           },
         },
       }),
@@ -183,6 +191,13 @@ const components = {
             padding: theme.spacing(1.15, 2, 1, 2),
           },
         }),
+      }),
+    },
+  },
+  MuiInputAdornment: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        color: theme.palette.grey.dark,
       }),
     },
   },

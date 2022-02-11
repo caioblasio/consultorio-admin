@@ -12,7 +12,7 @@ const columns = [
     renderCell: ({ value }) => (
       <Stack direction="row" spacing={1}>
         {value.map((v) => (
-          <Chip label={v} onClick={() => {}} />
+          <Chip key={v} label={v} onClick={() => {}} />
         ))}
       </Stack>
     ),

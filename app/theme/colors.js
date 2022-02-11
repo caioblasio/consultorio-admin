@@ -19,9 +19,9 @@ const colors = {
     dark: '#8A9699',
   },
   error: {
-    light: '#FFC1B4',
-    main: '#E55C3E',
-    dark: '#A9513E',
+    light: '#FFDED7',
+    main: '#E0694E',
+    dark: '#A9412A',
   },
   success: {
     light: '#D3EFB0',

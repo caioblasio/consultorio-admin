@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import AuthPage from 'components/AuthPage'
+import Alert from 'components/Alert'
 import { useNavigate } from 'react-router-dom'
 import { Stack, Box, CardContent, Typography, TextField } from '@mui/material'
 import { LoadingButton } from '@mui/lab'
@@ -55,11 +56,18 @@ const LoginPage = () => {
           <Box mb={6}>
             <StyledLogoTitle />
           </Box>
-          <Box mb={6}>
+          <Box mb={4}>
             <Typography variant="title1" component="h1" gutterBottom>
               Bem-vindo ao consultório Dental Plus
             </Typography>
           </Box>
+          {loginErrorCode && (
+            <Box mb={3}>
+              <Alert severity="danger">
+                {LOGIN_ERRORS[loginErrorCode] || LOGIN_ERRORS.default}
+              </Alert>
+            </Box>
+          )}
           <Box>
             <form>
               <Stack spacing={3}>
@@ -99,11 +107,6 @@ const LoginPage = () => {
                 >
                   Entrar
                 </LoadingButton>
-                {loginErrorCode && (
-                  <Typography variant="caption">
-                    {LOGIN_ERRORS[loginErrorCode] || LOGIN_ERRORS.default}
-                  </Typography>
-                )}
               </Stack>
             </form>
           </Box>

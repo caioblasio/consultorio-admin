@@ -8,7 +8,7 @@ import {
 } from 'api/database'
 import { homeURL } from 'configs/urls'
 import DashPage from 'components/DashPage'
-import Alert from 'components/Alert'
+import Snackbar from 'components/Snackbar'
 import { unformatCPF } from 'utils/cpf'
 import Table from './Table'
 
@@ -122,14 +122,14 @@ const PatientsPage = () => {
         searchValue={search}
         onSearchChange={(value) => setSearch(value)}
       />
-      <Alert
+      <Snackbar
         title={alert.title}
         open={alert.progress}
         onClose={handleClose}
         severity={alert.severity}
       >
         {alert.message}
-      </Alert>
+      </Snackbar>
     </DashPage>
   )
 }
