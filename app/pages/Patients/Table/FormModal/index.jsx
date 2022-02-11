@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
-import { Stack, TextField, Grid } from '@mui/material'
+import { Stack, TextField, Grid, Button, IconButton } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import InputMask from 'react-input-mask'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, Controller, useFieldArray } from 'react-hook-form'
 
 import Switch from 'components/Switch'
 import Modal from 'components/Modal'
@@ -10,41 +12,63 @@ import VALIDATION_SCHEMA from './validations'
 const FormModal = ({ data, onConfirm, onClose, open = false }) => {
   const defaultValues = {
     name: '',
-    phone: '',
-    email: '',
+    phone: [{ value: '' }],
     cpf: '',
     isActive: true,
   }
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset, watch } = useForm({
     defaultValues,
   })
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'phone',
+  })
+
+  const watchPhone = watch('phone')
 
   useEffect(() => {
     let newData = defaultValues
     if (data) {
-      newData = data
+      newData = {
+        ...data,
+        ...(data.phone
+          ? { phone: data.phone.map((value) => ({ value })) }
+          : {}),
+      }
     }
 
     reset(newData)
   }, [data])
 
   const handleConfirm = (newData) => {
-    onConfirm(newData)
+    const submitData = {
+      ...newData,
+      ...(newData.phone
+        ? { phone: newData.phone.map(({ value }) => value) }
+        : {}),
+    }
+    handleClose()
+    onConfirm(submitData)
+  }
+
+  const handleClose = () => {
+    reset()
     onClose()
   }
 
   return (
     <Modal
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       title={data ? 'Editar Paciente' : 'Criar Paciente'}
       actions={[
         { label: 'Confirmar', onClick: handleSubmit(handleConfirm) },
-        { label: 'Cancelar', onClick: onClose },
+        { label: 'Cancelar', onClick: handleClose },
       ]}
     >
       <form>
-        <Stack spacing={4}>
+        <Stack spacing={2}>
           <Controller
             name="name"
             control={control}
@@ -53,23 +77,48 @@ const FormModal = ({ data, onConfirm, onClose, open = false }) => {
               <TextField label="Nome Completo" {...field} />
             )}
           />
-          <Controller
-            name="phone"
-            control={control}
-            rules={{ ...VALIDATION_SCHEMA.phone }}
-            render={({ field, fieldState: { invalid, error } }) => (
-              <InputMask mask="(99) 99999-9999" {...field}>
-                {(inputProps) => (
-                  <TextField
-                    {...inputProps}
-                    label="Celular"
-                    error={invalid}
-                    helperText={error?.message}
+          <Stack spacing={2} alignItems="end">
+            {fields.map((item, index) => (
+              <Grid container columnGap={3} key={item.id}>
+                <Grid item xs>
+                  <Controller
+                    name={`phone.${index}.value`}
+                    control={control}
+                    rules={{ ...VALIDATION_SCHEMA.phone }}
+                    render={({ field, fieldState: { invalid, error } }) => (
+                      <InputMask mask="(99) 99999-9999" {...field}>
+                        {(inputProps) => (
+                          <TextField
+                            {...inputProps}
+                            label="Celular"
+                            error={invalid}
+                            helperText={error?.message}
+                          />
+                        )}
+                      </InputMask>
+                    )}
                   />
+                </Grid>
+                {index !== 0 && (
+                  <Grid item>
+                    <IconButton onClick={() => remove(index)}>
+                      <RemoveCircleOutlineIcon />
+                    </IconButton>
+                  </Grid>
                 )}
-              </InputMask>
+              </Grid>
+            ))}
+            {watchPhone.length < 3 && (
+              <Button
+                variant="text"
+                size="small"
+                startIcon={<AddIcon />}
+                onClick={() => append({ value: '' })}
+              >
+                Adicionar novo contato
+              </Button>
             )}
-          />
+          </Stack>
 
           <Grid container columnGap={3}>
             <Grid item xs>

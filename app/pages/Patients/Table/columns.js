@@ -1,4 +1,7 @@
+import React from 'react'
 import Active from 'components/Active'
+
+import { Stack, Chip } from '@mui/material'
 
 const columns = [
   { field: 'name', headerName: 'Nome Completo', width: 250 },
@@ -6,6 +9,13 @@ const columns = [
     field: 'phone',
     headerName: 'N° Celular',
     width: 470,
+    renderCell: ({ value }) => (
+      <Stack direction="row" spacing={1}>
+        {value.map((v) => (
+          <Chip label={v} onClick={() => {}} />
+        ))}
+      </Stack>
+    ),
   },
   {
     field: 'cpf',

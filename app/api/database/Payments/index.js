@@ -4,6 +4,12 @@ import { fetchActivePatients } from '../Patient'
 
 const COLLECTION_NAME = 'payments'
 
+export const fetchAllPayments = async () => {
+  const q = query(collection(db, COLLECTION_NAME))
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+}
+
 export const fetchPaymentsWithinRange = async (startDate, endDate) => {
   const q = query(
     collection(db, COLLECTION_NAME),
