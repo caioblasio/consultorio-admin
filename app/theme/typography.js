@@ -44,9 +44,10 @@ const typography = {
     letterSpacing: 0,
   },
   caption: {
-    fontWeight: 400,
+    fontWeight: 600,
     fontSize: '0.675rem',
     letterSpacing: '0.04rem',
+    textTransform: 'uppercase',
   },
   button: {
     fontWeight: 600,
