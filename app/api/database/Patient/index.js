@@ -20,6 +20,13 @@ export const fetchAllPatients = async () => {
   return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
 }
 
+export const fetchPatientById = async (id) => {
+  const docRef = doc(db, COLLECTION_NAME, id)
+  const snapshot = await getDoc(docRef)
+
+  return snapshot.exists() ? { ...snapshot.data(), id: snapshot.id } : null
+}
+
 export const fetchActivePatients = async () => {
   const q = query(
     collection(db, COLLECTION_NAME),

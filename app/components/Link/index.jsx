@@ -2,7 +2,16 @@ import React from 'react'
 
 import { Grid, Link as MuiLink, Typography } from '@mui/material'
 
-const Link = ({ className, icon, to, children, onClick, component, color }) => {
+const Link = ({
+  className,
+  icon,
+  to,
+  children,
+  onClick,
+  component,
+  color,
+  ...rest
+}) => {
   const content = (
     <Typography variant="button" component="span">
       {children}
@@ -15,6 +24,7 @@ const Link = ({ className, icon, to, children, onClick, component, color }) => {
       href={to}
       onClick={onClick}
       component={component}
+      {...rest}
     >
       {icon ? (
         <Grid container spacing={1}>

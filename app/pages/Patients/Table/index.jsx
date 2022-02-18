@@ -1,5 +1,7 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import { patientURL } from 'configs/urls'
 import DataTable from 'components/DataTable'
 import columns from './columns'
 import FormModal from './FormModal'
@@ -13,10 +15,12 @@ const Table = ({
   searchValue,
   onSearchChange,
 }) => {
+  const navigate = useNavigate()
   return (
     <DataTable
       columns={columns}
       data={data.map((props, index) => ({ id: index, ...props }))}
+      onRowClick={(patientId) => navigate(patientURL(patientId))}
       isLoading={isLoading}
       onCreate={onCreate}
       onEdit={onEdit}

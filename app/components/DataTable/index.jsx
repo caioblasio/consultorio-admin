@@ -21,6 +21,7 @@ const DataTable = ({
   data = [],
   columns = [],
   isLoading = true,
+  onRowClick,
   onEdit,
   onCreate,
   onDelete,
@@ -109,6 +110,9 @@ const DataTable = ({
     <>
       <StyledDataGrid
         rows={data}
+        onRowClick={({ id }) => {
+          onRowClick(id)
+        }}
         columns={styledActionableColumns}
         autoHeight
         loading={isLoading}
