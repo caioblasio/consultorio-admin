@@ -3,14 +3,18 @@ import { ThemeProvider } from '@mui/material'
 
 import App from 'containers/App'
 import { AuthProvider } from 'contexts/Auth'
+import { DateProvider } from 'contexts/Date'
+
 import theme from 'theme'
 
 const Component = () => {
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <DateProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </DateProvider>
     </ThemeProvider>
   )
 }

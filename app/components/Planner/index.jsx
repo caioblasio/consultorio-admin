@@ -1,76 +1,76 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useMemo } from 'react'
 import { Grid, IconButton, Typography } from '@mui/material'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
 
-import { VISIBLE_MONTHS, MONTHS } from './constants'
+import { DateContext } from 'contexts/Date'
+import { VISIBLE_MONTHS } from './constants'
 import { StyledCircle } from './styles'
 
-const getMonthsRange = (startMonth) => {
-  const beforeYearIndex = MONTHS.length - Math.abs(startMonth)
-  const afterYearIndex = beforeYearIndex + VISIBLE_MONTHS - MONTHS.length
-
-  const rangeIndex = [
-    Math.max(0, beforeYearIndex),
-    Math.min(MONTHS.length, afterYearIndex),
-  ]
-
-  const range = [
-    ...(beforeYearIndex > 0 ? MONTHS.slice(beforeYearIndex) : []),
-    ...MONTHS.slice(rangeIndex[0], rangeIndex[1]),
-    ...(afterYearIndex > 0 ? MONTHS.slice(afterYearIndex - MONTHS.length) : []),
-  ]
-
-  return range
-}
-
-const Planner = ({
-  data = [],
-  startMonth = new Date().getMonth() - VISIBLE_MONTHS,
-}) => {
-  const [monthsPivot, setMonthsPivot] = useState(0)
+const Planner = ({ data = [], start }) => {
+  const [datePivot, setDatePivot] = useState(start || new Date())
+  const adapter = useContext(DateContext)
 
   useEffect(() => {
-    setMonthsPivot(startMonth)
-  }, [startMonth])
+    setDatePivot(start || new Date())
+  }, [start])
 
-  const currentDate = new Date()
-  const currentMonth = MONTHS[currentDate.getMonth()]
-  const visibleMonths = getMonthsRange(monthsPivot)
+  const visibleMonths = useMemo(() => {
+    const dates = []
+    const firstDate = new Date()
+    firstDate.setMonth(datePivot.getMonth() - VISIBLE_MONTHS + 1)
+
+    const currentDate = new Date()
+    for (let i = 0; i < VISIBLE_MONTHS; i += 1) {
+      const nextDate = new Date()
+      nextDate.setMonth(firstDate.getMonth() + i)
+      const isCurrent = currentDate.getMonth() === nextDate.getMonth()
+      const month = adapter.format(nextDate, 'MMMM')
+      dates.push(
+        <Grid item key={`month-${month}`} xs>
+          <Typography
+            display="block"
+            variant="caption"
+            color={isCurrent ? 'error.main' : 'grey.dark'}
+            textAlign="center"
+          >
+            {month}
+            {isCurrent && <StyledCircle color="error" fontSize="small" />}
+          </Typography>
+        </Grid>
+      )
+    }
+
+    return dates
+  }, [datePivot])
+
   return (
     <Grid container direction="column">
       <Grid item>
         <Grid container alignItems="center" spacing={2}>
           <Grid item>
             <Typography component="span">
-              {currentDate.getFullYear()}
+              {new Date(datePivot).getFullYear()}
             </Typography>
           </Grid>
           <Grid item>
             <IconButton
-              onClick={() => setMonthsPivot(monthsPivot - VISIBLE_MONTHS)}
+              onClick={() => {
+                const newDatePivot = new Date()
+                newDatePivot.setMonth(datePivot.getMonth() - 1)
+                setDatePivot(newDatePivot)
+              }}
             >
               <KeyboardArrowLeft />
             </IconButton>
           </Grid>
-          {visibleMonths.map((month) => {
-            const isCurrent = currentMonth === month
-            return (
-              <Grid item key={`month-${month}`} xs>
-                <Typography
-                  display="block"
-                  variant="caption"
-                  color={isCurrent ? 'error.main' : 'grey.dark'}
-                  textAlign="center"
-                >
-                  {month}
-                  {isCurrent && <StyledCircle color="error" fontSize="small" />}
-                </Typography>
-              </Grid>
-            )
-          })}
+          {visibleMonths}
           <Grid item>
             <IconButton
-              onClick={() => setMonthsPivot(monthsPivot + VISIBLE_MONTHS)}
+              onClick={() => {
+                const newDatePivot = new Date()
+                newDatePivot.setMonth(datePivot.getMonth() + 1)
+                setDatePivot(newDatePivot)
+              }}
             >
               <KeyboardArrowRight />
             </IconButton>
@@ -83,7 +83,6 @@ const Planner = ({
             <Grid item>
               <Typography>{label}</Typography>
             </Grid>
-            {}
           </Grid>
         </Grid>
       ))}
