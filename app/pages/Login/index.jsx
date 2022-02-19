@@ -63,7 +63,7 @@ const LoginPage = () => {
           </Box>
           {loginErrorCode && (
             <Box mb={3}>
-              <Alert severity="danger">
+              <Alert severity="error">
                 {LOGIN_ERRORS[loginErrorCode] || LOGIN_ERRORS.default}
               </Alert>
             </Box>
