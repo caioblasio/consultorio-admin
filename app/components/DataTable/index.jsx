@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Typography } from '@mui/material'
+import React, { useMemo, useState } from 'react'
+import { Paper, Typography } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDownRounded'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUpRounded'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
-
 import ConfirmModal from 'components/ConfirmModal'
 
 import {
@@ -42,7 +41,6 @@ const DataTable = ({
   const [row, setRow] = useState()
 
   const hasActions = onEdit || onDelete
-  const hasToolbar = onCreate || !disableSearch || !disableExport
   const styledColumns = useMemo(() => {
     return columns.map((props) => ({
       ...props,
@@ -108,51 +106,53 @@ const DataTable = ({
 
   return (
     <>
-      <StyledDataGrid
-        rows={data}
-        onRowClick={({ id }) => {
-          onRowClick(id)
-        }}
-        columns={styledActionableColumns}
-        autoHeight
-        loading={isLoading}
-        localeText={{
-          toolbarExport: exportLabel,
-          toolbarExportCSV: 'Descarregar ficheiro CSV',
-          toolbarExportPrint: 'Imprimir',
-        }}
-        disableColumnMenu
-        disableSelectionOnClick
-        hideFooter
-        components={{
-          Toolbar: DataTableToolbar,
-          LoadingOverlay: StyledLoader,
-          NoRowsOverlay: StyledNoData,
-          ColumnSortedDescendingIcon: (props) => (
-            <ArrowDropUpIcon {...props} color="primary" />
-          ),
-          ColumnSortedAscendingIcon: (props) => (
-            <ArrowDropDownIcon {...props} color="primary" />
-          ),
-          ExportIcon: CloudDownloadIcon,
-        }}
-        componentsProps={{
-          toolbar: {
-            disableExport,
-            onCreateClick: () => {
-              setMode(Mode.CREATE)
-              setRow(undefined)
+      <Paper>
+        <StyledDataGrid
+          rows={data}
+          onRowClick={({ id }) => {
+            onRowClick(id)
+          }}
+          columns={styledActionableColumns}
+          autoHeight
+          loading={isLoading}
+          localeText={{
+            toolbarExport: exportLabel,
+            toolbarExportCSV: 'Descarregar ficheiro CSV',
+            toolbarExportPrint: 'Imprimir',
+          }}
+          disableColumnMenu
+          disableSelectionOnClick
+          hideFooter
+          components={{
+            Toolbar: DataTableToolbar,
+            LoadingOverlay: StyledLoader,
+            NoRowsOverlay: StyledNoData,
+            ColumnSortedDescendingIcon: (props) => (
+              <ArrowDropUpIcon {...props} color="primary" />
+            ),
+            ColumnSortedAscendingIcon: (props) => (
+              <ArrowDropDownIcon {...props} color="primary" />
+            ),
+            ExportIcon: CloudDownloadIcon,
+          }}
+          componentsProps={{
+            toolbar: {
+              disableExport,
+              onCreateClick: () => {
+                setMode(Mode.CREATE)
+                setRow(undefined)
+              },
+              searchValue,
+              onSearchChange: (value) => onSearchChange(value),
+              components: { CreateButtonIcon },
+              localeText: {
+                createLabel,
+                searchPlaceholder,
+              },
             },
-            searchValue,
-            onSearchChange: (value) => onSearchChange(value),
-            components: { CreateButtonIcon },
-            localeText: {
-              createLabel,
-              searchPlaceholder,
-            },
-          },
-        }}
-      />
+          }}
+        />
+      </Paper>
       {onDelete && (
         <ConfirmModal
           open={mode === Mode.DELETE}

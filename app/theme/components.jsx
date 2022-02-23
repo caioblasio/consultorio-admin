@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { Slide } from '@mui/material'
+import { Slide, alpha } from '@mui/material'
 import { CheckCircle, Error, Warning, Info } from '@mui/icons-material'
 
 const LinkBehavior = forwardRef((props, ref) => {
@@ -21,6 +21,7 @@ const components = {
   MuiAppBar: {
     styleOverrides: {
       root: ({ theme }) => ({
+        backgroundColor: 'transparent',
         [theme.breakpoints.up('sm')]: {
           padding: theme.spacing(0, 8),
         },
@@ -50,7 +51,7 @@ const components = {
   },
   MuiButton: {
     defaultProps: {
-      color: 'grey',
+      color: 'grey.dark',
     },
     styleOverrides: {
       root: ({ ownerState, theme }) => ({
@@ -150,6 +151,19 @@ const components = {
   MuiIconButton: {
     defaultProps: {
       color: 'grey',
+    },
+    styleOverrides: {
+      root: ({ ownerState, theme }) => ({
+        ...(ownerState.color === 'grey' && {
+          color: theme.palette.grey.dark,
+          '&:hover': {
+            backgroundColor: alpha(
+              theme.palette.grey.dark,
+              theme.palette.action.hoverOpacity
+            ),
+          },
+        }),
+      }),
     },
   },
   MuiTextField: {

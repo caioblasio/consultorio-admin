@@ -15,7 +15,7 @@ const colors = {
   },
   grey: {
     light: '#EBEBEB',
-    main: '#8A9699',
+    main: '#CFCFCF',
     dark: '#8A9699',
   },
   error: {
@@ -47,6 +47,10 @@ const colors = {
     light: '#CCCDF6',
     main: '#7879F1',
     dark: '#5D5FEF',
+  },
+  background: {
+    default: '#FAFAFA',
+    paper: '#FFFFFF',
   },
 }
 
