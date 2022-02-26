@@ -16,7 +16,8 @@ export const StyledLoader = styled(Loader)({
 })
 
 export const StyledHeaderGridItem = styled(Grid)(({ theme }) => ({
-  padding: theme.spacing(3, 2),
+  padding: theme.spacing(3),
+  textAlign: 'right',
 }))
 
 export const StyledBodyGridItem = styled(Grid, {
