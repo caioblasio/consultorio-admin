@@ -1,22 +1,37 @@
-import React, { useCallback } from 'react'
-import { Grid, Typography, Paper } from '@mui/material'
+import React, { useCallback, useContext } from 'react'
+import { Grid, Typography } from '@mui/material'
 
+import { DateContext } from 'contexts/Date'
+import PlannerCell from 'components/Planner/Cell'
 import { VISIBLE_MONTHS } from 'components/Planner/constants'
-import { StyledHeaderGridItem, StyledBodyGridItem } from './styles'
+import {
+  StyledHeaderGridItem,
+  StyledBodyGridItem,
+  StyledLoader,
+  StyledPaper,
+} from './styles'
 
-const PlannerBody = ({ data, pivotDate, rows }) => {
+const PlannerBody = ({ data, pivotDate, rows, typeMapping, isLoading }) => {
+  const adapter = useContext(DateContext)
   const renderElements = useCallback(
     (id, isBottom) => {
       const elements = []
       const rowData = data.filter(({ rowId }) => rowId === id)
-      const firstDate = new Date(pivotDate.toISOString())
-      firstDate.setMonth(firstDate.getMonth() - VISIBLE_MONTHS + 1)
+      const firstMonth = new Date(pivotDate.toISOString())
+      firstMonth.setMonth(firstMonth.getMonth() - VISIBLE_MONTHS + 1)
 
       for (let i = 0; i < VISIBLE_MONTHS; i += 1) {
-        firstDate.setMonth(firstDate.getMonth() + i)
-        const startMonth = firstDate.getMonth()
+        const currentMonth = new Date(firstMonth.toISOString())
+        currentMonth.setMonth(currentMonth.getMonth() + i)
+        const startMonth = currentMonth.getMonth()
+        const startYear = currentMonth.getFullYear()
 
-        const item = rowData.find(({ month }) => month === startMonth)
+        const item = rowData.find(({ reference }) => {
+          return (
+            reference.getMonth() === startMonth &&
+            reference.getFullYear() === startYear
+          )
+        })
         elements.push(
           <StyledBodyGridItem
             item
@@ -26,7 +41,16 @@ const PlannerBody = ({ data, pivotDate, rows }) => {
             isRight={i === VISIBLE_MONTHS - 1}
             xs
           >
-            {item ? item.value.paymentType : ''}
+            {item ? (
+              <PlannerCell
+                status={{ ...typeMapping[item.status], id: item.status }}
+                title={item.holder}
+                text={item.type}
+                optionalText={adapter.format(item.createdAt, 'MM/yyyy')}
+              />
+            ) : (
+              <PlannerCell />
+            )}
           </StyledBodyGridItem>
         )
       }
@@ -37,16 +61,20 @@ const PlannerBody = ({ data, pivotDate, rows }) => {
   )
 
   return (
-    <Paper>
-      {rows.map(({ id, label }, index) => (
-        <Grid container key={`row-${id}`}>
-          <StyledHeaderGridItem item xs={2}>
-            <Typography component="span">{label}</Typography>
-          </StyledHeaderGridItem>
-          {renderElements(id, index === rows.length - 1)}
-        </Grid>
-      ))}
-    </Paper>
+    <StyledPaper>
+      {isLoading ? (
+        <StyledLoader />
+      ) : (
+        rows.map(({ id, label }, index) => (
+          <Grid container key={`row-${id}`}>
+            <StyledHeaderGridItem item xs={2}>
+              <Typography component="span">{label}</Typography>
+            </StyledHeaderGridItem>
+            {renderElements(id, index === rows.length - 1)}
+          </Grid>
+        ))
+      )}
+    </StyledPaper>
   )
 }
 

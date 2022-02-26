@@ -1,63 +1,78 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
+import { uniqBy } from 'lodash-es'
+
 import { homeURL } from 'configs/urls'
-import { fetchAllPayments } from 'api/database'
+import { fetchAllPayments, fetchAllPatients } from 'api/database'
 import DashPage from 'components/DashPage'
 import Planner from 'components/Planner'
 import { PaymentType } from './constants'
 
 const PaymentsPage = () => {
   const [payments, setPayments] = useState([])
+  const [patients, setPatients] = useState([])
+
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [alert, setAlert] = useState({ progress: false })
 
   useAsyncEffect(async (isActive) => {
+    const allPatients = await fetchAllPatients()
     const allPayments = await fetchAllPayments()
     if (!isActive()) {
       return
     }
 
     setPayments(allPayments)
+    setPatients(allPatients)
     setLoading(false)
   }, [])
+
+  const rows = useMemo(
+    () =>
+      patients.map(({ id, name }) => ({
+        id,
+        label: name,
+      })),
+    [patients]
+  )
+
+  const data = useMemo(
+    () =>
+      payments.map(
+        ({ patientId, status, reference, type, holder, createdAt }) => ({
+          rowId: patientId,
+          status,
+          reference,
+          type,
+          createdAt,
+          holder,
+        })
+      ),
+    [payments]
+  )
 
   return (
     <DashPage title="Pagamentos" backURL={homeURL()}>
       <Planner
-        rows={[
-          { id: '1', label: 'Paola Chupetas' },
-          { id: '2', label: 'Gonçalo Guedes' },
-        ]}
-        data={[
-          {
-            rowId: '1',
-            month: 2,
-            value: {
-              paymentType: PaymentType.DEBIT,
-              createdAt: new Date().toISOString(),
-              user: 'Pedro Gomes',
-            },
+        isLoading={loading}
+        rows={rows}
+        data={data}
+        typeMapping={{
+          paid: {
+            label: 'Pago',
+            color: 'success',
           },
-          {
-            rowId: '1',
-            month: 1,
-            value: {
-              paymentType: PaymentType.MONEY,
-              createdAt: new Date().toISOString(),
-              user: 'Pedro Gomes',
-            },
+          owing: {
+            label: 'Devendo',
+            color: 'error',
+            type: 'error',
           },
-          {
-            rowId: '1',
-            month: 3,
-            value: {
-              paymentType: PaymentType.PIX,
-              createdAt: new Date().toISOString(),
-              user: 'Pedro Gomes',
-            },
+          forgiven: {
+            label: 'Perdoado',
+            color: 'primary',
           },
-        ]}
+        }}
       />
     </DashPage>
   )

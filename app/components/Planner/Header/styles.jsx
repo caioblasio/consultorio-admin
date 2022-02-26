@@ -1,12 +1,19 @@
 import { Grid, IconButton, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 
-export const StyledYear = styled(Typography)(({ theme }) => ({
-  padding: theme.spacing(0, 8),
-}))
+export const StyledYearText = styled(Typography)({
+  display: 'block',
+  textAlign: 'center',
+})
 
 export const StyledHeaderMonthsGrid = styled(Grid)(() => ({
   position: 'relative',
+}))
+
+export const StyledMonthText = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== 'isCurrent',
+})(({ theme, isCurrent }) => ({
+  color: isCurrent ? theme.palette.error.main : theme.palette.grey.dark,
 }))
 
 export const StyledPreviousMonthButton = styled(IconButton)(({ theme }) => ({
@@ -14,7 +21,6 @@ export const StyledPreviousMonthButton = styled(IconButton)(({ theme }) => ({
   left: 0,
   top: '50%',
   transform: 'translateY(-50%)',
-  marginTop: theme.spacing(1),
 }))
 
 export const StyledNextMonthButton = styled(IconButton)(({ theme }) => ({
@@ -22,5 +28,4 @@ export const StyledNextMonthButton = styled(IconButton)(({ theme }) => ({
   right: 0,
   top: '50%',
   transform: 'translateY(-50%)',
-  marginTop: theme.spacing(1),
 }))

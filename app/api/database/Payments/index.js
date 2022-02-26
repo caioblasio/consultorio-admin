@@ -1,13 +1,20 @@
 import { db } from 'configs/firebase'
 import { collection, getDocs, query, where } from 'firebase/firestore'
-import { fetchActivePatients } from '../Patient'
+import { fetchActivePatients } from 'api/database/Patient'
 
 const COLLECTION_NAME = 'payments'
 
 export const fetchAllPayments = async () => {
   const q = query(collection(db, COLLECTION_NAME))
   const snapshot = await getDocs(q)
-  return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+  return snapshot.docs.map((doc) => {
+    const { createdAt, reference, ...rest } = doc.data()
+    return {
+      ...rest,
+      createdAt: createdAt.toDate(),
+      reference: reference.toDate(),
+    }
+  })
 }
 
 export const fetchPaymentsWithinRange = async (startDate, endDate) => {
@@ -17,7 +24,14 @@ export const fetchPaymentsWithinRange = async (startDate, endDate) => {
     where('reference', '<=', endDate)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map((doc) => doc.data())
+  return snapshot.docs.map((doc) => {
+    const { createdAt, reference, ...rest } = doc.data()
+    return {
+      ...rest,
+      createdAt: createdAt.toDate(),
+      reference: reference.toDate(),
+    }
+  })
 }
 
 export const fetchMissingPaymentsWithinRange = async (startDate, endDate) => {

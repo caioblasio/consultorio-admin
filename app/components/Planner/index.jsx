@@ -1,10 +1,17 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { Grid } from '@mui/material'
+import { Stack } from '@mui/material'
 
 import PlannerHeader from './Header'
+import PlannerLegend from './Legend'
 import PlannerBody from './Body'
 
-const Planner = ({ data = [], start, rows = [] }) => {
+const Planner = ({
+  data = [],
+  start,
+  rows = [],
+  typeMapping,
+  isLoading = false,
+}) => {
   const [pivotDate, setPivotDate] = useState(start || new Date())
   const currentDate = useMemo(() => new Date(), [])
 
@@ -13,18 +20,21 @@ const Planner = ({ data = [], start, rows = [] }) => {
   }, [start])
 
   return (
-    <Grid container direction="column" spacing={2}>
-      <Grid item>
-        <PlannerHeader
-          pivotDate={pivotDate}
-          currentDate={currentDate}
-          onPivotDateChange={setPivotDate}
-        />
-      </Grid>
-      <Grid item>
-        <PlannerBody pivotDate={pivotDate} data={data} rows={rows} />
-      </Grid>
-    </Grid>
+    <Stack spacing={2}>
+      <PlannerHeader
+        pivotDate={pivotDate}
+        currentDate={currentDate}
+        onPivotDateChange={setPivotDate}
+      />
+      <PlannerBody
+        pivotDate={pivotDate}
+        data={data}
+        rows={rows}
+        typeMapping={typeMapping}
+        isLoading={isLoading}
+      />
+      <PlannerLegend typeMapping={typeMapping} />
+    </Stack>
   )
 }
 

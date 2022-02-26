@@ -9,7 +9,7 @@ import { StyledContainer, StyledGrid } from './styles'
 const Page = ({ title, breadcrumb, children, backURL, className }) => {
   const navigate = useNavigate()
   return (
-    <StyledContainer maxWidth="lg" className={className}>
+    <StyledContainer className={className}>
       <StyledGrid container spacing={4} direction="column" wrap="nowrap">
         {(backURL || title || breadcrumb) && (
           <Grid item>

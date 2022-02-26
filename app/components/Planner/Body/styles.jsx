@@ -1,8 +1,22 @@
-import { Grid } from '@mui/material'
+import { Grid, Paper } from '@mui/material'
 import { styled } from '@mui/system'
 
+import Loader from 'components/Loader'
+
+export const StyledPaper = styled(Paper)(({ theme }) => ({
+  position: 'relative',
+  minHeight: theme.spacing(9),
+}))
+
+export const StyledLoader = styled(Loader)({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+})
+
 export const StyledHeaderGridItem = styled(Grid)(({ theme }) => ({
-  padding: theme.spacing(2),
+  padding: theme.spacing(3, 2),
 }))
 
 export const StyledBodyGridItem = styled(Grid, {

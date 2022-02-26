@@ -1,14 +1,15 @@
 import React, { useContext, useCallback } from 'react'
-import { Grid, Typography } from '@mui/material'
+import { Grid } from '@mui/material'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
 
 import { DateContext } from 'contexts/Date'
 import { VISIBLE_MONTHS } from 'components/Planner/constants'
 import {
   StyledHeaderMonthsGrid,
-  StyledYear,
+  StyledYearText,
   StyledPreviousMonthButton,
   StyledNextMonthButton,
+  StyledMonthText,
 } from './styles'
 
 const PlannerHeader = ({ pivotDate, currentDate, onPivotDateChange }) => {
@@ -26,14 +27,14 @@ const PlannerHeader = ({ pivotDate, currentDate, onPivotDateChange }) => {
       const month = adapter.format(nextDate, 'MMMM')
       elements.push(
         <Grid item key={`month-${month}`} xs>
-          <Typography
+          <StyledMonthText
             display="block"
             variant="caption"
-            color={isCurrent ? 'error.main' : 'grey.dark'}
+            isCurrent={isCurrent}
             textAlign="center"
           >
             {month}
-          </Typography>
+          </StyledMonthText>
         </Grid>
       )
     }
@@ -42,12 +43,14 @@ const PlannerHeader = ({ pivotDate, currentDate, onPivotDateChange }) => {
   }, [pivotDate])
 
   return (
-    <Grid container alignItems="center" spacing={2}>
+    <Grid container alignItems="center">
       <Grid item xs={2}>
-        <StyledYear component="span">{pivotDate.getFullYear()}</StyledYear>
+        <StyledYearText component="span">
+          {pivotDate.getFullYear()}
+        </StyledYearText>
       </Grid>
       <Grid item xs>
-        <StyledHeaderMonthsGrid container alignItems="center" spacing={2}>
+        <StyledHeaderMonthsGrid container alignItems="center">
           <StyledPreviousMonthButton
             onClick={() => {
               const newPivotDate = new Date(pivotDate.toISOString())
