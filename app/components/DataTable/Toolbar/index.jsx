@@ -1,52 +1,51 @@
-import React from 'react'
-import { Grid, Button } from '@mui/material'
-import { GridToolbarExport } from '@mui/x-data-grid'
-import AddIcon from '@mui/icons-material/Add'
-
-import SearchField from 'components/SearchField'
-
-import { StyledContainer } from './styles'
+import React, { useMemo } from 'react'
+import Toolbar from 'components/Toolbar'
+import { exportToCsv } from 'utils/export'
 
 const DataTableToolbar = ({
+  data,
+  columns,
   searchValue,
   onCreateClick,
-  disableExport = false,
+  disableExport,
   onSearchChange,
-  components: { CreateButtonIcon = AddIcon },
-  localeText: { createLabel = 'Criar', searchPlaceholder },
+  components,
+  localeText,
 }) => {
+  const csvData = useMemo(() => {
+    const newData = [
+      columns.map(({ headerName, field }) => headerName || field).join(';'),
+    ]
+
+    data.forEach((row) => {
+      const newRow = []
+
+      columns.forEach(({ field, valueFormatter }) => {
+        const value = row[field]
+        newRow.push(valueFormatter ? valueFormatter({ value }) : value)
+      })
+
+      newData.push(newRow.join(';'))
+    })
+
+    return newData.join('\r\n').trim()
+  }, [data, columns])
+
   return (
-    <StyledContainer>
-      <Grid container direction="row-reverse" spacing={2}>
-        {onCreateClick && (
-          <Grid item>
-            <Button
-              startIcon={<CreateButtonIcon />}
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={onCreateClick}
-            >
-              {createLabel}
-            </Button>
-          </Grid>
-        )}
-        {!disableExport && (
-          <Grid item>
-            <GridToolbarExport variant="outlined" color="grey" size="small" />
-          </Grid>
-        )}
-        {onSearchChange && (
-          <Grid item xs>
-            <SearchField
-              onChange={({ target }) => onSearchChange(target.value)}
-              value={searchValue}
-              placeholder={searchPlaceholder}
-            />
-          </Grid>
-        )}
-      </Grid>
-    </StyledContainer>
+    <Toolbar
+      searchValue={searchValue}
+      onCreateClick={onCreateClick}
+      disableExport={disableExport}
+      onSearchChange={onSearchChange}
+      components={components}
+      localeText={localeText}
+      onExportClick={() => {
+        const now = Date.now()
+        exportToCsv(csvData, {
+          filename: `gerado-${now}`,
+        })
+      }}
+    />
   )
 }
 

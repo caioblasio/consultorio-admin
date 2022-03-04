@@ -51,7 +51,7 @@ const components = {
   },
   MuiButton: {
     defaultProps: {
-      color: 'grey.dark',
+      color: 'grey',
     },
     styleOverrides: {
       root: ({ ownerState, theme }) => ({
@@ -68,6 +68,24 @@ const components = {
           ownerState.color === 'grey' && {
             color: theme.palette.grey.dark,
             borderColor: theme.palette.grey.dark,
+            '&:hover': {
+              borderColor: theme.palette.grey.dark,
+              backgroundColor: alpha(
+                theme.palette.grey.dark,
+                theme.palette.action.hoverOpacity
+              ),
+            },
+          }),
+
+        ...(ownerState.variant === 'text' &&
+          ownerState.color === 'grey' && {
+            color: theme.palette.grey.dark,
+            '&:hover': {
+              backgroundColor: alpha(
+                theme.palette.grey.dark,
+                theme.palette.action.hoverOpacity
+              ),
+            },
           }),
       }),
     },

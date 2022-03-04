@@ -9,6 +9,7 @@ const columns = [
     field: 'phone',
     headerName: 'N° Celular',
     width: 470,
+    valueFormatter: ({ value }) => value.join(', '),
     renderCell: ({ value }) => (
       <Stack direction="row" spacing={1}>
         {value.map((v) => (

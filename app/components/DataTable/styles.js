@@ -4,7 +4,7 @@ import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
 import Loader from 'components/Loader'
 import NoData from 'components/NoData'
 
-export const StyledDataGrid = styled(DataGrid)(() => ({
+export const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   border: 'none',
   '& .MuiDataGrid-columnHeaders': {
     border: 'none',

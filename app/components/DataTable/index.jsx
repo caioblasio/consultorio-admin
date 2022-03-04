@@ -26,7 +26,7 @@ const DataTable = ({
   onDelete,
   searchValue,
   onSearchChange,
-  disableExport,
+  disableExport = false,
   disableSearch = false,
   localeText: {
     deleteText,
@@ -124,7 +124,9 @@ const DataTable = ({
           disableSelectionOnClick
           hideFooter
           components={{
-            Toolbar: DataTableToolbar,
+            Toolbar: (props) => (
+              <DataTableToolbar {...props} data={data} columns={columns} />
+            ),
             LoadingOverlay: StyledLoader,
             NoRowsOverlay: StyledNoData,
             ColumnSortedDescendingIcon: (props) => (
@@ -137,6 +139,7 @@ const DataTable = ({
           }}
           componentsProps={{
             toolbar: {
+              disableSearch,
               disableExport,
               onCreateClick: () => {
                 setMode(Mode.CREATE)
@@ -153,6 +156,7 @@ const DataTable = ({
           }}
         />
       </Paper>
+
       {onDelete && (
         <ConfirmModal
           open={mode === Mode.DELETE}

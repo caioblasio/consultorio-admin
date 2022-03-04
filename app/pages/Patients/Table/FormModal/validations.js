@@ -1,4 +1,4 @@
-import { validateCPF } from 'utils'
+import { validateCPF } from 'utils/cpf'
 
 const VALIDATION_SCHEMA = {
   name: {
