@@ -9,7 +9,7 @@ import Switch from 'components/Switch'
 import Modal from 'components/Modal'
 import VALIDATION_SCHEMA from './validations'
 
-const FormModal = ({ data, onConfirm, onClose, open = false }) => {
+const PatientsFormModal = ({ data, onConfirm, onClose, open = false }) => {
   const defaultValues = {
     name: '',
     phone: [{ value: '' }],
@@ -154,4 +154,4 @@ const FormModal = ({ data, onConfirm, onClose, open = false }) => {
   )
 }
 
-export default FormModal
+export default PatientsFormModal

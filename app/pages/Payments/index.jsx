@@ -1,12 +1,10 @@
 import React, { useMemo, useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
-import { uniqBy } from 'lodash-es'
 
 import { homeURL } from 'configs/urls'
 import { fetchAllPayments, fetchAllPatients } from 'api/database'
 import DashPage from 'components/DashPage'
-import Planner from 'components/Planner'
-import { PaymentType } from './constants'
+import Planner from './Planner'
 
 const PaymentsPage = () => {
   const [payments, setPayments] = useState([])
@@ -58,21 +56,9 @@ const PaymentsPage = () => {
         isLoading={loading}
         rows={rows}
         data={data}
-        typeMapping={{
-          paid: {
-            label: 'Pago',
-            color: 'success',
-          },
-          owing: {
-            label: 'Devendo',
-            color: 'error',
-            type: 'error',
-          },
-          forgiven: {
-            label: 'Perdoado',
-            color: 'primary',
-          },
-        }}
+        searchValue={search}
+        onSearchChange={(newValue) => setSearch(newValue)}
+        onCreate={() => {}}
       />
     </DashPage>
   )

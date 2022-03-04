@@ -1,4 +1,7 @@
-export const exportToCsv = (data, { filename, withBom = true }) => {
+export const exportToCsv = (
+  data,
+  { filename = `gerado-${Date.now()}`, withBom = true } = {}
+) => {
   const blob = new Blob(
     [withBom ? new Uint8Array([0xef, 0xbb, 0xbf]) : '', data],
     {

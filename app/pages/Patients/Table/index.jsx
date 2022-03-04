@@ -4,9 +4,9 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { patientURL } from 'configs/urls'
 import DataTable from 'components/DataTable'
 import columns from './columns'
-import FormModal from './FormModal'
+import PatientsFormModal from './FormModal'
 
-const Table = ({
+const PatientsTable = ({
   data,
   isLoading,
   onCreate,
@@ -28,15 +28,15 @@ const Table = ({
       searchValue={searchValue}
       onSearchChange={onSearchChange}
       components={{
-        FormModal,
+        FormModal: PatientsFormModal,
         CreateButtonIcon: PersonAddIcon,
       }}
       localeText={{
         createLabel: 'Criar Paciente',
-        searchPlaceholder: 'Buscar por nome, celular ou CPF',
+        searchPlaceholder: 'Buscar por nome, celular ou CPF...',
       }}
     />
   )
 }
 
-export default Table
+export default PatientsTable

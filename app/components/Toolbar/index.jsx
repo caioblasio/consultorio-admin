@@ -18,7 +18,7 @@ const Toolbar = ({
   },
   localeText: {
     createLabel = 'Criar',
-    searchPlaceholder,
+    searchPlaceholder = 'Buscar...',
     exportLabel = 'Exportar',
   },
 }) => {

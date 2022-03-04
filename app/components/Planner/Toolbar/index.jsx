@@ -2,9 +2,9 @@ import React, { useMemo } from 'react'
 import Toolbar from 'components/Toolbar'
 import { exportToCsv } from 'utils/export'
 
-const DataTableToolbar = ({
+const PlannerToolbar = ({
   data,
-  columns,
+  rows,
   searchValue,
   onCreateClick,
   disableExport,
@@ -14,13 +14,13 @@ const DataTableToolbar = ({
 }) => {
   const csvData = useMemo(() => {
     const newData = [
-      columns.map(({ headerName, field }) => headerName || field).join(';'),
+      rows.map(({ headerName, field }) => headerName || field).join(';'),
     ]
 
     data.forEach((row) => {
       const newRow = []
 
-      columns.forEach(({ field, valueFormatter }) => {
+      rows.forEach(({ field, valueFormatter }) => {
         const value = row[field]
         newRow.push(valueFormatter ? valueFormatter({ value }) : value)
       })
@@ -29,7 +29,7 @@ const DataTableToolbar = ({
     })
 
     return newData.join('\r\n').trim()
-  }, [data, columns])
+  }, [data, rows])
 
   return (
     <Toolbar
@@ -44,4 +44,4 @@ const DataTableToolbar = ({
   )
 }
 
-export default DataTableToolbar
+export default PlannerToolbar

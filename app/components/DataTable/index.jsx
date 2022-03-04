@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 import ConfirmModal from 'components/ConfirmModal'
+import { Mode } from 'constants/mode'
 
 import {
   StyledLoader,
@@ -14,7 +15,6 @@ import {
   StyledGridActionsCellItem,
 } from './styles'
 import DataTableToolbar from './Toolbar'
-import { Mode } from './constants'
 
 const DataTable = ({
   data = [],
@@ -32,7 +32,7 @@ const DataTable = ({
     deleteText,
     deleteTitle,
     createLabel,
-    exportLabel = 'Exportar',
+    exportLabel,
     searchPlaceholder,
   },
   components: { FormModal, CreateButtonIcon },
@@ -117,8 +117,6 @@ const DataTable = ({
           loading={isLoading}
           localeText={{
             toolbarExport: exportLabel,
-            toolbarExportCSV: 'Descarregar ficheiro CSV',
-            toolbarExportPrint: 'Imprimir',
           }}
           disableColumnMenu
           disableSelectionOnClick
