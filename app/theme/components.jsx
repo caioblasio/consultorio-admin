@@ -192,17 +192,13 @@ const components = {
     styleOverrides: {
       root: ({ ownerState, theme }) => ({
         ...(ownerState.variant === 'outlined' && {
+          '& .MuiFormHelperText-root': {
+            textTransform: 'none',
+          },
           '& .MuiInputBase-root': {
             backgroundColor: theme.palette.grey.light,
             borderRadius: theme.shape.borderRadius,
           },
-
-          '& .MuiInputLabel-outlined:not(.Mui-focused):not(.MuiFormLabel-filled)':
-            {
-              transform: `translate(${theme.spacing(2)}, ${theme.spacing(
-                1
-              )}) scale(1)`,
-            },
 
           '& .MuiOutlinedInput-root.MuiInputBase-root': {
             '& .MuiOutlinedInput-notchedOutline': {

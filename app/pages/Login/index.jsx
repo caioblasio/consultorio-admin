@@ -1,29 +1,20 @@
 import React, { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { Stack, Box, CardContent, Typography } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { EmailOutlined, LockOutlined } from '@mui/icons-material'
+
+import TextField from 'components/TextField'
+import PasswordField from 'components/PasswordField'
 import AuthPage from 'components/AuthPage'
 import Alert from 'components/Alert'
-import { useNavigate } from 'react-router-dom'
-import { Stack, Box, CardContent, Typography, TextField } from '@mui/material'
-import { LoadingButton } from '@mui/lab'
-import Media from './Media'
-import { StyledCard, StyledLogoTitle } from './styles'
 import { signIn } from 'api/authentication'
 import { homeURL } from 'configs/urls'
+import Media from './Media'
+import { StyledCard, StyledLogoTitle } from './styles'
 import { LOGIN_ERRORS } from './constants'
-
-const VALIDATION_SCHEMA = {
-  email: {
-    pattern: {
-      value:
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      message: 'Email inválido',
-    },
-    required: 'Este campo é obrigatório',
-  },
-  password: {
-    required: 'Este campo é obrigatório',
-  },
-}
+import VALIDATION_SCHEMA from './validations'
 
 const LoginPage = () => {
   const navigate = useNavigate()
@@ -81,6 +72,7 @@ const LoginPage = () => {
                       type="email"
                       error={invalid}
                       helperText={error?.message}
+                      startAdornment={<EmailOutlined />}
                       {...field}
                     />
                   )}
@@ -90,11 +82,11 @@ const LoginPage = () => {
                   control={control}
                   rules={{ ...VALIDATION_SCHEMA.password }}
                   render={({ field, fieldState: { invalid, error } }) => (
-                    <TextField
+                    <PasswordField
                       label="Senha"
-                      type="password"
                       error={invalid}
                       helperText={error?.message}
+                      startAdornment={<LockOutlined />}
                       {...field}
                     />
                   )}

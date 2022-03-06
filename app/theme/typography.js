@@ -49,6 +49,10 @@ const typography = {
     letterSpacing: '0.04rem',
     textTransform: 'uppercase',
   },
+  helperText: {
+    fontSize: '0.675rem',
+    letterSpacing: '0.04rem',
+  },
   button: {
     fontWeight: 600,
     fontSize: '0.875rem',
