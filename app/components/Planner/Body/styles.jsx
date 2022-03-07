@@ -6,7 +6,7 @@ import Loader from 'components/Loader'
 
 export const StyledPaper = styled(Paper)(({ theme }) => ({
   position: 'relative',
-  minHeight: theme.spacing(12),
+  minHeight: theme.spacing(16),
 }))
 
 export const StyledLoader = styled(Loader)({
@@ -35,5 +35,4 @@ export const StyledNoData = styled(NoData)(({ theme }) => ({
   left: '50%',
   top: '50%',
   transform: 'translate(-50%, -50%)',
-  marginTop: theme.spacing(2),
 }))

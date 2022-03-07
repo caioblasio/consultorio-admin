@@ -1,7 +1,7 @@
 <svg id="dots" width="132px" height="58px" viewBox="0 0 132 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 <style>
     .dot {
-        animation: load 1s infinite ease-in-out;
+        animation: load 0.75s infinite ease-in-out;
         fill: #00A0C3;
     }
 
@@ -18,7 +18,7 @@
             transform: translateY(0);
         }
         50% {
-            transform: translateY(-24px);
+            transform: translateY(-16px);
         }
         100% {
             transform: translateY(0);

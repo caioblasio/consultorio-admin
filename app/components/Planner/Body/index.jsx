@@ -65,7 +65,7 @@ const PlannerBody = ({ data, pivotDate, rows, typeMapping, isLoading }) => {
     <StyledPaper>
       {isLoading ? (
         <StyledLoader />
-      ) : data.length === 0 ? (
+      ) : data.length > 0 ? (
         <StyledNoData />
       ) : (
         rows.map(({ id, label }, index) => (

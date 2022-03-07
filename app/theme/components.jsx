@@ -196,11 +196,12 @@ const components = {
             textTransform: 'none',
           },
           '& .MuiInputBase-root': {
-            backgroundColor: theme.palette.grey.light,
             borderRadius: theme.shape.borderRadius,
           },
 
           '& .MuiOutlinedInput-root.MuiInputBase-root': {
+            backgroundColor: theme.palette.grey.light,
+
             '& .MuiOutlinedInput-notchedOutline': {
               borderWidth: 0,
             },

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
-import { Stack, TextField, Grid, Button, IconButton } from '@mui/material'
+import { Stack, Grid, Button, IconButton } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import { RemoveCircleOutlined } from '@mui/icons-material'
 import InputMask from 'react-input-mask'
 import { useForm, Controller, useFieldArray } from 'react-hook-form'
 
+import TextField from 'components/TextField'
 import Switch from 'components/Switch'
 import Modal from 'components/Modal'
 import VALIDATION_SCHEMA from './validations'
@@ -102,7 +103,7 @@ const PatientsFormModal = ({ data, onConfirm, onClose, open = false }) => {
                 {index !== 0 && (
                   <Grid item>
                     <IconButton onClick={() => remove(index)}>
-                      <RemoveCircleOutlineIcon />
+                      <RemoveCircleOutlined />
                     </IconButton>
                   </Grid>
                 )}
