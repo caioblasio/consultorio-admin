@@ -21,7 +21,7 @@ const components = {
   MuiAppBar: {
     styleOverrides: {
       root: ({ theme }) => ({
-        backgroundColor: 'transparent',
+        backgroundColor: theme.palette.background.default,
         [theme.breakpoints.up('sm')]: {
           padding: theme.spacing(0, 8),
         },
@@ -227,6 +227,29 @@ const components = {
     styleOverrides: {
       root: ({ theme }) => ({
         color: theme.palette.grey.dark,
+      }),
+    },
+  },
+  MuiBreadcrumbs: {
+    styleOverrides: {
+      separator: ({ theme }) => ({
+        fontSize: theme.typography.h3.fontSize,
+      }),
+      ol: {
+        alignItems: 'baseline',
+      },
+    },
+  },
+  MuiToggleButton: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        '&.Mui-selected': {
+          color: theme.palette.common.white,
+          backgroundColor: theme.palette.grey.dark,
+          '&:hover': {
+            backgroundColor: theme.palette.grey.dark,
+          },
+        },
       }),
     },
   },

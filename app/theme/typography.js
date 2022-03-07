@@ -27,6 +27,12 @@ const typography = {
     fontSize: '1.75rem',
     letterSpacing: '0.05rem',
   },
+  h3: {
+    fontFamily: 'Nunito Sans',
+    fontWeight: 400,
+    fontSize: '1.5rem',
+    letterSpacing: '0.05rem',
+  },
   title1: {
     fontWeight: 600,
     fontSize: '1.05rem',

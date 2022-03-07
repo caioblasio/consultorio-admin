@@ -25,7 +25,7 @@ const Breadcrumbs = ({ current }) => {
             {current || breadcrumbNameMap[to]}
           </Typography>
         ) : (
-          <Link key={to} color="inherit" to={to}>
+          <Link key={to} color="inherit" to={to} variant="h3">
             {breadcrumbNameMap[to]}
           </Link>
         )

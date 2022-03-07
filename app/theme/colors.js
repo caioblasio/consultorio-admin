@@ -52,6 +52,10 @@ const colors = {
     default: '#FAFAFA',
     paper: '#FFFFFF',
   },
+  text: {
+    primary: '#2C2E2F',
+    secondary: '#8A9699',
+  },
 }
 
 export default colors

@@ -34,6 +34,29 @@ export const fetchPaymentsWithinRange = async (startDate, endDate) => {
   })
 }
 
+export const fetchPaymentsWithinRangeByPatient = async (
+  patientId,
+  startDate,
+  endDate
+) => {
+  const q = query(
+    collection(db, COLLECTION_NAME),
+    where('patientId', '==', patientId),
+    where('reference', '>=', startDate),
+    where('reference', '<=', endDate)
+  )
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map((doc) => {
+    const data = doc.data()
+    return {
+      ...data,
+      reference: data.reference.toDate(),
+      createdAt: data.createdAt.toDate(),
+      madeAt: data.madeAt.toDate(),
+    }
+  })
+}
+
 export const fetchMissingPaymentsWithinRange = async (startDate, endDate) => {
   const activePatients = await fetchActivePatients()
   const currentMonthAndYearPayments = await fetchPaymentsWithinRange(
