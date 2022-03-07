@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { useTheme } from '@mui/system'
-import WarningIcon from '@mui/icons-material/Warning'
+import { WarningRounded } from '@mui/icons-material'
 import { fetchMissingPaymentsWithinRange } from 'api/database'
 import { paymentsURL } from 'configs/urls'
 
@@ -30,7 +30,7 @@ const PaymentsCard = () => {
       color="warning"
       data={count}
       isLoading={loading}
-      icon={<WarningIcon />}
+      icon={<WarningRounded />}
       navigateTo={paymentsURL()}
     />
   )

@@ -16,9 +16,9 @@ const HomePage = () => {
     <DashPage title={title}>
       <StyledGrid container spacing={6} alignItems="stretch">
         <Grid item xs={8}>
-          <StyledGrid container spacing={2} direction="column" wrap="nowrap">
+          <StyledGrid container spacing={3} direction="column" wrap="nowrap">
             <Grid item xs={6}>
-              <StyledGrid container spacing={2}>
+              <StyledGrid container spacing={3}>
                 <Grid item xs={6}>
                   <PaymentsCard />
                 </Grid>

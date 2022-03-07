@@ -1,6 +1,6 @@
 const colors = {
   primary: {
-    main: '#0799B9',
+    main: '#00A0C3',
     light: '#D2EAF5',
     dark: '#097289',
   },
@@ -29,9 +29,9 @@ const colors = {
     dark: '#6BAB19',
   },
   warning: {
-    light: '#F8F1BA',
-    main: '#E2E53E',
-    dark: '#908414',
+    light: '#F9F1D6',
+    main: '#F4D670',
+    dark: '#A5861F',
   },
   info: {
     light: '#D2EAF5',
@@ -44,9 +44,9 @@ const colors = {
     dark: '#EF5DA8',
   },
   purple: {
-    light: '#CCCDF6',
-    main: '#7879F1',
-    dark: '#5D5FEF',
+    light: '#DDD4F0',
+    main: '#9A73EE',
+    dark: '#664D99',
   },
   background: {
     default: '#FAFAFA',

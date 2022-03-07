@@ -5,6 +5,7 @@ import {
   StyledSkeleton,
   StyledCard,
   StyledCardContent,
+  StyledTitle,
 } from './styles'
 
 const DataCard = ({
@@ -28,9 +29,9 @@ const DataCard = ({
         <StyledCard onClick={onClick} className={className} color={color}>
           <CardActionArea>
             <StyledCardContent>
-              <Typography variant="subtitle1" component="span">
+              <StyledTitle color={color} variant="subtitle1" component="span">
                 {title}
-              </Typography>
+              </StyledTitle>
               <Typography variant="h2" component="p">
                 {data}
               </Typography>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
-import TodayIcon from '@mui/icons-material/Today'
+import { TodayRounded } from '@mui/icons-material'
 import { fetchPatientsCount } from 'api/database'
 
 import DataCard from 'containers/DataCard'
@@ -21,7 +21,7 @@ const SchedulesCard = () => {
       color="purple"
       data={count}
       isLoading={loading}
-      icon={<TodayIcon />}
+      icon={<TodayRounded />}
     />
   )
 }
