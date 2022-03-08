@@ -42,14 +42,14 @@ const PatientsPage = () => {
   const onCreatePatient = async (patient) => {
     try {
       setLoading(true)
-      await createPatient(patient)
-      const newPatients = [...patients, patient]
+      const createdPatient = await createPatient(patient)
+      const newPatients = [...patients, createdPatient]
       setPatients(newPatients)
       setAlert({
         title: 'Sucesso!',
         message: (
           <>
-            Paciente <strong>{patient.name}</strong> criado com sucesso.
+            Paciente <strong>{createdPatient.name}</strong> criado com sucesso.
           </>
         ),
         severity: 'success',
