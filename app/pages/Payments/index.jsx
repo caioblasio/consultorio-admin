@@ -40,18 +40,20 @@ const PaymentsPage = () => {
       payments.map(
         ({ patientId, status, reference, type, holder, createdAt }) => ({
           rowId: patientId,
+          columnId: reference,
           status,
-          reference,
-          type,
-          createdAt,
-          holder,
+          data: {
+            type,
+            createdAt,
+            holder,
+          },
         })
       ),
     [payments]
   )
 
   return (
-    <DashPage title="Pagamentos" backURL={homeURL()}>
+    <DashPage title="Pagamentos">
       <Planner
         isLoading={loading}
         rows={rows}

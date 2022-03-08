@@ -12,7 +12,15 @@ import {
   StyledNoData,
 } from './styles'
 
-const PlannerBody = ({ data, pivotDate, rows, typeMapping, isLoading }) => {
+const PlannerBody = ({
+  data,
+  pivotDate,
+  rows,
+  typeMapping,
+  isLoading,
+  onCellClick,
+  components: { CellRenderer },
+}) => {
   const adapter = useContext(DateContext)
   const renderElements = useCallback(
     (id, isBottom) => {
@@ -27,12 +35,15 @@ const PlannerBody = ({ data, pivotDate, rows, typeMapping, isLoading }) => {
         const startMonth = currentMonth.getMonth()
         const startYear = currentMonth.getFullYear()
 
-        const item = rowData.find(({ reference }) => {
+        const item = rowData.find(({ columnId }) => {
           return (
-            reference.getMonth() === startMonth &&
-            reference.getFullYear() === startYear
+            columnId.getMonth() === startMonth &&
+            columnId.getFullYear() === startYear
           )
         })
+        const status = item
+          ? { ...typeMapping[item.status], id: item.status }
+          : undefined
         elements.push(
           <StyledBodyGridItem
             item
@@ -44,13 +55,19 @@ const PlannerBody = ({ data, pivotDate, rows, typeMapping, isLoading }) => {
           >
             {item ? (
               <PlannerCell
-                status={{ ...typeMapping[item.status], id: item.status }}
-                title={item.holder}
-                text={item.type}
-                optionalText={adapter.format(item.createdAt, 'MM/yyyy')}
-              />
+                status={status}
+                onClick={() =>
+                  onCellClick({ rowId: id, columnId: currentMonth }, item)
+                }
+              >
+                <CellRenderer data={item.data} status={status} />
+              </PlannerCell>
             ) : (
-              <PlannerCell />
+              <PlannerCell
+                onClick={() =>
+                  onCellClick({ rowId: id, columnId: currentMonth })
+                }
+              />
             )}
           </StyledBodyGridItem>
         )
@@ -65,7 +82,7 @@ const PlannerBody = ({ data, pivotDate, rows, typeMapping, isLoading }) => {
     <StyledPaper>
       {isLoading ? (
         <StyledLoader />
-      ) : data.length > 0 ? (
+      ) : data.length === 0 ? (
         <StyledNoData />
       ) : (
         rows.map(({ id, label }, index) => (

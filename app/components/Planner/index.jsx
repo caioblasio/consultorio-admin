@@ -18,7 +18,7 @@ const Planner = ({
   onSearchChange,
   typeMapping,
   isLoading = false,
-  components: { FormModal, CreateButtonIcon },
+  components: { FormModal, CreateButtonIcon, CellRenderer },
   localeText: {
     deleteText,
     deleteTitle,
@@ -71,6 +71,18 @@ const Planner = ({
           rows={rows}
           typeMapping={typeMapping}
           isLoading={isLoading}
+          components={{ CellRenderer }}
+          onCellClick={({ rowId, columnId }, data) => {
+            const cellPosition = { rowId, columnId }
+            if (!data) {
+              setMode(Mode.CREATE)
+              setCell({ position: cellPosition })
+              return
+            }
+
+            setMode(Mode.EDIT)
+            setCell({ position: cellPosition, data })
+          }}
         />
         <PlannerLegend typeMapping={typeMapping} />
       </Stack>
@@ -96,7 +108,8 @@ const Planner = ({
             await call(params)
           }}
           onClose={handleClose}
-          data={cell}
+          data={cell?.data}
+          position={cell?.position}
         />
       )}
     </>

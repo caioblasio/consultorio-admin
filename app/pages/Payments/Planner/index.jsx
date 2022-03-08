@@ -4,6 +4,7 @@ import { AddShoppingCartOutlined } from '@mui/icons-material'
 import Planner from 'components/Planner'
 
 import PaymentsFormModal from './FormModal'
+import PaymentsCell from './Cell'
 
 const PaymentsPlanner = ({
   data,
@@ -24,6 +25,7 @@ const PaymentsPlanner = ({
       components={{
         CreateButtonIcon: AddShoppingCartOutlined,
         FormModal: PaymentsFormModal,
+        CellRenderer: PaymentsCell,
       }}
       localeText={{
         searchPlaceholder: 'Buscar por paciente...',

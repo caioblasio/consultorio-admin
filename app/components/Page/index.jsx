@@ -6,21 +6,14 @@ import Breadcrumbs from 'containers/Breadcrumbs'
 
 import { StyledContainer, StyledGrid } from './styles'
 
-const Page = ({ title, breadcrumb, children, backURL, className }) => {
+const Page = ({ title, breadcrumb, children, className }) => {
   const navigate = useNavigate()
   return (
     <StyledContainer className={className}>
       <StyledGrid container spacing={4} direction="column" wrap="nowrap">
-        {(backURL || title || breadcrumb) && (
+        {(title || breadcrumb) && (
           <Grid item>
             <Grid container spacing={2} alignItems="center">
-              {backURL && (
-                <Grid item>
-                  <IconButton onClick={() => navigate(backURL)}>
-                    <ArrowBackIcon fontSize="large" />
-                  </IconButton>
-                </Grid>
-              )}
               {title && (
                 <Grid item>
                   <Typography variant="h1">{title}</Typography>

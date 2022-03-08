@@ -15,6 +15,7 @@ import { StyledYearItem } from './styles'
 
 const PaymentsFormModal = ({
   data,
+  position,
   onConfirm,
   onClose,
   pivotDate,
@@ -22,7 +23,7 @@ const PaymentsFormModal = ({
 }) => {
   const defaultValues = {
     holder: '',
-    patientId: '',
+    rowId: '',
     referenceMonth: pivotDate.getMonth() + 1,
     referenceYear: pivotDate.getFullYear(),
     status: 'paid',
@@ -34,18 +35,25 @@ const PaymentsFormModal = ({
   })
 
   useEffect(() => {
-    let newData = defaultValues
+    let newData = { ...defaultValues }
+    if (position) {
+      newData = {
+        ...newData,
+        referenceMonth: position.columnId.getMonth() + 1,
+        referenceYear: position.columnId.getFullYear(),
+        rowId: position.rowId,
+      }
+    }
+
     if (data) {
       newData = {
+        ...newData,
         ...data,
-        ...(data.phone
-          ? { phone: data.phone.map((value) => ({ value })) }
-          : {}),
       }
     }
 
     reset(newData)
-  }, [data])
+  }, [data, position])
 
   const handleConfirm = (newData) => {
     const submitData = {
@@ -76,7 +84,7 @@ const PaymentsFormModal = ({
       <form>
         <Stack spacing={2}>
           <Controller
-            name="patientId"
+            name="rowId"
             control={control}
             rules={{ ...VALIDATION_SCHEMA.patientId }}
             render={({ field }) => (

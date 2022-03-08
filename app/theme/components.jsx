@@ -21,7 +21,8 @@ const components = {
   MuiAppBar: {
     styleOverrides: {
       root: ({ theme }) => ({
-        backgroundColor: theme.palette.background.default,
+        backgroundColor: alpha(theme.palette.background.default, 0.75),
+        backdropFilter: `blur(${theme.spacing(2)})`,
         [theme.breakpoints.up('sm')]: {
           padding: theme.spacing(0, 8),
         },

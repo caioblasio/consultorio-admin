@@ -16,7 +16,7 @@ import {
 } from '@mui/icons-material'
 import { fetchPaymentsWithinRangeByPatient } from 'api/database'
 import { DateContext } from 'contexts/Date'
-import { formatCurrency } from 'utils'
+import { formatCurrency } from 'utils/currency'
 import Card from 'components/Card'
 
 const PaymentsCard = ({ patient }) => {
