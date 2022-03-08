@@ -24,7 +24,7 @@ const PaymentsPlanner = ({
       onCreate={onCreate}
       components={{
         CreateButtonIcon: AddShoppingCartOutlined,
-        FormModal: PaymentsFormModal,
+        FormModal: (props) => <PaymentsFormModal {...props} patients={rows} />,
         CellRenderer: PaymentsCell,
       }}
       localeText={{

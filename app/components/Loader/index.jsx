@@ -5,7 +5,7 @@ import Loading from 'assets/svg/loading_dots.svg'
 const Loader = ({ className, size = 'medium' }) => (
   <img
     src={Loading}
-    width={size === 'medium' ? 48 : 32}
+    width={size === 'medium' ? 48 : 24}
     className={className}
   />
 )

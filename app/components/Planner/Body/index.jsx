@@ -1,7 +1,6 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useCallback } from 'react'
 import { Grid, Typography } from '@mui/material'
 
-import { DateContext } from 'contexts/Date'
 import PlannerCell from 'components/Planner/Cell'
 import { VISIBLE_MONTHS } from 'components/Planner/constants'
 import {
@@ -21,7 +20,6 @@ const PlannerBody = ({
   onCellClick,
   components: { CellRenderer },
 }) => {
-  const adapter = useContext(DateContext)
   const renderElements = useCallback(
     (id, isBottom) => {
       const elements = []
@@ -57,7 +55,7 @@ const PlannerBody = ({
               <PlannerCell
                 status={status}
                 onClick={() =>
-                  onCellClick({ rowId: id, columnId: currentMonth }, item)
+                  onCellClick({ rowId: id, columnId: currentMonth }, item.data)
                 }
               >
                 <CellRenderer data={item.data} status={status} />

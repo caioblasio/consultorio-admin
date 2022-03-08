@@ -72,16 +72,16 @@ const Planner = ({
           typeMapping={typeMapping}
           isLoading={isLoading}
           components={{ CellRenderer }}
-          onCellClick={({ rowId, columnId }, data) => {
+          onCellClick={({ rowId, columnId }, newData) => {
             const cellPosition = { rowId, columnId }
-            if (!data) {
+            if (!newData) {
               setMode(Mode.CREATE)
               setCell({ position: cellPosition })
               return
             }
 
             setMode(Mode.EDIT)
-            setCell({ position: cellPosition, data })
+            setCell({ position: cellPosition, data: newData })
           }}
         />
         <PlannerLegend typeMapping={typeMapping} />

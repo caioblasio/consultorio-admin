@@ -5,31 +5,36 @@ import { useForm, Controller } from 'react-hook-form'
 
 import TextField from 'components/TextField'
 import CurrencyField from 'components/CurrencyField'
-import Autocomplete from 'components/Autocomplete'
 import Modal from 'components/Modal'
 import MonthsField from 'components/MonthsField'
 import SelectField from 'components/SelectField'
+import Autocomplete from 'components/Autocomplete'
 
 import VALIDATION_SCHEMA from './validations'
 import { StyledYearItem } from './styles'
+import { useMemo } from 'react'
 
 const PaymentsFormModal = ({
   data,
+  patients,
   position,
   onConfirm,
   onClose,
   pivotDate,
   open = false,
 }) => {
-  const defaultValues = {
-    holder: '',
-    rowId: '',
-    referenceMonth: pivotDate.getMonth() + 1,
-    referenceYear: pivotDate.getFullYear(),
-    status: 'paid',
-    type: '',
-    value: 80,
-  }
+  const defaultValues = useMemo(() => {
+    return {
+      holder: '',
+      patient: '',
+      referenceMonth: pivotDate.getMonth() + 1,
+      referenceYear: pivotDate.getFullYear(),
+      status: 'paid',
+      type: '',
+      value: 80,
+    }
+  }, [pivotDate])
+
   const { control, handleSubmit, reset } = useForm({
     defaultValues,
   })
@@ -37,11 +42,12 @@ const PaymentsFormModal = ({
   useEffect(() => {
     let newData = { ...defaultValues }
     if (position) {
+      const patient = patients.find(({ id }) => id === position.rowId)
       newData = {
         ...newData,
+        patient,
         referenceMonth: position.columnId.getMonth() + 1,
         referenceYear: position.columnId.getFullYear(),
-        rowId: position.rowId,
       }
     }
 
@@ -84,13 +90,14 @@ const PaymentsFormModal = ({
       <form>
         <Stack spacing={2}>
           <Controller
-            name="rowId"
+            name="patient"
             control={control}
             rules={{ ...VALIDATION_SCHEMA.patientId }}
             render={({ field }) => (
               <Autocomplete
-                startAdornment={<PersonRounded />}
                 label="Paciente"
+                startAdornment={<PersonRounded />}
+                options={patients}
                 {...field}
               />
             )}
