@@ -8,10 +8,13 @@ export const StyledCard = styled(Card, {
 }))
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
-  paddingBottom: theme.spacing(6),
+  paddingTop: theme.spacing(4),
+  paddingBottom: theme.spacing(4),
+  paddingLeft: theme.spacing(6),
+  paddingRight: theme.spacing(6),
 }))
 
 export const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
-  height: theme.spacing(15),
+  height: theme.spacing(90),
 }))

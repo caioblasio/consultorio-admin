@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { Fragment, useState, useContext } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { capitalize } from 'lodash-es'
 import {
@@ -48,8 +48,6 @@ const PaymentsCard = ({ patient }) => {
     setPayments(payments)
     setLoading(false)
   }, [])
-
-  console.log(payments)
 
   const getPaymentColor = (status) => {
     const colors = {
@@ -117,7 +115,7 @@ const PaymentsCard = ({ patient }) => {
 
     result = [
       ...result,
-      <>
+      <Fragment key={`total-${report}`}>
         <Divider />
         <Grid container justifyContent="space-between">
           <Grid item>
@@ -129,14 +127,14 @@ const PaymentsCard = ({ patient }) => {
             </Typography>
           </Grid>
         </Grid>
-      </>,
+      </Fragment>,
     ]
 
     return result
   }
 
   return (
-    <Card title="Pagamentos" color="success">
+    <Card title="Pagamentos" color="success" isLoading={loading}>
       <Stack spacing={2}>
         <ToggleButtonGroup
           value={report}

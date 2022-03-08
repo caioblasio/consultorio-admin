@@ -1,10 +1,20 @@
 import React from 'react'
-import Active from 'components/Active'
-
 import { Stack, Chip } from '@mui/material'
+import { patientURL } from 'configs/urls'
+import Active from 'components/Active'
+import Link from 'components/Link'
 
 const columns = [
-  { field: 'name', headerName: 'Nome Completo', width: 250 },
+  {
+    field: 'name',
+    headerName: 'Nome Completo',
+    width: 250,
+    renderCell: ({ value, id }) => (
+      <Link underline="always" to={patientURL(id)}>
+        {value}
+      </Link>
+    ),
+  },
   {
     field: 'phone',
     headerName: 'N° Celular',
