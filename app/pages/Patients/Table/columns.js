@@ -22,8 +22,8 @@ const columns = [
     valueFormatter: ({ value }) => value.join(', '),
     renderCell: ({ value }) => (
       <Stack direction="row" spacing={1}>
-        {value.map((v) => (
-          <Chip key={v} label={v} onClick={() => {}} />
+        {value.map((v, index) => (
+          <Chip key={`${v}-${index}`} label={v} onClick={() => {}} />
         ))}
       </Stack>
     ),

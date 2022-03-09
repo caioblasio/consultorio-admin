@@ -9,7 +9,14 @@ import TextField from 'components/TextField'
 import Switch from 'components/Switch'
 import VALIDATION_SCHEMA from './validations'
 
-const PatientsForm = ({ data, defaultValues, control, reset, watch }) => {
+const PatientsForm = ({
+  data,
+  onDataChange,
+  defaultValues = {},
+  control,
+  reset,
+  watch,
+}) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'phone',
@@ -38,7 +45,18 @@ const PatientsForm = ({ data, defaultValues, control, reset, watch }) => {
           name="name"
           control={control}
           rules={{ ...VALIDATION_SCHEMA.name }}
-          render={({ field }) => <TextField label="Nome Completo" {...field} />}
+          render={({ field }) => (
+            <TextField
+              label="Nome Completo"
+              {...field}
+              onBlur={() => {
+                field.onBlur()
+                if (onDataChange) {
+                  onDataChange()
+                }
+              }}
+            />
+          )}
         />
         <Stack spacing={2} alignItems="end">
           {fields.map((item, index) => (
@@ -49,7 +67,16 @@ const PatientsForm = ({ data, defaultValues, control, reset, watch }) => {
                   control={control}
                   rules={{ ...VALIDATION_SCHEMA.phone }}
                   render={({ field, fieldState: { invalid, error } }) => (
-                    <InputMask mask="(99) 99999-9999" {...field}>
+                    <InputMask
+                      mask="(99) 99999-9999"
+                      {...field}
+                      onBlur={() => {
+                        field.onBlur()
+                        if (onDataChange) {
+                          onDataChange()
+                        }
+                      }}
+                    >
                       {(inputProps) => (
                         <TextField
                           {...inputProps}
@@ -64,7 +91,14 @@ const PatientsForm = ({ data, defaultValues, control, reset, watch }) => {
               </Grid>
               {index !== 0 && (
                 <Grid item>
-                  <IconButton onClick={() => remove(index)}>
+                  <IconButton
+                    onClick={() => {
+                      remove(index)
+                      if (onDataChange) {
+                        onDataChange()
+                      }
+                    }}
+                  >
                     <RemoveCircleOutlined />
                   </IconButton>
                 </Grid>
@@ -90,7 +124,16 @@ const PatientsForm = ({ data, defaultValues, control, reset, watch }) => {
               control={control}
               rules={{ ...VALIDATION_SCHEMA.cpf }}
               render={({ field, fieldState: { invalid, error } }) => (
-                <InputMask mask="999.999.999-99" {...field}>
+                <InputMask
+                  mask="999.999.999-99"
+                  {...field}
+                  onBlur={() => {
+                    field.onBlur()
+                    if (onDataChange) {
+                      onDataChange()
+                    }
+                  }}
+                >
                   {(inputProps) => (
                     <TextField
                       label="CPF"

@@ -6,6 +6,10 @@ const VALIDATION_SCHEMA = {
   },
   phone: {
     required: 'Este campo é obrigatório',
+    pattern: {
+      value: /^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$/,
+      message: 'Telefone inválido',
+    },
   },
   email: {
     pattern: {
