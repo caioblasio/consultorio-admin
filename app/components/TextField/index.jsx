@@ -38,7 +38,7 @@ const TextField = (
       )}
       label={label}
       value={value}
-      onChange={(event) => onChange(event, event.target.value)}
+      onChange={onChange && ((event) => onChange(event, event.target.value))}
       InputProps={{
         startAdornment: startAdornment ? (
           <InputAdornment position="start">{startAdornment}</InputAdornment>

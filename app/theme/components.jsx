@@ -29,6 +29,14 @@ const components = {
       }),
     },
   },
+  MuiBackdrop: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        backgroundColor: alpha(theme.palette.grey.dark, 0.25),
+        backdropFilter: `blur(${theme.spacing(0.5)})`,
+      }),
+    },
+  },
   MuiButtonBase: {
     defaultProps: {
       disableRipple: true,

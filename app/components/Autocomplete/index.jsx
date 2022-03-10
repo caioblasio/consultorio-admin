@@ -1,6 +1,7 @@
 import React from 'react'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
+import { MenuItem } from '@mui/material'
 import TextField from 'components/TextField'
 import Loader from 'components/Loader'
 
@@ -25,6 +26,7 @@ const Autocomplete = ({
       disableClearable
       onChange={(_, newOption) => onChange(newOption)}
       value={value}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       renderInput={({ InputProps: { className, ref }, ...restProps }) => (
         <TextField
           {...restProps}
@@ -42,7 +44,7 @@ const Autocomplete = ({
         const parts = parse(option.label, matches)
 
         return (
-          <li {...props}>
+          <MenuItem {...props}>
             <div>
               {parts.map((part, index) => (
                 <StyledHighlightedText
@@ -54,7 +56,7 @@ const Autocomplete = ({
                 </StyledHighlightedText>
               ))}
             </div>
-          </li>
+          </MenuItem>
         )
       }}
       {...rest}
