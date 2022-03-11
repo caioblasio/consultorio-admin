@@ -1,27 +1,28 @@
 <svg id="dots" width="132px" height="58px" viewBox="0 0 132 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 <style>
     .dot {
-        animation: load 0.75s infinite ease-in-out;
+        animation: load 0.9s infinite ease-in-out;
         fill: #00A0C3;
     }
 
-    .dot:nth-of-type(2) {
-        animation-delay: 0.25s;
+    .dot:nth-of-type(1) {
+        animation-delay: 0.3s;
     }
 
-    .dot:nth-of-type(3) {
+    .dot:nth-of-type(2) {
         animation-delay: 0.5s;
     }
 
+    .dot:nth-of-type(3) {
+        animation-delay: 0.7s;
+    }
+
     @keyframes load {
-        0% {
+        0%, 60%, 100% {
             transform: translateY(0);
         }
-        50% {
-            transform: translateY(-16px);
-        }
-        100% {
-            transform: translateY(0);
+        30% {
+            transform: translateY(-32px);
         }
     }
 
@@ -29,8 +30,8 @@
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g class="dots">
             <circle class="dot" cx="25" cy="42" r="12"></circle>
-            <circle class="dot" cx="65" cy="42" r="12"></circle>
-            <circle class="dot" cx="105" cy="42" r="12"></circle>
+            <circle class="dot" cx="60" cy="42" r="12"></circle>
+            <circle class="dot" cx="95" cy="42" r="12"></circle>
         </g>
     </g>
 </svg>
