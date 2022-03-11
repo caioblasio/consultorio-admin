@@ -25,7 +25,7 @@ const PlannerBody = ({
       const elements = []
       const rowData = data.filter(({ rowId }) => rowId === id)
       const firstMonth = new Date(pivotDate.toISOString())
-      firstMonth.setMonth(firstMonth.getMonth() - VISIBLE_MONTHS + 1)
+      firstMonth.setMonth(firstMonth.getMonth() - VISIBLE_MONTHS)
 
       for (let i = 0; i < VISIBLE_MONTHS; i += 1) {
         const currentMonth = new Date(firstMonth.toISOString())
@@ -42,10 +42,11 @@ const PlannerBody = ({
         const status = item
           ? { ...typeMapping[item.status], id: item.status }
           : undefined
+
         elements.push(
           <StyledBodyGridItem
             item
-            key={`body-item-${id}-${i}`}
+            key={`body-item-${id}-${startMonth}`}
             isLeft={i === 0}
             isBottom={isBottom}
             isRight={i === VISIBLE_MONTHS - 1}
