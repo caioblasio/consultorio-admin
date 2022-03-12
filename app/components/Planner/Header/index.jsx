@@ -3,7 +3,6 @@ import { Grid } from '@mui/material'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
 
 import { DateContext } from 'contexts/Date'
-import { VISIBLE_MONTHS } from 'components/Planner/constants'
 import {
   StyledHeaderMonthsGrid,
   StyledYearText,
@@ -12,20 +11,21 @@ import {
   StyledMonthText,
 } from './styles'
 
-const PlannerHeader = ({ pivotDate, currentDate, onPivotDateChange }) => {
+const PlannerHeader = ({
+  pivotDate,
+  currentDate,
+  onPivotDateChange,
+  columns,
+}) => {
   const adapter = useContext(DateContext)
 
   const renderElements = useCallback(() => {
-    const elements = []
-    const firstDate = new Date(pivotDate.toISOString())
-    firstDate.setMonth(firstDate.getMonth() - VISIBLE_MONTHS + 1)
+    const currentMonth = adapter.format(currentDate, 'MMMM')
 
-    for (let i = 0; i < VISIBLE_MONTHS; i += 1) {
-      const nextDate = new Date(firstDate.toISOString())
-      nextDate.setMonth(nextDate.getMonth() + i)
-      const isCurrent = currentDate.toDateString() === nextDate.toDateString()
-      const month = adapter.format(nextDate, 'MMMM')
-      elements.push(
+    return columns.map(({ label: month }) => {
+      const isCurrent = month === currentMonth
+
+      return (
         <Grid item key={`month-${month}`} xs>
           <StyledMonthText
             display="block"
@@ -37,9 +37,7 @@ const PlannerHeader = ({ pivotDate, currentDate, onPivotDateChange }) => {
           </StyledMonthText>
         </Grid>
       )
-    }
-
-    return elements
+    })
   }, [pivotDate])
 
   return (

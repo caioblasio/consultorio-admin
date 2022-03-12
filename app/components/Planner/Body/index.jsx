@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { Grid, Typography } from '@mui/material'
 
 import PlannerCell from 'components/Planner/Cell'
-import { VISIBLE_MONTHS } from 'components/Planner/constants'
 import {
   StyledHeaderGridItem,
   StyledBodyGridItem,
@@ -18,25 +17,20 @@ const PlannerBody = ({
   typeMapping,
   isLoading,
   onCellClick,
+  columns,
   components: { CellRenderer },
 }) => {
   const renderElements = useCallback(
     (id, isBottom) => {
       const elements = []
       const rowData = data.filter(({ rowId }) => rowId === id)
-      const firstMonth = new Date(pivotDate.toISOString())
-      firstMonth.setMonth(firstMonth.getMonth() - VISIBLE_MONTHS)
 
-      for (let i = 0; i < VISIBLE_MONTHS; i += 1) {
-        const currentMonth = new Date(firstMonth.toISOString())
-        currentMonth.setMonth(currentMonth.getMonth() + i)
-        const startMonth = currentMonth.getMonth()
-        const startYear = currentMonth.getFullYear()
+      return columns.map(({ label: month, date }) => {
+        const year = date.getFullYear()
 
         const item = rowData.find(({ columnId }) => {
           return (
-            columnId.getMonth() === startMonth &&
-            columnId.getFullYear() === startYear
+            columnId.getMonth() === month && columnId.getFullYear() === year
           )
         })
         const status = item
@@ -46,7 +40,7 @@ const PlannerBody = ({
         elements.push(
           <StyledBodyGridItem
             item
-            key={`body-item-${id}-${startMonth}`}
+            key={`body-item-${id}-${month}`}
             isLeft={i === 0}
             isBottom={isBottom}
             isRight={i === VISIBLE_MONTHS - 1}
@@ -56,23 +50,19 @@ const PlannerBody = ({
               <PlannerCell
                 status={status}
                 onClick={() =>
-                  onCellClick({ rowId: id, columnId: currentMonth }, item.data)
+                  onCellClick({ rowId: id, columnId: month }, item.data)
                 }
               >
                 <CellRenderer data={item.data} status={status} />
               </PlannerCell>
             ) : (
               <PlannerCell
-                onClick={() =>
-                  onCellClick({ rowId: id, columnId: currentMonth })
-                }
+                onClick={() => onCellClick({ rowId: id, columnId: month })}
               />
             )}
           </StyledBodyGridItem>
         )
-      }
-
-      return elements
+      })
     },
     [rows, pivotDate]
   )
