@@ -22,11 +22,11 @@ const PlannerBody = ({
 }) => {
   const renderElements = useCallback(
     (id, isBottom) => {
-      const elements = []
       const rowData = data.filter(({ rowId }) => rowId === id)
 
-      return columns.map(({ label: month, date }) => {
+      return columns.map(({ date }, index) => {
         const year = date.getFullYear()
+        const month = date.getMonth()
 
         const item = rowData.find(({ columnId }) => {
           return (
@@ -37,27 +37,27 @@ const PlannerBody = ({
           ? { ...typeMapping[item.status], id: item.status }
           : undefined
 
-        elements.push(
+        return (
           <StyledBodyGridItem
             item
             key={`body-item-${id}-${month}`}
-            isLeft={i === 0}
+            isLeft={index === 0}
             isBottom={isBottom}
-            isRight={i === VISIBLE_MONTHS - 1}
+            isRight={index === columns.length - 1}
             xs
           >
             {item ? (
               <PlannerCell
                 status={status}
                 onClick={() =>
-                  onCellClick({ rowId: id, columnId: month }, item.data)
+                  onCellClick({ rowId: id, columnId: date }, item.data)
                 }
               >
                 <CellRenderer data={item.data} status={status} />
               </PlannerCell>
             ) : (
               <PlannerCell
-                onClick={() => onCellClick({ rowId: id, columnId: month })}
+                onClick={() => onCellClick({ rowId: id, columnId: date })}
               />
             )}
           </StyledBodyGridItem>
