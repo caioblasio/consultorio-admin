@@ -1,8 +1,7 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { Grid } from '@mui/material'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
-
-import { DateContext } from 'contexts/Date'
+import useDateAdapter from 'hooks/useDateAdapter'
 import {
   StyledHeaderMonthsGrid,
   StyledYearText,
@@ -17,10 +16,10 @@ const PlannerHeader = ({
   onPivotDateChange,
   columns,
 }) => {
-  const adapter = useContext(DateContext)
+  const adapter = useDateAdapter()
 
   const renderElements = useCallback(() => {
-    const currentMonth = adapter.format(currentDate, 'MMMM')
+    const currentMonth = adapter.format(currentDate, 'month')
 
     return columns.map(({ label: month }) => {
       const isCurrent = month === currentMonth

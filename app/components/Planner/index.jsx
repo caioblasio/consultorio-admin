@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Stack } from '@mui/material'
 import { Mode } from 'constants/mode'
-import { DateContext } from 'contexts/Date'
+import useDateAdapter from 'hooks/useDateAdapter'
 
 import { VISIBLE_MONTHS } from './constants'
 import PlannerHeader from './Header'
@@ -29,7 +29,7 @@ const Planner = ({
     searchPlaceholder,
   },
 }) => {
-  const adapter = useContext(DateContext)
+  const adapter = useDateAdapter()
   const [pivotDate, setPivotDate] = useState(start || new Date())
   const [mode, setMode] = useState(Mode.READ)
   const [cell, setCell] = useState()
@@ -43,7 +43,7 @@ const Planner = ({
     for (let i = 0; i < VISIBLE_MONTHS; i += 1) {
       const nextDate = new Date(firstDate.toISOString())
       nextDate.setMonth(nextDate.getMonth() + i)
-      const month = adapter.format(nextDate, 'MMMM')
+      const month = adapter.format(nextDate, 'month')
       newColumns.push({ label: month, date: nextDate })
     }
 

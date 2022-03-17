@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Stack, Typography, Grid } from '@mui/material'
-
-import { DateContext } from 'contexts/Date'
+import useDateAdapter from 'hooks/useDateAdapter'
 
 const Text = ({ text, color }) => (
   <Typography
@@ -15,10 +14,10 @@ const Text = ({ text, color }) => (
 )
 
 const PaymentsCell = ({
-  data: { type, createdAt, holder } = {},
+  data: { type, madeAt, holder } = {},
   status: { color } = {},
 }) => {
-  const adapter = useContext(DateContext)
+  const adapter = useDateAdapter()
   return (
     <Stack>
       <Typography component="span" color={`${color}.dark`}>
@@ -29,8 +28,11 @@ const PaymentsCell = ({
           <Text text={type} color={color} />
         </Grid>
         <Grid item>
-          {createdAt && (
-            <Text text={adapter.format(createdAt, 'MM/yyyy')} color={color} />
+          {madeAt && (
+            <Text
+              text={adapter.formatByString(madeAt, 'MM/yyyy')}
+              color={color}
+            />
           )}
         </Grid>
       </Grid>

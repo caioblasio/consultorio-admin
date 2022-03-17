@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 
 import { homeURL } from 'configs/urls'
-import { fetchAllPayments, fetchAllPatients } from 'api/database'
+import { fetchAllPayments, fetchAllPatients, createPayment } from 'api/database'
 import DashPage from 'components/DashPage'
 import Planner from './Planner'
 
@@ -38,13 +38,13 @@ const PaymentsPage = () => {
   const data = useMemo(
     () =>
       payments.map(
-        ({ patientId, status, reference, type, holder, createdAt }) => ({
+        ({ patientId, status, reference, type, holder, madeAt }) => ({
           rowId: patientId,
           columnId: reference,
           status,
           data: {
             type,
-            createdAt,
+            madeAt,
             holder,
           },
         })
@@ -52,15 +52,34 @@ const PaymentsPage = () => {
     [payments]
   )
 
+  const onCreatePayment = async (payment) => {
+    try {
+      setLoading(true)
+      // const createdPayment = await createPayment(payment)
+      // const newPayments = [...payments, createdPayment]
+      // setPatients(newPayments)
+      // setAlert({
+      //   title: 'Sucesso!',
+      //   message: <>Pagamento criado com sucesso.</>,
+      //   severity: 'success',
+      //   progress: true,
+      // })
+
+      console.log(payment)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <DashPage title="Pagamentos">
+    <DashPage title="Pagamentos" backURL={homeURL()}>
       <Planner
         isLoading={loading}
         rows={rows}
         data={data}
         searchValue={search}
         onSearchChange={(newValue) => setSearch(newValue)}
-        onCreate={() => {}}
+        onCreate={onCreatePayment}
       />
     </DashPage>
   )

@@ -1,13 +1,14 @@
 import React from 'react'
-import DateFnsAdapter from '@date-io/date-fns'
+import DateAdapter from '@mui/lab/AdapterDateFns'
+import { LocalizationProvider, MuiPickersAdapterContext } from '@mui/lab'
 import { ptBR } from 'date-fns/locale'
 
-const dateAdapter = new DateFnsAdapter({ locale: ptBR })
-
-export const DateContext = React.createContext()
+export const DateContext = MuiPickersAdapterContext
 
 export const DateProvider = ({ children }) => {
   return (
-    <DateContext.Provider value={dateAdapter}>{children}</DateContext.Provider>
+    <LocalizationProvider dateAdapter={DateAdapter} locale={ptBR}>
+      {children}
+    </LocalizationProvider>
   )
 }

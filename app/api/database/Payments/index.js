@@ -8,11 +8,12 @@ export const fetchAllPayments = async () => {
   const q = query(collection(db, COLLECTION_NAME))
   const snapshot = await getDocs(q)
   return snapshot.docs.map((doc) => {
-    const { createdAt, reference, ...rest } = doc.data()
+    const { createdAt, reference, madeAt, ...rest } = doc.data()
     return {
       ...rest,
       createdAt: createdAt.toDate(),
       reference: reference.toDate(),
+      madeAt: madeAt.toDate(),
     }
   })
 }
@@ -64,4 +65,24 @@ export const fetchMissingPaymentsWithinRange = async (startDate, endDate) => {
     endDate
   )
   return activePatients.length - currentMonthAndYearPayments.length
+}
+
+export const createPayment = async (payment) => {
+  const docRef = await addDoc(collection(db, COLLECTION_NAME), {
+    ...payment,
+    createdAt: serverTimestamp(),
+  })
+  const snapshot = await getDoc(docRef)
+
+  if (snapshot.exists()) {
+    const { createdAt, reference, madeAt, ...rest } = snapshot.data()
+    return {
+      ...rest,
+      createdAt: createdAt.toDate(),
+      reference: reference.toDate(),
+      madeAt: madeAt.toDate(),
+    }
+  }
+
+  return null
 }

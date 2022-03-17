@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { Grid, Stack } from '@mui/material'
 import { PersonRounded } from '@mui/icons-material'
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
+import DatePicker from '@mui/lab/DatePicker'
 import { useForm, Controller } from 'react-hook-form'
 
 import TextField from 'components/TextField'
@@ -10,8 +12,9 @@ import MonthsField from 'components/MonthsField'
 import SelectField from 'components/SelectField'
 import Autocomplete from 'components/Autocomplete'
 
+import { centesimalToStandard } from 'utils/currency'
+
 import VALIDATION_SCHEMA from './validations'
-import { StyledYearItem } from './styles'
 import { useMemo } from 'react'
 
 const PaymentsFormModal = ({
@@ -28,16 +31,23 @@ const PaymentsFormModal = ({
       holder: '',
       patient: '',
       referenceMonth: pivotDate.getMonth() + 1,
-      referenceYear: pivotDate.getFullYear(),
+      referenceYear: new Date(`${pivotDate.getFullYear()}`),
+      madeAt: new Date(),
       status: 'paid',
-      type: '',
-      value: 80,
+      type: 'card',
+      value: centesimalToStandard(9000),
     }
   }, [pivotDate])
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, watch, setValue, reset } = useForm({
     defaultValues,
   })
+
+  const patient = watch('patient')
+
+  if (patient) {
+    setValue('holder', patient.label)
+  }
 
   useEffect(() => {
     let newData = { ...defaultValues }
@@ -108,27 +118,45 @@ const PaymentsFormModal = ({
             rules={{ ...VALIDATION_SCHEMA.holder }}
             render={({ field }) => <TextField label="Titular" {...field} />}
           />
-          <Grid container wrap="nowrap">
-            <Grid item xs={6}>
+          <Grid container columnGap={2}>
+            <Grid item xs>
               <Controller
                 name="referenceMonth"
                 control={control}
                 rules={{ ...VALIDATION_SCHEMA.referenceMonth }}
                 render={({ field }) => (
-                  <MonthsField label="Periodo" {...field} />
+                  <MonthsField label="Periodo de Referência" {...field} />
                 )}
               />
             </Grid>
-            <StyledYearItem item xs>
+            <Grid item xs>
               <Controller
                 name="referenceYear"
                 control={control}
                 rules={{ ...VALIDATION_SCHEMA.referenceYear }}
-                render={({ field }) => <TextField label="Ano" {...field} />}
+                render={({ field }) => (
+                  <DatePicker
+                    views={['year']}
+                    label="Ano de Referência"
+                    {...field}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                )}
               />
-            </StyledYearItem>
+            </Grid>
           </Grid>
-
+          <Controller
+            name="madeAt"
+            control={control}
+            rules={{ ...VALIDATION_SCHEMA.madeAt }}
+            render={({ field }) => (
+              <DesktopDatePicker
+                label="Data de Realização"
+                {...field}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            )}
+          />
           <Controller
             name="status"
             control={control}
@@ -138,7 +166,7 @@ const PaymentsFormModal = ({
                 label="Estado"
                 options={[
                   { label: 'Pago', value: 'paid' },
-                  { label: 'Devendo', value: 'owing' },
+                  { label: 'Devendo', value: 'due' },
                   { label: 'Perdoado', value: 'forgiven' },
                 ]}
                 {...field}
@@ -146,14 +174,37 @@ const PaymentsFormModal = ({
             )}
           />
 
-          <Controller
-            name="value"
-            control={control}
-            rules={{ ...VALIDATION_SCHEMA.type }}
-            render={({ field }) => (
-              <CurrencyField disabled label="Pagamento" {...field} />
-            )}
-          />
+          <Grid container columnGap={2}>
+            <Grid item xs>
+              <Controller
+                name="type"
+                control={control}
+                rules={{ ...VALIDATION_SCHEMA.type }}
+                render={({ field }) => (
+                  <SelectField
+                    label="Modo"
+                    options={[
+                      { label: 'Cartão', value: 'card' },
+                      { label: 'Dinheiro', value: 'cash' },
+                      { label: 'PIX', value: 'transfer' },
+                    ]}
+                    {...field}
+                  />
+                )}
+              />
+            </Grid>
+
+            <Grid item xs>
+              <Controller
+                name="value"
+                control={control}
+                rules={{ ...VALIDATION_SCHEMA.type }}
+                render={({ field }) => (
+                  <CurrencyField disabled label="Valor" {...field} />
+                )}
+              />
+            </Grid>
+          </Grid>
         </Stack>
       </form>
     </Modal>

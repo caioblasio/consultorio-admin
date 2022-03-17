@@ -8,9 +8,14 @@ const VALIDATION_SCHEMA = {
   type: {
     required: 'Este campo é obrigatório',
   },
-  references: {
+  referenceMonth: {
     required: 'Este campo é obrigatório',
-    validate: (v) => v.length > 0,
+  },
+  referenceYear: {
+    required: 'Este campo é obrigatório',
+  },
+  madeAt: {
+    required: 'Este campo é obrigatório',
   },
   status: {
     required: 'Este campo é obrigatório',

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from 'react'
+import React, { Fragment, useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { capitalize } from 'lodash-es'
 import {
@@ -15,15 +15,15 @@ import {
   ChevronRight as ChevronRightIcon,
 } from '@mui/icons-material'
 import { fetchPaymentsWithinRangeByPatient } from 'api/database'
-import { DateContext } from 'contexts/Date'
 import { formatCurrency } from 'utils/currency'
 import Card from 'components/Card'
+import useDateAdapter from 'hooks/useDateAdapter'
 
 const PaymentsCard = ({ patient }) => {
   const [payments, setPayments] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const adapter = useContext(DateContext)
+  const adapter = useDateAdapter()
   const currentYear = new Date().getFullYear()
 
   const [report, setReport] = useState('reference')
@@ -100,7 +100,7 @@ const PaymentsCard = ({ patient }) => {
 
     for (let i = 0; i < 12; i++) {
       const dateMonth = new Date(year, i)
-      const month = adapter.format(dateMonth, 'LLLL')
+      const month = adapter.format(dateMonth, 'month')
 
       const item = (
         <Grid container justifyContent="space-between" key={`${month}-${i}`}>
