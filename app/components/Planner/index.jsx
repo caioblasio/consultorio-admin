@@ -11,7 +11,7 @@ import PlannerBody from './Body'
 
 const Planner = ({
   data = [],
-  start,
+  end,
   rows = [],
   searchValue,
   onCreate,
@@ -30,16 +30,18 @@ const Planner = ({
   },
 }) => {
   const adapter = useDateAdapter()
-  const [pivotDate, setPivotDate] = useState(start || new Date())
+  const [pivotDate, setPivotDate] = useState(end || new Date())
   const [mode, setMode] = useState(Mode.READ)
   const [cell, setCell] = useState()
   const currentDate = useMemo(() => new Date(), [])
+  const firstDate = useMemo(() => {
+    const newDate = new Date(pivotDate.toISOString())
+    newDate.setMonth(newDate.getMonth() - VISIBLE_MONTHS + 1)
+    return newDate
+  }, [pivotDate])
 
   const columns = useMemo(() => {
     const newColumns = []
-    const firstDate = new Date(pivotDate.toISOString())
-    firstDate.setMonth(firstDate.getMonth() - VISIBLE_MONTHS + 1)
-
     for (let i = 0; i < VISIBLE_MONTHS; i += 1) {
       const nextDate = new Date(firstDate.toISOString())
       nextDate.setMonth(nextDate.getMonth() + i)
@@ -48,11 +50,11 @@ const Planner = ({
     }
 
     return newColumns
-  }, [pivotDate])
+  }, [firstDate])
 
   useEffect(() => {
-    setPivotDate(start || new Date())
-  }, [start])
+    setPivotDate(end || new Date())
+  }, [end])
 
   const handleClose = () => {
     setMode(Mode.READ)
@@ -63,7 +65,7 @@ const Planner = ({
     <>
       <Stack spacing={2}>
         <PlannerToolbar
-          columns={columns}
+          firstDate={firstDate}
           data={data}
           rows={rows}
           onCreateClick={() => {
@@ -81,13 +83,16 @@ const Planner = ({
         />
         <PlannerHeader
           columns={columns}
-          pivotDate={pivotDate}
+          firstDate={firstDate}
           currentDate={currentDate}
-          onPivotDateChange={setPivotDate}
+          onDateChange={(newDate) => {
+            const newPivotDate = new Date(newDate.toISOString())
+            newPivotDate.setMonth(newPivotDate.getMonth() + VISIBLE_MONTHS - 1)
+            setPivotDate(newPivotDate)
+          }}
         />
         <PlannerBody
           columns={columns}
-          pivotDate={pivotDate}
           data={data}
           rows={rows}
           typeMapping={typeMapping}
@@ -122,7 +127,7 @@ const Planner = ({
       )}
       {(onCreate || onEdit) && FormModal && (
         <FormModal
-          pivotDate={pivotDate}
+          firstDate={firstDate}
           open={mode === Mode.EDIT || mode === Mode.CREATE}
           onConfirm={async (params) => {
             const call = mode === Mode.CREATE ? onCreate : onEdit

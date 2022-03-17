@@ -12,7 +12,6 @@ import {
 
 const PlannerBody = ({
   data,
-  pivotDate,
   rows,
   typeMapping,
   isLoading,
@@ -64,7 +63,7 @@ const PlannerBody = ({
         )
       })
     },
-    [rows, pivotDate]
+    [rows, data, columns]
   )
 
   return (

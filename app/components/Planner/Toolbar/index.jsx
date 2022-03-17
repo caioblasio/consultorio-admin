@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
 import Toolbar from 'components/Toolbar'
+import { DateContext } from 'contexts/Date'
 import { exportToCsv } from 'utils/export'
 
 const PlannerToolbar = ({
+  firstDate,
   data,
   rows,
   searchValue,
@@ -12,24 +14,35 @@ const PlannerToolbar = ({
   components,
   localeText,
 }) => {
+  const adapter = useContext(DateContext)
+  const csvHeader = useMemo(() => {
+    const newDate = new Date(firstDate.toISOString())
+    let header = `${newDate.getFullYear()}`
+    for (let i = 0; i < 12; i++) {
+      newDate.setMonth(i)
+      header += `;${adapter.format(newDate, 'MMMM')}`
+    }
+
+    return header
+  }, [firstDate])
+
   const csvData = useMemo(() => {
-    const newData = [
-      rows.map(({ headerName, field }) => headerName || field).join(';'),
-    ]
+    const newData = [csvHeader]
 
-    data.forEach((row) => {
-      const newRow = []
+    rows.forEach((row) => {
+      const newRow = [row.label]
 
-      rows.forEach(({ field, valueFormatter }) => {
-        const value = row[field]
-        newRow.push(valueFormatter ? valueFormatter({ value }) : value)
+      data.forEach((value) => {
+        newRow.push(
+          row.valueFormatter ? row.valueFormatter({ value }) : value.status
+        )
       })
 
       newData.push(newRow.join(';'))
     })
 
     return newData.join('\r\n').trim()
-  }, [data, rows])
+  }, [data, rows, csvHeader])
 
   return (
     <Toolbar

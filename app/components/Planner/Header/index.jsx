@@ -10,12 +10,7 @@ import {
   StyledMonthText,
 } from './styles'
 
-const PlannerHeader = ({
-  pivotDate,
-  currentDate,
-  onPivotDateChange,
-  columns,
-}) => {
+const PlannerHeader = ({ firstDate, currentDate, onDateChange, columns }) => {
   const adapter = useDateAdapter()
 
   const renderElements = useCallback(() => {
@@ -37,22 +32,22 @@ const PlannerHeader = ({
         </Grid>
       )
     })
-  }, [pivotDate])
+  }, [currentDate, columns])
 
   return (
     <Grid container alignItems="center">
       <Grid item xs={2}>
         <StyledYearText component="span">
-          {pivotDate.getFullYear()}
+          {firstDate.getFullYear()}
         </StyledYearText>
       </Grid>
       <Grid item xs>
         <StyledHeaderMonthsGrid container alignItems="center">
           <StyledPreviousMonthButton
             onClick={() => {
-              const newPivotDate = new Date(pivotDate.toISOString())
-              newPivotDate.setMonth(newPivotDate.getMonth() - 1)
-              onPivotDateChange(newPivotDate)
+              const newDate = new Date(firstDate.toISOString())
+              newDate.setMonth(newDate.getMonth() - 1)
+              onDateChange(newDate)
             }}
           >
             <KeyboardArrowLeft />
@@ -60,9 +55,9 @@ const PlannerHeader = ({
           {renderElements()}
           <StyledNextMonthButton
             onClick={() => {
-              const newPivotDate = new Date(pivotDate.toISOString())
-              newPivotDate.setMonth(newPivotDate.getMonth() + 1)
-              onPivotDateChange(newPivotDate)
+              const newDate = new Date(firstDate.toISOString())
+              newDate.setMonth(newDate.getMonth() + 1)
+              onDateChange(newDate)
             }}
           >
             <KeyboardArrowRight />
