@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useCallback } from 'react'
 import useDateAdapter from 'hooks/useDateAdapter'
 import Toolbar from 'components/Toolbar'
 import { exportToCsv } from 'utils/export'
@@ -15,34 +15,57 @@ const PlannerToolbar = ({
   localeText,
 }) => {
   const adapter = useDateAdapter()
-  const csvHeader = useMemo(() => {
-    const newDate = new Date(firstDate.toISOString())
-    let header = `${newDate.getFullYear()}`
+  const getCSVColumns = useCallback(() => {
+    const columns = []
     for (let i = 0; i < 12; i++) {
+      const newDate = new Date(firstDate.toISOString())
       newDate.setMonth(i)
-      header += `;${adapter.format(newDate, 'month')}`
+      columns.push(newDate)
     }
 
-    return header
+    return columns
   }, [firstDate])
 
-  const csvData = useMemo(() => {
-    const newData = [csvHeader]
+  const getCSVHeader = useCallback(
+    (columns) => {
+      let header = `${firstDate.getFullYear()}`
+      columns.forEach((column) => {
+        header += `;${adapter.format(column, 'month')}`
+      })
+
+      return header
+    },
+    [firstDate]
+  )
+
+  const getCSVData = useCallback(() => {
+    const columns = getCSVColumns()
+    const newData = [getCSVHeader(columns)]
 
     rows.forEach((row) => {
       const newRow = [row.label]
 
-      data.forEach((value) => {
-        newRow.push(
-          row.valueFormatter ? row.valueFormatter({ value }) : value.status
-        )
-      })
+      columns.forEach((column) => {
+        let cell = ''
 
+        data.forEach((value) => {
+          if (
+            row.id === value.rowId &&
+            column.getMonth() === value.columnId.getMonth()
+          ) {
+            cell = row.valueFormatter
+              ? row.valueFormatter({ value })
+              : value.status
+          }
+        })
+
+        newRow.push(cell)
+      })
       newData.push(newRow.join(';'))
     })
 
     return newData.join('\r\n').trim()
-  }, [data, rows, csvHeader])
+  }, [data, rows])
 
   return (
     <Toolbar
@@ -52,7 +75,7 @@ const PlannerToolbar = ({
       onSearchChange={onSearchChange}
       components={components}
       localeText={localeText}
-      onExportClick={() => exportToCsv(csvData)}
+      onExportClick={() => exportToCsv(getCSVData())}
     />
   )
 }
