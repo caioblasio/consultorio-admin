@@ -23,21 +23,21 @@ const PaymentsFormModal = ({
   position,
   onConfirm,
   onClose,
-  firstDate,
+  currentDate,
   open = false,
 }) => {
   const defaultValues = useMemo(() => {
     return {
       holder: '',
       patient: '',
-      referenceMonth: firstDate.getMonth() + 1,
-      referenceYear: new Date(`${firstDate.getFullYear()}`),
+      referenceMonth: currentDate.getMonth() + 1,
+      referenceYear: new Date(`${currentDate.getFullYear()}`),
       madeAt: new Date(),
       status: 'paid',
       type: 'card',
       value: centesimalToStandard(9000),
     }
-  }, [firstDate])
+  }, [currentDate])
 
   const { control, handleSubmit, watch, setValue, reset } = useForm({
     defaultValues,

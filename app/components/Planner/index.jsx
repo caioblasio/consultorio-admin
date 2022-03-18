@@ -127,7 +127,7 @@ const Planner = ({
       )}
       {(onCreate || onEdit) && FormModal && (
         <FormModal
-          firstDate={firstDate}
+          currentDate={currentDate}
           open={mode === Mode.EDIT || mode === Mode.CREATE}
           onConfirm={async (params) => {
             const call = mode === Mode.CREATE ? onCreate : onEdit
