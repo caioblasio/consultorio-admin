@@ -1,6 +1,6 @@
-import React, { useMemo, useContext } from 'react'
+import React, { useMemo } from 'react'
+import useDateAdapter from 'hooks/useDateAdapter'
 import Toolbar from 'components/Toolbar'
-import { DateContext } from 'contexts/Date'
 import { exportToCsv } from 'utils/export'
 
 const PlannerToolbar = ({
@@ -14,13 +14,13 @@ const PlannerToolbar = ({
   components,
   localeText,
 }) => {
-  const adapter = useContext(DateContext)
+  const adapter = useDateAdapter()
   const csvHeader = useMemo(() => {
     const newDate = new Date(firstDate.toISOString())
     let header = `${newDate.getFullYear()}`
     for (let i = 0; i < 12; i++) {
       newDate.setMonth(i)
-      header += `;${adapter.format(newDate, 'MMMM')}`
+      header += `;${adapter.format(newDate, 'month')}`
     }
 
     return header
