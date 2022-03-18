@@ -6,7 +6,6 @@ import {
   editPatient,
   deletePatient,
 } from 'api/database'
-import { homeURL } from 'configs/urls'
 import DashPage from 'components/DashPage'
 import Snackbar from 'components/Snackbar'
 import { unformatCPF } from 'utils/cpf'
@@ -112,7 +111,7 @@ const PatientsPage = () => {
   }
 
   return (
-    <DashPage title="Pacientes" backURL={homeURL()}>
+    <DashPage title="Pacientes">
       <Table
         data={filteredPatients}
         isLoading={loading}

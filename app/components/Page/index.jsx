@@ -1,44 +1,38 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Grid, Typography, IconButton } from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { Grid, Typography } from '@mui/material'
 import Breadcrumbs from 'containers/Breadcrumbs'
 
-import { StyledContainer, StyledGrid } from './styles'
+import { StyledGrid } from './styles'
 
-const Page = ({ title, breadcrumb, backURL, children, className }) => {
-  const navigate = useNavigate()
+const Page = ({ title, breadcrumb, children, className }) => {
   return (
-    <StyledContainer className={className}>
-      <StyledGrid container spacing={4} direction="column" wrap="nowrap">
-        {(backURL || title || breadcrumb) && (
-          <Grid item>
-            <Grid container spacing={2} alignItems="center">
-              {backURL && (
-                <Grid item>
-                  <IconButton onClick={() => navigate(backURL)}>
-                    <ArrowBackIcon fontSize="large" />
-                  </IconButton>
-                </Grid>
-              )}
-              {title && (
-                <Grid item>
-                  <Typography variant="h1">{title}</Typography>
-                </Grid>
-              )}
-              {breadcrumb && (
-                <Grid item>
-                  <Breadcrumbs current={breadcrumb} />
-                </Grid>
-              )}
-            </Grid>
+    <StyledGrid
+      container
+      spacing={4}
+      direction="column"
+      wrap="nowrap"
+      className={className}
+    >
+      {(title || breadcrumb) && (
+        <Grid item>
+          <Grid container spacing={2} alignItems="center">
+            {title && (
+              <Grid item>
+                <Typography variant="h1">{title}</Typography>
+              </Grid>
+            )}
+            {breadcrumb && (
+              <Grid item>
+                <Breadcrumbs current={breadcrumb} />
+              </Grid>
+            )}
           </Grid>
-        )}
-        <Grid item xs>
-          {children}
         </Grid>
-      </StyledGrid>
-    </StyledContainer>
+      )}
+      <Grid item xs>
+        {children}
+      </Grid>
+    </StyledGrid>
   )
 }
 

@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 
-import { homeURL } from 'configs/urls'
 import { fetchAllPayments, fetchAllPatients, createPayment } from 'api/database'
 import DashPage from 'components/DashPage'
 import Planner from './Planner'
@@ -70,7 +69,7 @@ const PaymentsPage = () => {
   }
 
   return (
-    <DashPage title="Pagamentos" backURL={homeURL()}>
+    <DashPage title="Pagamentos">
       <Planner
         isLoading={loading}
         rows={rows}

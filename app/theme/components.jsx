@@ -18,6 +18,19 @@ const components = {
       }),
     },
   },
+  MuiCssBaseline: {
+    styleOverrides: {
+      html: {
+        width: '100vw',
+        height: '100vh',
+      },
+      'html, body, #app': {
+        display: 'flex',
+        flexDirection: 'column',
+        flex: '1 1 auto',
+      },
+    },
+  },
   MuiAppBar: {
     styleOverrides: {
       root: ({ theme }) => ({
