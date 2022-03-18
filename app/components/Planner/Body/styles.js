@@ -2,19 +2,11 @@ import { Grid, Paper } from '@mui/material'
 import { styled } from '@mui/system'
 
 import NoData from 'components/NoData'
-import Loader from 'components/Loader'
 
 export const StyledPaper = styled(Paper)(({ theme }) => ({
   position: 'relative',
   minHeight: theme.spacing(16),
 }))
-
-export const StyledLoader = styled(Loader)({
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-})
 
 export const StyledHeaderGridItem = styled(Grid)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -30,9 +22,9 @@ export const StyledBodyGridItem = styled(Grid, {
   borderBottom: !isBottom ? `1px solid ${theme.palette.grey.main}` : '',
 }))
 
-export const StyledNoData = styled(NoData)(({ theme }) => ({
+export const StyledNoData = styled(NoData)({
   position: 'absolute',
   left: '50%',
   top: '50%',
   transform: 'translate(-50%, -50%)',
-}))
+})

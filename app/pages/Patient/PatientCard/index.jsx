@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import Card from 'components/Card'
-import PatientsForm from 'components/PatientsForm'
 import { editPatient } from 'api/database'
+import PatientForm from './Form'
 
-const DataCard = ({ patient }) => {
+const PatientCard = ({ patient, isLoading }) => {
   const { control, handleSubmit, reset, watch } = useForm({
     defaultValues: patient,
     mode: 'onChange',
   })
+
+  useEffect(() => {
+    reset(patient)
+  }, [patient])
 
   const handleConfirm = async (newData) => {
     const submitData = {
@@ -17,13 +21,13 @@ const DataCard = ({ patient }) => {
         ? { phone: newData.phone.map(({ value }) => value) }
         : {}),
     }
-    console.log(submitData)
+
     await editPatient(submitData)
   }
 
   return (
-    <Card title="Detalhes" color="info">
-      <PatientsForm
+    <Card title="Detalhes" color="info" isLoading={isLoading}>
+      <PatientForm
         data={patient}
         control={control}
         reset={reset}
@@ -34,4 +38,4 @@ const DataCard = ({ patient }) => {
   )
 }
 
-export default DataCard
+export default PatientCard

@@ -2,9 +2,9 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'components/Modal'
 
-import PatientsForm from 'components/PatientsForm'
+import PatientForm from 'pages/Patient/PatientCard/Form'
 
-const PatientsFormModal = ({ data, onConfirm, onClose, open = false }) => {
+const PatientModal = ({ data, onConfirm, onClose, open = false }) => {
   const defaultValues = {
     name: '',
     phone: [{ value: '' }],
@@ -41,7 +41,7 @@ const PatientsFormModal = ({ data, onConfirm, onClose, open = false }) => {
         { label: 'Cancelar', onClick: handleClose },
       ]}
     >
-      <PatientsForm
+      <PatientForm
         data={data}
         defaultValues={defaultValues}
         control={control}
@@ -52,4 +52,4 @@ const PatientsFormModal = ({ data, onConfirm, onClose, open = false }) => {
   )
 }
 
-export default PatientsFormModal
+export default PatientModal

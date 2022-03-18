@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import DataTable from 'components/DataTable'
 import columns from './columns'
-import PatientsFormModal from './FormModal'
+import PatientModal from './FormModal'
 
 const PatientsTable = ({
   data,
@@ -25,7 +25,7 @@ const PatientsTable = ({
       searchValue={searchValue}
       onSearchChange={onSearchChange}
       components={{
-        FormModal: PatientsFormModal,
+        FormModal: PatientModal,
         CreateButtonIcon: PersonAddIcon,
       }}
       localeText={{

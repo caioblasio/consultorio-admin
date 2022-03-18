@@ -12,14 +12,14 @@ const PaymentsCard = () => {
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(true)
 
-  useAsyncEffect(async (isActive) => {
+  useAsyncEffect(async (isMounted) => {
     // Date picker values
     const now = new Date()
     const startDate = new Date(now.getFullYear(), now.getMonth())
     const endDate = new Date(now.getFullYear(), now.getMonth() + 1)
 
     const count = await fetchMissingPaymentsWithinRange(startDate, endDate)
-    if (!isActive()) return
+    if (!isMounted()) return
     setCount(count)
     setLoading(false)
   }, [])

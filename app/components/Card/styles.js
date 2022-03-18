@@ -1,5 +1,5 @@
 import { styled } from '@mui/system'
-import { Card, CardContent, Skeleton } from '@mui/material'
+import { Card, CardContent, Skeleton, Typography } from '@mui/material'
 
 export const StyledCard = styled(Card, {
   shouldForwardProp: (prop) => prop !== 'color',
@@ -17,4 +17,8 @@ export const StyledCardContent = styled(CardContent)(({ theme }) => ({
 export const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   height: theme.spacing(90),
+}))
+
+export const StyledTitle = styled(Typography)(({ theme }) => ({
+  marginBottom: theme.spacing(4),
 }))

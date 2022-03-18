@@ -1,8 +1,8 @@
 import React from 'react'
-import { Stack, Chip } from '@mui/material'
+import { Stack, Chip, Typography } from '@mui/material'
 import { patientURL } from 'configs/urls'
 import Active from 'components/Active'
-import Link from 'components/Link'
+import NavLink from 'components/Link'
 
 const columns = [
   {
@@ -10,9 +10,9 @@ const columns = [
     headerName: 'Nome Completo',
     width: 250,
     renderCell: ({ value, id }) => (
-      <Link underline="always" to={patientURL(id)}>
+      <NavLink underline="always" to={patientURL(id)}>
         {value}
-      </Link>
+      </NavLink>
     ),
   },
   {

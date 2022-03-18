@@ -2,7 +2,7 @@ import React from 'react'
 import * as URLS from 'configs/urls'
 import { useLocation } from 'react-router-dom'
 import { Breadcrumbs as MuiBreadcrumbs, Typography } from '@mui/material'
-import Link from 'components/Link'
+import NavLink from 'containers/NavLink'
 
 const breadcrumbNameMap = {
   [URLS.homeURL()]: 'Home',
@@ -16,7 +16,7 @@ const Breadcrumbs = ({ current }) => {
 
   return (
     <MuiBreadcrumbs>
-      {pathnames.map((value, index) => {
+      {pathnames.map((_value, index) => {
         const last = index === pathnames.length - 1
         const to = `/${pathnames.slice(0, index + 1).join('/')}`
 
@@ -25,9 +25,15 @@ const Breadcrumbs = ({ current }) => {
             {current || breadcrumbNameMap[to]}
           </Typography>
         ) : (
-          <Link key={to} color="inherit" to={to} variant="h3">
+          <NavLink
+            key={to}
+            color="inherit"
+            to={to}
+            variant="h3"
+            component="span"
+          >
             {breadcrumbNameMap[to]}
-          </Link>
+          </NavLink>
         )
       })}
     </MuiBreadcrumbs>

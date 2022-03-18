@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Stack, Grid, Button, IconButton } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import { RemoveCircleOutlined } from '@mui/icons-material'
+import { RemoveCircleOutlineOutlined } from '@mui/icons-material'
 import InputMask from 'react-input-mask'
 import { Controller, useFieldArray } from 'react-hook-form'
 
@@ -9,7 +9,7 @@ import TextField from 'components/TextField'
 import Switch from 'components/Switch'
 import VALIDATION_SCHEMA from './validations'
 
-const PatientsForm = ({
+const PatientForm = ({
   data,
   onDataChange,
   defaultValues = {},
@@ -99,7 +99,7 @@ const PatientsForm = ({
                       }
                     }}
                   >
-                    <RemoveCircleOutlined />
+                    <RemoveCircleOutlineOutlined />
                   </IconButton>
                 </Grid>
               )}
@@ -159,4 +159,4 @@ const PatientsForm = ({
   )
 }
 
-export default PatientsForm
+export default PatientForm

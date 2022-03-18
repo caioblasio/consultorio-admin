@@ -34,8 +34,7 @@ const typography = {
     letterSpacing: '0.05rem',
   },
   title1: {
-    fontWeight: 600,
-    fontSize: '1.05rem',
+    fontSize: '1.15rem',
     letterSpacing: '0.05rem',
   },
   subtitle1: {

@@ -10,9 +10,9 @@ const PatientsCard = () => {
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(true)
 
-  useAsyncEffect(async (isActive) => {
+  useAsyncEffect(async (isMounted) => {
     const count = await fetchPatientsCount()
-    if (!isActive()) return
+    if (!isMounted()) return
     setCount(count)
     setLoading(false)
   }, [])

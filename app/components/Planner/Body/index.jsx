@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react'
 import { Grid, Typography } from '@mui/material'
-
+import LoaderContainer from 'components/LoaderContainer'
 import PlannerCell from 'components/Planner/Cell'
 import {
   StyledHeaderGridItem,
   StyledBodyGridItem,
-  StyledLoader,
   StyledPaper,
   StyledNoData,
 } from './styles'
@@ -69,7 +68,7 @@ const PlannerBody = ({
   return (
     <StyledPaper>
       {isLoading ? (
-        <StyledLoader />
+        <LoaderContainer />
       ) : data.length === 0 ? (
         <StyledNoData />
       ) : (

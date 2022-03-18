@@ -17,9 +17,9 @@ const PatientsPage = () => {
   const [search, setSearch] = useState('')
   const [alert, setAlert] = useState({ progress: false })
 
-  useAsyncEffect(async (isActive) => {
+  useAsyncEffect(async (isMounted) => {
     const allPatients = await fetchAllPatients()
-    if (!isActive()) {
+    if (!isMounted()) {
       return
     }
 

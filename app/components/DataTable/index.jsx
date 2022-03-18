@@ -9,7 +9,7 @@ import ConfirmModal from 'components/ConfirmModal'
 import { Mode } from 'constants/mode'
 
 import {
-  StyledLoader,
+  StyledLoaderContainer,
   StyledNoData,
   StyledDataGrid,
   StyledGridActionsCellItem,
@@ -121,7 +121,7 @@ const DataTable = ({
             Toolbar: (props) => (
               <DataTableToolbar {...props} data={data} columns={columns} />
             ),
-            LoadingOverlay: StyledLoader,
+            LoadingOverlay: StyledLoaderContainer,
             NoRowsOverlay: StyledNoData,
             ColumnSortedDescendingIcon: (props) => (
               <ArrowDropUpIcon {...props} color="primary" />

@@ -1,10 +1,10 @@
 import { styled } from '@mui/material/styles'
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
 
-import Loader from 'components/Loader'
+import LoaderContainer from 'components/LoaderContainer'
 import NoData from 'components/NoData'
 
-export const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+export const StyledDataGrid = styled(DataGrid)({
   border: 'none',
   '& .MuiDataGrid-columnHeaders': {
     border: 'none',
@@ -30,7 +30,7 @@ export const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
       },
     },
   },
-}))
+})
 
 export const StyledGridActionsCellItem = styled(GridActionsCellItem)(
   ({ theme }) => ({
@@ -39,11 +39,7 @@ export const StyledGridActionsCellItem = styled(GridActionsCellItem)(
   })
 )
 
-export const StyledLoader = styled(Loader)(({ theme }) => ({
-  position: 'absolute',
-  left: '50%',
-  top: '50%',
-  transform: 'translate(-50%, -50%)',
+export const StyledLoaderContainer = styled(LoaderContainer)(({ theme }) => ({
   marginTop: theme.spacing(2),
 }))
 

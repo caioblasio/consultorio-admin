@@ -8,14 +8,14 @@ const Page = ({ title, breadcrumb, children, className }) => {
   return (
     <StyledGrid
       container
-      spacing={4}
+      spacing={8}
+      className={className}
       direction="column"
       wrap="nowrap"
-      className={className}
     >
       {(title || breadcrumb) && (
         <Grid item>
-          <Grid container spacing={2} alignItems="center">
+          <Grid container spacing={4} alignItems="center">
             {title && (
               <Grid item>
                 <Typography variant="h1">{title}</Typography>

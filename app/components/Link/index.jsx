@@ -10,7 +10,7 @@ const Link = ({
   onClick,
   component,
   color,
-  variant,
+  variant = 'button',
   ...rest
 }) => {
   const content = (
@@ -37,10 +37,6 @@ const Link = ({
       )}
     </MuiLink>
   )
-}
-
-Link.defaultProps = {
-  variant: 'button',
 }
 
 export default Link

@@ -4,18 +4,21 @@ import useAsyncEffect from 'use-async-effect'
 import { Grid } from '@mui/material'
 import { fetchPatientById } from 'api/database'
 import DashPage from 'components/DashPage'
-import DataCard from './DataCard'
+
+import ScheduleCard from './ScheduleCard'
+import PatientCard from './PatientCard'
 import PaymentsCard from './PaymentsCard'
 
 const PatientPage = () => {
-  const [patient, setPatient] = useState(null)
+  const [patient, setPatient] = useState()
   const [loading, setLoading] = useState(true)
 
   const { patientId } = useParams()
 
-  useAsyncEffect(async (isActive) => {
+  useAsyncEffect(async (isMounted) => {
     const patient = await fetchPatientById(patientId)
-    if (!isActive()) {
+    setLoading(true)
+    if (!isMounted()) {
       return
     }
 
@@ -23,18 +26,17 @@ const PatientPage = () => {
     setLoading(false)
   }, [])
 
-  if (!patient) {
-    return null
-  }
-
   return (
-    <DashPage breadcrumb={patient.name}>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <DataCard patient={patient} />
+    <DashPage breadcrumb={loading ? '' : patient.name}>
+      <Grid container spacing={4}>
+        <Grid item xs={4}>
+          <PatientCard patient={patient} isLoading={loading} />
         </Grid>
-        <Grid item xs={6}>
-          <PaymentsCard patient={patient} />
+        <Grid item xs={4}>
+          <ScheduleCard patient={patient} isLoading={loading} />
+        </Grid>
+        <Grid item xs={4}>
+          <PaymentsCard patient={patient} isLoading={loading} />
         </Grid>
       </Grid>
     </DashPage>

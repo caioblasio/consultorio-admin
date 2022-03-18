@@ -1,6 +1,11 @@
 import React from 'react'
-import { Stack, Typography } from '@mui/material'
-import { StyledSkeleton, StyledCard, StyledCardContent } from './styles'
+import { Typography } from '@mui/material'
+import {
+  StyledSkeleton,
+  StyledCard,
+  StyledCardContent,
+  StyledTitle,
+} from './styles'
 
 const Card = ({ isLoading, title, children, className, ...rest }) => {
   return (
@@ -14,12 +19,10 @@ const Card = ({ isLoading, title, children, className, ...rest }) => {
       ) : (
         <StyledCard className={className} {...rest}>
           <StyledCardContent>
-            <Stack spacing={2}>
-              <Typography variant="h2" component="h2" align="center">
-                {title}
-              </Typography>
-              {children}
-            </Stack>
+            <StyledTitle variant="h2" component="h2" align="center">
+              {title}
+            </StyledTitle>
+            {children}
           </StyledCardContent>
         </StyledCard>
       )}

@@ -19,7 +19,7 @@ import { formatCurrency } from 'utils/currency'
 import Card from 'components/Card'
 import useDateAdapter from 'hooks/useDateAdapter'
 
-const PaymentsCard = ({ patient }) => {
+const PaymentsCard = ({ patient, isLoading }) => {
   const [payments, setPayments] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -29,7 +29,7 @@ const PaymentsCard = ({ patient }) => {
   const [report, setReport] = useState('reference')
   const [year, setYear] = useState(currentYear)
 
-  const handleReport = (event, newReport) => {
+  const handleReport = (_event, newReport) => {
     if (newReport) {
       setReport(newReport)
     }
@@ -38,16 +38,24 @@ const PaymentsCard = ({ patient }) => {
   const startDate = new Date(year, 0, 1)
   const endDate = new Date(year, 11, 31, 23, 59, 59)
 
-  useAsyncEffect(async (isActive) => {
-    const payments = await fetchPaymentsWithinRangeByPatient(
-      patient.id,
-      startDate,
-      endDate
-    )
-    if (!isActive()) return
-    setPayments(payments)
-    setLoading(false)
-  }, [])
+  useAsyncEffect(
+    async (isMounted) => {
+      setLoading(true)
+      if (isLoading) {
+        return
+      }
+
+      const payments = await fetchPaymentsWithinRangeByPatient(
+        patient.id,
+        startDate,
+        endDate
+      )
+      if (!isMounted()) return
+      setPayments(payments)
+      setLoading(false)
+    },
+    [isLoading]
+  )
 
   const getPaymentColor = (status) => {
     const colors = {
@@ -122,7 +130,7 @@ const PaymentsCard = ({ patient }) => {
             <Typography color="text.secondary">Total</Typography>
           </Grid>
           <Grid item>
-            <Typography color={getPaymentColor()}>
+            <Typography color={getPaymentColor()} variant="title1">
               {formatCurrency(total, true)}
             </Typography>
           </Grid>

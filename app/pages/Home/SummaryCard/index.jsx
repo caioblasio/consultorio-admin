@@ -13,7 +13,7 @@ const SummaryCard = ({ className }) => {
   const [patientsCount, setPatientsCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
 
-  useAsyncEffect(async (isActive) => {
+  useAsyncEffect(async (isMounted) => {
     // Date picker values
     const now = new Date()
     const startDate = new Date(now.getFullYear(), now.getMonth())
@@ -22,7 +22,7 @@ const SummaryCard = ({ className }) => {
     const amount = payments.reduce((_, cur) => cur.value, 0)
 
     const patients = await fetchPatientsWithinDateRange(startDate, endDate)
-    if (!isActive()) return
+    if (!isMounted()) return
     setAmount(amount)
     setPatientsCount(patients.length)
     setIsLoading(false)

@@ -13,10 +13,10 @@ const PaymentsPage = () => {
   const [search, setSearch] = useState('')
   const [alert, setAlert] = useState({ progress: false })
 
-  useAsyncEffect(async (isActive) => {
+  useAsyncEffect(async (isMounted) => {
     const allPatients = await fetchAllPatients()
     const allPayments = await fetchAllPayments()
-    if (!isActive()) {
+    if (!isMounted()) {
       return
     }
 
