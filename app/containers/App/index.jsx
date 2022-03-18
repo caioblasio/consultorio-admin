@@ -14,7 +14,7 @@ const Component = () => {
     <>
       <CssBaseline />
       {currentUser && <Header />}
-      <StyledMain>
+      <StyledMain component="main">
         <Navigation />
       </StyledMain>
     </>
