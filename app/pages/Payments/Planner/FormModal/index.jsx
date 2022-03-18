@@ -8,11 +8,10 @@ import { useForm, Controller } from 'react-hook-form'
 import TextField from 'components/TextField'
 import CurrencyField from 'components/CurrencyField'
 import Modal from 'components/Modal'
-import MonthsField from 'components/MonthsField'
 import SelectField from 'components/SelectField'
 import Autocomplete from 'components/Autocomplete'
 
-import { centesimalToStandard } from 'utils/currency'
+import { centesimalToStandard, standardToCentesimal } from 'utils/currency'
 
 import VALIDATION_SCHEMA from './validations'
 import { useMemo } from 'react'
@@ -30,8 +29,10 @@ const PaymentsFormModal = ({
     return {
       holder: '',
       patient: '',
-      referenceMonth: currentDate.getMonth() + 1,
-      referenceYear: new Date(`${currentDate.getFullYear()}`),
+      reference: new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1
+      ),
       madeAt: new Date(),
       status: 'paid',
       type: 'card',
@@ -71,12 +72,12 @@ const PaymentsFormModal = ({
     reset(newData)
   }, [data, position])
 
-  const handleConfirm = (newData) => {
+  const handleConfirm = (data) => {
+    const { patient, ...rest } = data
     const submitData = {
-      ...newData,
-      ...(newData.phone
-        ? { phone: newData.phone.map(({ value }) => value) }
-        : {}),
+      ...rest,
+      value: standardToCentesimal(data.value),
+      patientId: patient.id,
     }
     handleClose()
     onConfirm(submitData)
@@ -118,33 +119,19 @@ const PaymentsFormModal = ({
             rules={{ ...VALIDATION_SCHEMA.holder }}
             render={({ field }) => <TextField label="Titular" {...field} />}
           />
-          <Grid container columnGap={2}>
-            <Grid item xs>
-              <Controller
-                name="referenceMonth"
-                control={control}
-                rules={{ ...VALIDATION_SCHEMA.referenceMonth }}
-                render={({ field }) => (
-                  <MonthsField label="Periodo de Referência" {...field} />
-                )}
+          <Controller
+            name="reference"
+            control={control}
+            rules={{ ...VALIDATION_SCHEMA.reference }}
+            render={({ field }) => (
+              <DatePicker
+                views={['year', 'month']}
+                label="Periodo de Referência"
+                {...field}
+                renderInput={(params) => <TextField {...params} />}
               />
-            </Grid>
-            <Grid item xs>
-              <Controller
-                name="referenceYear"
-                control={control}
-                rules={{ ...VALIDATION_SCHEMA.referenceYear }}
-                render={({ field }) => (
-                  <DatePicker
-                    views={['year']}
-                    label="Ano de Referência"
-                    {...field}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                )}
-              />
-            </Grid>
-          </Grid>
+            )}
+          />
           <Controller
             name="madeAt"
             control={control}

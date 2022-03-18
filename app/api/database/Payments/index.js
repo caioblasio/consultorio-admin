@@ -1,5 +1,13 @@
 import { db } from 'configs/firebase'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  getDoc,
+  serverTimestamp,
+} from 'firebase/firestore'
 import { fetchActivePatients } from 'api/database/Patient'
 
 const COLLECTION_NAME = 'payments'

@@ -14,6 +14,9 @@ const VALIDATION_SCHEMA = {
   referenceYear: {
     required: 'Este campo é obrigatório',
   },
+  reference: {
+    required: 'Este campo é obrigatório',
+  },
   madeAt: {
     required: 'Este campo é obrigatório',
   },

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { MenuItem } from '@mui/material'
 import TextField from 'components/TextField'
 
-const SelectField = ({ options = [], ...rest }) => {
+const SelectField = ({ options = [], ...rest }, ref) => {
   return (
-    <TextField {...rest} select>
+    <TextField {...rest} select ref={ref}>
       {options.map(({ value, label }) => (
         <MenuItem key={value} value={value}>
           {label}
@@ -14,4 +14,4 @@ const SelectField = ({ options = [], ...rest }) => {
   )
 }
 
-export default SelectField
+export default forwardRef(SelectField)

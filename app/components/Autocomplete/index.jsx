@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
 import { MenuItem } from '@mui/material'
@@ -7,17 +7,21 @@ import Loader from 'components/Loader'
 
 import { StyledAutocomplete, StyledHighlightedText } from './styles'
 
-const Autocomplete = ({
-  startAdornment,
-  isLoading = false,
-  options = [],
-  label,
-  value,
-  onChange,
-  ...rest
-}) => {
+const Autocomplete = (
+  {
+    startAdornment,
+    isLoading = false,
+    options = [],
+    label,
+    value,
+    onChange,
+    ...rest
+  },
+  ref
+) => {
   return (
     <StyledAutocomplete
+      ref={ref}
       options={options}
       size="small"
       loading={isLoading}
@@ -25,7 +29,7 @@ const Autocomplete = ({
       loadingText="Carregando..."
       disableClearable
       onChange={(_, newOption) => onChange(newOption)}
-      value={value}
+      value={value || null}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       renderInput={({ InputProps: { className, ref }, ...restProps }) => (
         <TextField
@@ -64,4 +68,4 @@ const Autocomplete = ({
   )
 }
 
-export default Autocomplete
+export default forwardRef(Autocomplete)

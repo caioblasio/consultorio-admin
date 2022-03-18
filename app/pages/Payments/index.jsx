@@ -55,17 +55,15 @@ const PaymentsPage = () => {
   const onCreatePayment = async (payment) => {
     try {
       setLoading(true)
-      // const createdPayment = await createPayment(payment)
-      // const newPayments = [...payments, createdPayment]
-      // setPatients(newPayments)
-      // setAlert({
-      //   title: 'Sucesso!',
-      //   message: <>Pagamento criado com sucesso.</>,
-      //   severity: 'success',
-      //   progress: true,
-      // })
-
-      console.log(payment)
+      const createdPayment = await createPayment(payment)
+      const newPayments = [...payments, createdPayment]
+      setPayments(newPayments)
+      setAlert({
+        title: 'Sucesso!',
+        message: <>Pagamento criado com sucesso.</>,
+        severity: 'success',
+        progress: true,
+      })
     } finally {
       setLoading(false)
     }
