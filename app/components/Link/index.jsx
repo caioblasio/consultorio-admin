@@ -10,7 +10,7 @@ const Link = ({
   onClick,
   component,
   color,
-  variant = 'button',
+  variant,
   ...rest
 }) => {
   const content = (

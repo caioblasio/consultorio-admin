@@ -1,36 +1,8 @@
 import { styled } from '@mui/material/styles'
-import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
+import { GridActionsCellItem } from '@mui/x-data-grid'
 
 import LoaderContainer from 'components/LoaderContainer'
 import NoData from 'components/NoData'
-
-export const StyledDataGrid = styled(DataGrid)({
-  border: 'none',
-  '& .MuiDataGrid-columnHeaders': {
-    border: 'none',
-    '& .MuiDataGrid-columnHeader': {
-      '&:focus, &:focus-within': {
-        outline: 'none',
-      },
-    },
-    '& .MuiDataGrid-columnSeparator': {
-      display: 'none',
-    },
-  },
-  '& .MuiDataGrid-row': {
-    '& .MuiDataGrid-cell': {
-      '&:focus, &:focus-within': {
-        outline: 'none',
-      },
-    },
-    '&:hover': {
-      backgroundColor: 'transparent',
-      '& .MuiDataGrid-actionsCell .MuiIconButton-root': {
-        opacity: 1,
-      },
-    },
-  },
-})
 
 export const StyledGridActionsCellItem = styled(GridActionsCellItem)(
   ({ theme }) => ({

@@ -1,12 +1,6 @@
-import React, { forwardRef } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import React from 'react'
 import { Slide, alpha } from '@mui/material'
 import { CheckCircle, Error, Warning, Info } from '@mui/icons-material'
-
-const LinkBehavior = forwardRef((props, ref) => {
-  const { href, ...other } = props
-  return <RouterLink ref={ref} to={href} {...other} />
-})
 
 const components = {
   MuiContainer: {
@@ -55,14 +49,12 @@ const components = {
   MuiButtonBase: {
     defaultProps: {
       disableRipple: true,
-      LinkComponent: LinkBehavior,
     },
   },
   MuiLink: {
     defaultProps: {
-      color: 'grey.dark',
+      color: 'common.black',
       underline: 'none',
-      component: LinkBehavior,
     },
     styleOverrides: {
       root: ({ theme }) => ({
@@ -283,6 +275,40 @@ const components = {
           backgroundColor: theme.palette.grey.dark,
           '&:hover': {
             backgroundColor: theme.palette.grey.dark,
+          },
+        },
+      }),
+    },
+  },
+  MuiDataGrid: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        border: 'none',
+        '& .MuiDataGrid-columnHeader, .MuiDataGrid-cell': {
+          padding: theme.spacing(0, 3),
+        },
+        '& .MuiDataGrid-columnHeaders': {
+          border: 'none',
+          '& .MuiDataGrid-columnHeader': {
+            '&:focus, &:focus-within': {
+              outline: 'none',
+            },
+          },
+          '& .MuiDataGrid-columnSeparator': {
+            display: 'none',
+          },
+        },
+        '& .MuiDataGrid-row': {
+          '& .MuiDataGrid-cell': {
+            '&:focus, &:focus-within': {
+              outline: 'none',
+            },
+          },
+          '&:hover': {
+            backgroundColor: 'transparent',
+            '& .MuiDataGrid-actionsCell .MuiIconButton-root': {
+              opacity: 1,
+            },
           },
         },
       }),

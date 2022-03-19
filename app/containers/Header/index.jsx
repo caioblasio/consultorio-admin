@@ -26,7 +26,7 @@ import {
 import { signOut } from 'api/authentication'
 import LogoTitle from 'components/LogoTitle'
 import Logo from 'assets/svg/logo.svg'
-import NavLink from 'containers/NavLink'
+import HeaderNavLink from './NavLink'
 import { StyledAppBar, StyledToolbar, StyledLogoutLink } from './styles'
 
 const Header = () => {
@@ -52,49 +52,49 @@ const Header = () => {
           <Grid item>
             <Grid container spacing={4}>
               <Grid item>
-                <NavLink
+                <HeaderNavLink
                   inactiveIcon={<HomeOutlined />}
                   activeIcon={<Home />}
                   to={homeURL()}
                 >
                   Inicio
-                </NavLink>
+                </HeaderNavLink>
               </Grid>
               <Grid item>
-                <NavLink
+                <HeaderNavLink
                   inactiveIcon={<PeopleOutlined />}
                   activeIcon={<People />}
                   to={patientsURL()}
                 >
                   Pacientes
-                </NavLink>
+                </HeaderNavLink>
               </Grid>
               <Grid item>
-                <NavLink
+                <HeaderNavLink
                   inactiveIcon={<CalendarTodayOutlined />}
                   activeIcon={<CalendarToday />}
                   to={schedulesURL()}
                 >
                   Agendamentos
-                </NavLink>
+                </HeaderNavLink>
               </Grid>
               <Grid item>
-                <NavLink
+                <HeaderNavLink
                   inactiveIcon={<ShoppingCartOutlined />}
                   activeIcon={<ShoppingCart />}
                   to={paymentsURL()}
                 >
                   Pagamentos
-                </NavLink>
+                </HeaderNavLink>
               </Grid>
               <Grid item>
-                <NavLink
+                <HeaderNavLink
                   inactiveIcon={<FaceOutlined />}
                   activeIcon={<Face />}
                   to={accountURL()}
                 >
                   Minha Conta
-                </NavLink>
+                </HeaderNavLink>
               </Grid>
               <Grid item>
                 <StyledLogoutLink

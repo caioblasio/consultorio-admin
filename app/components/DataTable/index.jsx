@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import { Paper, Typography } from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDownRounded'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUpRounded'
 import EditIcon from '@mui/icons-material/Edit'
@@ -11,7 +12,6 @@ import { Mode } from 'constants/mode'
 import {
   StyledLoaderContainer,
   StyledNoData,
-  StyledDataGrid,
   StyledGridActionsCellItem,
 } from './styles'
 import DataTableToolbar from './Toolbar'
@@ -106,7 +106,7 @@ const DataTable = ({
   return (
     <>
       <Paper>
-        <StyledDataGrid
+        <DataGrid
           rows={data}
           columns={styledActionableColumns}
           autoHeight

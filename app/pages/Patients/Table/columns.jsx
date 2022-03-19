@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack, Chip, Typography } from '@mui/material'
+import { Stack, Chip } from '@mui/material'
 import { patientURL } from 'configs/urls'
 import Active from 'components/Active'
 import NavLink from 'components/Link'
@@ -18,7 +18,7 @@ const columns = [
   {
     field: 'phone',
     headerName: 'N° Celular',
-    width: 470,
+    width: 430,
     valueFormatter: ({ value }) => value.join(', '),
     renderCell: ({ value }) => (
       <Stack direction="row" spacing={1}>
@@ -36,7 +36,7 @@ const columns = [
   {
     field: 'isActive',
     headerName: 'Ativo?',
-    width: 90,
+    width: 120,
     renderCell: ({ value }) => Active({ value }),
   },
 ]
