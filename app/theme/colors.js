@@ -20,7 +20,7 @@ const colors = {
   },
   error: {
     light: '#FFDED7',
-    main: '#E0694E',
+    main: '#E75536',
     dark: '#A9412A',
   },
   success: {

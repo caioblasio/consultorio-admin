@@ -20,6 +20,7 @@ const NavLink = ({
   onClick,
   variant,
   color,
+  underline,
 }) => {
   const resolved = useResolvedPath(to)
   const match = useMatch({ path: resolved.pathname, end: true })
@@ -33,6 +34,7 @@ const NavLink = ({
       icon={match ? activeIcon : inactiveIcon}
       component={NavLinkBehavior}
       variant={variant}
+      underline={underline}
     >
       {children}
     </LinkComponent>

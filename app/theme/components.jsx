@@ -216,6 +216,14 @@ const components = {
             '&:hover, &.Mui-focused': {
               boxShadow: theme.shadows[1],
             },
+
+            '&.Mui-focused': {
+              boxShadow: `${theme.palette.primary.main} 0px 4px 0px`,
+
+              '&.Mui-error': {
+                boxShadow: `${theme.palette.error.main} 0px 4px 0px`,
+              },
+            },
           },
         },
         ...(ownerState.variant === 'outlined' && {
@@ -247,6 +255,13 @@ const components = {
             padding: theme.spacing(1.15, 2, 1, 2),
           },
         }),
+      }),
+    },
+  },
+  MuiMenuItem: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        transition: theme.transitions.create('all'),
       }),
     },
   },

@@ -1,7 +1,10 @@
 import React, { useCallback } from 'react'
 import { Grid, Typography } from '@mui/material'
 import LoaderContainer from 'components/LoaderContainer'
-import PlannerCell from 'components/Planner/Cell'
+import { Mode } from 'constants/mode'
+import PlannerCellEmpty from './CellEmpty'
+import PlannerCellContent from './CellContent'
+
 import {
   StyledHeaderGridItem,
   StyledBodyGridItem,
@@ -16,7 +19,12 @@ const PlannerBody = ({
   isLoading,
   onCellClick,
   columns,
-  components: { CellRenderer },
+  components: {
+    CellRenderer,
+    RowHeader = ({ label }) => (
+      <Typography component="span">{label}</Typography>
+    ),
+  },
 }) => {
   const renderElements = useCallback(
     (id, isBottom) => {
@@ -45,17 +53,28 @@ const PlannerBody = ({
             xs
           >
             {item ? (
-              <PlannerCell
+              <PlannerCellContent
                 status={status}
-                onClick={() =>
-                  onCellClick({ rowId: id, columnId: date }, item.data)
+                onDelete={() =>
+                  onCellClick(
+                    { rowId: id, columnId: date, mode: Mode.DELETE },
+                    item.data
+                  )
+                }
+                onEdit={() =>
+                  onCellClick(
+                    { rowId: id, columnId: date, mode: Mode.EDIT },
+                    item.data
+                  )
                 }
               >
                 <CellRenderer data={item.data} status={status} />
-              </PlannerCell>
+              </PlannerCellContent>
             ) : (
-              <PlannerCell
-                onClick={() => onCellClick({ rowId: id, columnId: date })}
+              <PlannerCellEmpty
+                onCreate={() =>
+                  onCellClick({ rowId: id, columnId: date, mode: Mode.CREATE })
+                }
               />
             )}
           </StyledBodyGridItem>
@@ -72,12 +91,12 @@ const PlannerBody = ({
       ) : data.length === 0 ? (
         <StyledNoData />
       ) : (
-        rows.map(({ id, label }, index) => (
-          <Grid container key={`row-${id}`}>
+        rows.map((row, index) => (
+          <Grid container key={`row-${row.id}`}>
             <StyledHeaderGridItem item xs={2}>
-              <Typography component="span">{label}</Typography>
+              <RowHeader row={row} />
             </StyledHeaderGridItem>
-            {renderElements(id, index === rows.length - 1)}
+            {renderElements(row.id, index === rows.length - 1)}
           </Grid>
         ))
       )}

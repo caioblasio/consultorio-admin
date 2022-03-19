@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { Stack } from '@mui/material'
 import { Mode } from 'constants/mode'
 import useDateAdapter from 'hooks/useDateAdapter'
+import ConfirmModal from 'components/ConfirmModal'
 
 import { VISIBLE_MONTHS } from './constants'
 import PlannerHeader from './Header'
@@ -20,7 +21,7 @@ const Planner = ({
   onSearchChange,
   typeMapping,
   isLoading = false,
-  components: { FormModal, CreateButtonIcon, CellRenderer },
+  components: { FormModal, CreateButtonIcon, CellRenderer, RowHeader },
   localeText: {
     deleteText,
     deleteTitle,
@@ -97,16 +98,10 @@ const Planner = ({
           rows={rows}
           typeMapping={typeMapping}
           isLoading={isLoading}
-          components={{ CellRenderer }}
-          onCellClick={({ rowId, columnId }, newData) => {
+          components={{ CellRenderer, RowHeader }}
+          onCellClick={({ rowId, columnId, mode }, newData) => {
             const cellPosition = { rowId, columnId }
-            if (!newData) {
-              setMode(Mode.CREATE)
-              setCell({ position: cellPosition })
-              return
-            }
-
-            setMode(Mode.EDIT)
+            setMode(mode)
             setCell({ position: cellPosition, data: newData })
           }}
         />
@@ -116,7 +111,7 @@ const Planner = ({
         <ConfirmModal
           open={mode === Mode.DELETE}
           onConfirm={async () => {
-            await onDelete(cell.id)
+            await onDelete(cell.position)
           }}
           localeText={{
             text: deleteText,

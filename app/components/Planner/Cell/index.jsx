@@ -1,29 +1,11 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 
-import { StyledBox, StyledError } from './styles'
+import { StyledBox } from './styles'
 
-const PlannerCell = ({
-  onClick,
-  children,
-  status: { color, id, type } = {},
-}) => {
-  const content = useMemo(() => {
-    let newContent
-    switch (type) {
-      case 'error':
-        newContent = <StyledError color={color} />
-        break
-
-      default:
-        newContent = children
-        break
-    }
-
-    return newContent
-  }, [id, color])
+const PlannerCell = ({ onClick, color, children }) => {
   return (
     <StyledBox color={color} onClick={onClick}>
-      {content}
+      {children}
     </StyledBox>
   )
 }
