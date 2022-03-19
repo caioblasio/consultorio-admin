@@ -2,7 +2,7 @@ import React from 'react'
 import { Stack, Chip } from '@mui/material'
 import { patientURL } from 'configs/urls'
 import Active from 'components/Active'
-import NavLink from 'components/Link'
+import NavLink from 'containers/NavLink'
 
 const columns = [
   {
