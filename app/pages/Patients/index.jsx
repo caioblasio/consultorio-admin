@@ -6,7 +6,8 @@ import {
   editPatient,
   deletePatient,
 } from 'api/database'
-import DashPage from 'components/DashPage'
+import Breadcrumbs from 'containers/Breadcrumbs'
+import Page from 'components/Page'
 import Snackbar from 'components/Snackbar'
 import { unformatCPF } from 'utils/cpf'
 import Table from './Table'
@@ -111,7 +112,7 @@ const PatientsPage = () => {
   }
 
   return (
-    <DashPage title="Pacientes">
+    <Page breadcrumbs={<Breadcrumbs current="Pacientes" />}>
       <Table
         data={filteredPatients}
         isLoading={loading}
@@ -129,7 +130,7 @@ const PatientsPage = () => {
       >
         {alert.message}
       </Snackbar>
-    </DashPage>
+    </Page>
   )
 }
 

@@ -45,8 +45,10 @@ const components = {
   MuiBackdrop: {
     styleOverrides: {
       root: ({ theme }) => ({
-        backgroundColor: alpha(theme.palette.grey.dark, 0.25),
-        backdropFilter: `blur(${theme.spacing(0.5)})`,
+        '&:not(.MuiBackdrop-invisible)': {
+          backgroundColor: alpha(theme.palette.grey.dark, 0.25),
+          backdropFilter: `blur(${theme.spacing(0.5)})`,
+        },
       }),
     },
   },
@@ -82,22 +84,25 @@ const components = {
 
         ...(ownerState.variant === 'contained' && {
           '&:hover': {
-            boxShadow: theme.shadows[0],
+            boxShadow: theme.shadows[1],
+            backgroundColor: theme.palette[ownerState.color].main,
           },
         }),
 
-        ...(ownerState.variant === 'outlined' &&
-          ownerState.color === 'grey' && {
+        ...(ownerState.variant === 'outlined' && {
+          '&:hover': {
+            boxShadow: theme.shadows[1],
+          },
+
+          ...(ownerState.color === 'grey' && {
             color: theme.palette.grey.dark,
             borderColor: theme.palette.grey.dark,
             '&:hover': {
+              boxShadow: theme.shadows[1],
               borderColor: theme.palette.grey.dark,
-              backgroundColor: alpha(
-                theme.palette.grey.dark,
-                theme.palette.action.hoverOpacity
-              ),
             },
           }),
+        }),
 
         ...(ownerState.variant === 'text' &&
           ownerState.color === 'grey' && {
@@ -158,7 +163,7 @@ const components = {
     styleOverrides: {
       root: ({ theme }) => ({
         '& .MuiPaper-root': {
-          boxShadow: theme.shadows[3],
+          boxShadow: theme.shadows[1],
         },
       }),
     },
@@ -213,6 +218,14 @@ const components = {
     },
     styleOverrides: {
       root: ({ ownerState, theme }) => ({
+        '& .MuiOutlinedInput-root': {
+          transition: theme.transitions.create('all'),
+          '&:not(.Mui-disabled)': {
+            '&:hover, &.Mui-focused': {
+              boxShadow: theme.shadows[1],
+            },
+          },
+        },
         ...(ownerState.variant === 'outlined' && {
           '& .MuiFormHelperText-root': {
             textTransform: 'none',

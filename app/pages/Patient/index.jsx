@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom'
 import useAsyncEffect from 'use-async-effect'
 import { Grid } from '@mui/material'
 import { fetchPatientById } from 'api/database'
-import DashPage from 'components/DashPage'
+import Breadcrumbs from 'containers/Breadcrumbs'
+import Page from 'components/Page'
 
 import ScheduleCard from './ScheduleCard'
 import PatientCard from './PatientCard'
@@ -27,7 +28,9 @@ const PatientPage = () => {
   }, [])
 
   return (
-    <DashPage breadcrumb={loading ? '' : patient.name}>
+    <Page
+      breadcrumbs={<Breadcrumbs current={patient?.name} isLoading={loading} />}
+    >
       <Grid container spacing={4}>
         <Grid item xs={4}>
           <PatientCard patient={patient} isLoading={loading} />
@@ -39,7 +42,7 @@ const PatientPage = () => {
           <PaymentsCard patient={patient} isLoading={loading} />
         </Grid>
       </Grid>
-    </DashPage>
+    </Page>
   )
 }
 

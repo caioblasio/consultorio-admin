@@ -8,25 +8,21 @@ import {
 } from './styles'
 
 const Card = ({ isLoading, title, children, className, ...rest }) => {
-  return (
-    <>
-      {isLoading ? (
-        <StyledSkeleton
-          variant="rectangular"
-          animation="wave"
-          className={className}
-        />
-      ) : (
-        <StyledCard className={className} {...rest}>
-          <StyledCardContent>
-            <StyledTitle variant="h2" component="h2" align="center">
-              {title}
-            </StyledTitle>
-            {children}
-          </StyledCardContent>
-        </StyledCard>
-      )}
-    </>
+  return isLoading ? (
+    <StyledSkeleton
+      variant="rectangular"
+      animation="wave"
+      className={className}
+    />
+  ) : (
+    <StyledCard className={className} {...rest}>
+      <StyledCardContent>
+        <StyledTitle variant="h2" component="h2" align="center">
+          {title}
+        </StyledTitle>
+        {children}
+      </StyledCardContent>
+    </StyledCard>
   )
 }
 

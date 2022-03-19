@@ -16,7 +16,7 @@ export const StyledCardContent = styled(CardContent)(({ theme }) => ({
 
 export const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
-  height: theme.spacing(90),
+  height: theme.spacing(40),
 }))
 
 export const StyledTitle = styled(Typography)(({ theme }) => ({

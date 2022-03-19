@@ -2,7 +2,8 @@ import React, { useMemo, useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 
 import { fetchAllPayments, fetchAllPatients, createPayment } from 'api/database'
-import DashPage from 'components/DashPage'
+import Breadcrumbs from 'containers/Breadcrumbs'
+import Page from 'components/Page'
 import Planner from './Planner'
 
 const PaymentsPage = () => {
@@ -69,7 +70,7 @@ const PaymentsPage = () => {
   }
 
   return (
-    <DashPage title="Pagamentos">
+    <Page breadcrumbs={<Breadcrumbs current="Pagamentos" />}>
       <Planner
         isLoading={loading}
         rows={rows}
@@ -78,7 +79,7 @@ const PaymentsPage = () => {
         onSearchChange={(newValue) => setSearch(newValue)}
         onCreate={onCreatePayment}
       />
-    </DashPage>
+    </Page>
   )
 }
 
