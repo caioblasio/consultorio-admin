@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, Button } from '@mui/material'
-import { AddRounded, CloudDownloadRounded } from '@mui/icons-material'
+import { AddRounded, SaveAltRounded } from '@mui/icons-material'
 
 import SearchField from 'components/SearchField'
 
@@ -12,10 +12,7 @@ const Toolbar = ({
   onExportClick,
   disableExport = false,
   onSearchChange,
-  components: {
-    CreateButtonIcon = AddRounded,
-    ExportIcon = CloudDownloadRounded,
-  },
+  components: { CreateButtonIcon = AddRounded, ExportIcon = SaveAltRounded },
   localeText: {
     createLabel = 'Criar',
     searchPlaceholder = 'Buscar...',
