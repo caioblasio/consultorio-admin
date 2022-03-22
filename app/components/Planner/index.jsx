@@ -99,10 +99,9 @@ const Planner = ({
           typeMapping={typeMapping}
           isLoading={isLoading}
           components={{ CellRenderer, RowHeader }}
-          onCellClick={({ rowId, columnId, mode }, newData) => {
-            const cellPosition = { rowId, columnId }
+          onCellClick={(mode, cell) => {
             setMode(mode)
-            setCell({ position: cellPosition, data: newData })
+            setCell(cell)
           }}
         />
         <PlannerLegend typeMapping={typeMapping} />
@@ -111,7 +110,7 @@ const Planner = ({
         <ConfirmModal
           open={mode === Mode.DELETE}
           onConfirm={async () => {
-            await onDelete(cell.position)
+            await onDelete(cell.id)
           }}
           localeText={{
             text: deleteText,
@@ -129,8 +128,7 @@ const Planner = ({
             await call(params)
           }}
           onClose={handleClose}
-          data={cell?.data}
-          position={cell?.position}
+          data={cell}
         />
       )}
     </>

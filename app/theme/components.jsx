@@ -115,6 +115,13 @@ const components = {
       TransitionComponent: (props) => <Slide {...props} direction="up" />,
       autoHideDuration: 6000,
     },
+    styleOverrides: {
+      root: ({ theme }) => ({
+        '& .MuiPaper-root': {
+          boxShadow: theme.shadows[1],
+        },
+      }),
+    },
   },
   MuiAlert: {
     defaultProps: {

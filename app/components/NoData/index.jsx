@@ -9,7 +9,7 @@ const NoData = ({ className }) => {
       <Typography
         component="span"
         variant="body1"
-        color="grey.dark"
+        color="grey.main"
         fontWeight="600"
       >
         Sem Dados

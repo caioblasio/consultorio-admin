@@ -19,7 +19,6 @@ import { useMemo } from 'react'
 const PaymentsFormModal = ({
   data,
   patients,
-  position,
   onConfirm,
   onClose,
   currentDate,
@@ -49,17 +48,17 @@ const PaymentsFormModal = ({
 
   useEffect(() => {
     let newData = { ...defaultValues }
-    if (position) {
-      const patient = patients.find(({ id }) => id === position.rowId)
-      newData = {
-        ...newData,
-        patient,
-        referenceMonth: position.columnId.getMonth() + 1,
-        referenceYear: position.columnId.getFullYear(),
-      }
-    }
-
     if (data) {
+      if (data.rowId && data.columnId) {
+        const patient = patients.find(({ id }) => id === data.rowId)
+        newData = {
+          ...newData,
+          patient,
+          referenceMonth: data.columnId.getMonth() + 1,
+          referenceYear: data.columnId.getFullYear(),
+        }
+      }
+
       newData = {
         ...newData,
         ...data,
@@ -67,13 +66,12 @@ const PaymentsFormModal = ({
     }
 
     reset(newData)
-  }, [data, position])
+  }, [data])
 
-  const handleConfirm = (data) => {
-    const { patient, ...rest } = data
+  const handleConfirm = ({ patient, ...rest }) => {
     const submitData = {
       ...rest,
-      value: standardToCentesimal(data.value),
+      value: standardToCentesimal(rest.value),
       patientId: patient.id,
     }
     handleClose()
@@ -89,7 +87,7 @@ const PaymentsFormModal = ({
     <Modal
       open={open}
       onClose={handleClose}
-      title={data ? 'Editar Pagamento' : 'Criar Pagamento'}
+      title={data && data.data ? 'Editar Pagamento' : 'Criar Pagamento'}
       actions={[
         { label: 'Confirmar', onClick: handleSubmit(handleConfirm) },
         { label: 'Cancelar', onClick: handleClose },

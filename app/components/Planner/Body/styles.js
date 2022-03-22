@@ -3,9 +3,11 @@ import { styled } from '@mui/system'
 
 import NoData from 'components/NoData'
 
-export const StyledPaper = styled(Paper)(({ theme }) => ({
+export const StyledPaper = styled(Paper, {
+  shouldForwardProp: (prop) => prop !== 'isEmpty',
+})(({ theme, isEmpty }) => ({
   position: 'relative',
-  minHeight: theme.spacing(16),
+  minHeight: isEmpty ? theme.spacing(16) : undefined,
 }))
 
 export const StyledHeaderGridItem = styled(Grid)(({ theme }) => ({

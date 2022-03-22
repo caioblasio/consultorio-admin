@@ -11,20 +11,21 @@ import {
   doc,
   deleteDoc,
 } from 'firebase/firestore'
+import { patientUiMapper, patientApiMapper } from './utils'
 
 const COLLECTION_NAME = 'patients'
 
 export const fetchAllPatients = async () => {
   const q = query(collection(db, COLLECTION_NAME))
   const snapshot = await getDocs(q)
-  return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+  return snapshot.docs.map(patientUiMapper)
 }
 
 export const fetchPatientById = async (id) => {
   const docRef = doc(db, COLLECTION_NAME, id)
   const snapshot = await getDoc(docRef)
 
-  return snapshot.exists() ? { ...snapshot.data(), id: snapshot.id } : null
+  return snapshot.exists() ? patientUiMapper(snapshot) : null
 }
 
 export const fetchActivePatients = async () => {
@@ -33,7 +34,7 @@ export const fetchActivePatients = async () => {
     where('isActive', '==', true)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map((doc) => doc.data())
+  return snapshot.docs.map(patientUiMapper)
 }
 
 export const fetchPatientsCount = async () => {
@@ -48,31 +49,32 @@ export const fetchPatientsWithinDateRange = async (startDate, endDate) => {
     where('createdAt', '<=', endDate)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map((doc) => doc.data())
+  return snapshot.docs.map(patientUiMapper)
 }
 
 export const createPatient = async (patient) => {
-  const docRef = await addDoc(collection(db, COLLECTION_NAME), {
-    ...patient,
-    createdAt: serverTimestamp(),
-  })
+  const docRef = await addDoc(
+    collection(db, COLLECTION_NAME),
+    patientApiMapper({
+      ...patient,
+      createdAt: serverTimestamp(),
+    })
+  )
   const snapshot = await getDoc(docRef)
-  return snapshot.exists() ? { ...snapshot.data(), id: snapshot.id } : null
+  return snapshot.exists() ? snapshot.id : null
 }
 
 export const editPatient = async (patient) => {
   const id = patient.id
   const docRef = doc(collection(db, COLLECTION_NAME), id)
-  await setDoc(docRef, {
-    ...patient,
-  })
+  await setDoc(docRef, patientApiMapper(patient))
   const snapshot = await getDoc(docRef)
-  return { ...snapshot.data(), id: snapshot.id }
+  return snapshot.exists() ? snapshot.id : null
 }
 
 export const deletePatient = async (id) => {
   const docRef = doc(collection(db, COLLECTION_NAME), id)
   const snapshot = await getDoc(docRef)
   await deleteDoc(docRef)
-  return { ...snapshot.data(), id: snapshot.id }
+  return snapshot.exists() ? snapshot.id : null
 }

@@ -12,6 +12,8 @@ const PaymentsPlanner = ({
   data,
   rows,
   onCreate,
+  onEdit,
+  onDelete,
   searchValue,
   onSearchChange,
   isLoading,
@@ -24,7 +26,8 @@ const PaymentsPlanner = ({
       searchValue={searchValue}
       onSearchChange={onSearchChange}
       onCreate={onCreate}
-      onDelete={() => {}}
+      onDelete={onDelete}
+      onEdit={onEdit}
       components={{
         CreateButtonIcon: AddShoppingCartOutlined,
         FormModal: (props) => <PaymentsFormModal {...props} patients={rows} />,

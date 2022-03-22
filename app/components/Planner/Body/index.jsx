@@ -55,25 +55,15 @@ const PlannerBody = ({
             {item ? (
               <PlannerCellContent
                 status={status}
-                onDelete={() =>
-                  onCellClick(
-                    { rowId: id, columnId: date, mode: Mode.DELETE },
-                    item.data
-                  )
-                }
-                onEdit={() =>
-                  onCellClick(
-                    { rowId: id, columnId: date, mode: Mode.EDIT },
-                    item.data
-                  )
-                }
+                onDelete={() => onCellClick(Mode.DELETE, item)}
+                onEdit={() => onCellClick(Mode.EDIT, item)}
               >
                 <CellRenderer data={item.data} status={status} />
               </PlannerCellContent>
             ) : (
               <PlannerCellEmpty
                 onCreate={() =>
-                  onCellClick({ rowId: id, columnId: date, mode: Mode.CREATE })
+                  onCellClick(Mode.CREATE, { rowId: id, columnId: date })
                 }
               />
             )}
@@ -85,7 +75,7 @@ const PlannerBody = ({
   )
 
   return (
-    <StyledPaper>
+    <StyledPaper isEmpty={isLoading || data.length === 0}>
       {isLoading ? (
         <LoaderContainer />
       ) : data.length === 0 ? (

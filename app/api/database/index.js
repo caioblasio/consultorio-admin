@@ -1,2 +1,2 @@
-export * from './Patient'
-export * from './Payments'
+export * from './patient'
+export * from './payment'

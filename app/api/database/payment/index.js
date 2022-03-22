@@ -3,27 +3,23 @@ import {
   collection,
   getDocs,
   query,
+  doc,
+  deleteDoc,
   where,
   addDoc,
+  setDoc,
   getDoc,
   serverTimestamp,
 } from 'firebase/firestore'
-import { fetchActivePatients } from 'api/database/Patient'
+import { fetchActivePatients } from 'api/database'
+import { paymentUiMapper, paymentApiMapper } from './utils'
 
 const COLLECTION_NAME = 'payments'
 
 export const fetchAllPayments = async () => {
   const q = query(collection(db, COLLECTION_NAME))
   const snapshot = await getDocs(q)
-  return snapshot.docs.map((doc) => {
-    const { createdAt, reference, madeAt, ...rest } = doc.data()
-    return {
-      ...rest,
-      createdAt: createdAt.toDate(),
-      reference: reference.toDate(),
-      madeAt: madeAt.toDate(),
-    }
-  })
+  return snapshot.docs.map(paymentUiMapper)
 }
 
 export const fetchPaymentsWithinRange = async (startDate, endDate) => {
@@ -33,14 +29,7 @@ export const fetchPaymentsWithinRange = async (startDate, endDate) => {
     where('reference', '<=', endDate)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map((doc) => {
-    const { createdAt, reference, ...rest } = doc.data()
-    return {
-      ...rest,
-      createdAt: createdAt.toDate(),
-      reference: reference.toDate(),
-    }
-  })
+  return snapshot.docs.map(paymentUiMapper)
 }
 
 export const fetchPaymentsWithinRangeByPatient = async (
@@ -55,15 +44,7 @@ export const fetchPaymentsWithinRangeByPatient = async (
     where('reference', '<=', endDate)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map((doc) => {
-    const data = doc.data()
-    return {
-      ...data,
-      reference: data.reference.toDate(),
-      createdAt: data.createdAt.toDate(),
-      madeAt: data.madeAt.toDate(),
-    }
-  })
+  return snapshot.docs.map(paymentUiMapper)
 }
 
 export const fetchMissingPaymentsWithinRange = async (startDate, endDate) => {
@@ -76,21 +57,28 @@ export const fetchMissingPaymentsWithinRange = async (startDate, endDate) => {
 }
 
 export const createPayment = async (payment) => {
-  const docRef = await addDoc(collection(db, COLLECTION_NAME), {
-    ...payment,
-    createdAt: serverTimestamp(),
-  })
+  const docRef = await addDoc(
+    collection(db, COLLECTION_NAME),
+    paymentApiMapper({
+      ...payment,
+      createdAt: serverTimestamp(),
+    })
+  )
   const snapshot = await getDoc(docRef)
+  return snapshot.exists() ? snapshot.id : null
+}
 
-  if (snapshot.exists()) {
-    const { createdAt, reference, madeAt, ...rest } = snapshot.data()
-    return {
-      ...rest,
-      createdAt: createdAt.toDate(),
-      reference: reference.toDate(),
-      madeAt: madeAt.toDate(),
-    }
-  }
+export const editPayment = async (payment) => {
+  const id = payment.id
+  const docRef = doc(collection(db, COLLECTION_NAME), id)
+  await setDoc(docRef, paymentApiMapper(payment))
+  const snapshot = await getDoc(docRef)
+  return snapshot.exists() ? snapshot.id : null
+}
 
-  return null
+export const deletePayment = async (id) => {
+  const docRef = doc(collection(db, COLLECTION_NAME), id)
+  const snapshot = await getDoc(docRef)
+  await deleteDoc(docRef)
+  return snapshot.exists() ? snapshot.id : null
 }

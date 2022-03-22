@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
-import { useTheme } from '@mui/system'
 import { WarningRounded } from '@mui/icons-material'
 import { fetchMissingPaymentsWithinRange } from 'api/database'
 import { paymentsURL } from 'configs/urls'
@@ -8,7 +7,6 @@ import { paymentsURL } from 'configs/urls'
 import DataCard from 'containers/DataCard'
 
 const PaymentsCard = () => {
-  const theme = useTheme()
   const [count, setCount] = useState(0)
   const [loading, setLoading] = useState(true)
 
