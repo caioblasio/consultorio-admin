@@ -150,7 +150,18 @@ const PatientForm = ({
             <Controller
               name="isActive"
               control={control}
-              render={({ field }) => <Switch label="Ativo" {...field} />}
+              render={({ field }) => (
+                <Switch
+                  label="Ativo"
+                  {...field}
+                  onBlur={() => {
+                    field.onBlur()
+                    if (onDataChange) {
+                      onDataChange()
+                    }
+                  }}
+                />
+              )}
             />
           </Grid>
         </Grid>
