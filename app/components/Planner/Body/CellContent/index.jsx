@@ -38,7 +38,19 @@ const PlannerCellContent = ({
       <PlannerCell color={color} onClick={handleClick}>
         {content}
       </PlannerCell>
-      <Menu anchorEl={anchorEl} open={!!anchorEl} onClose={handleClose}>
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          horizontal: 'right',
+          vertical: 'center',
+        }}
+        transformOrigin={{
+          horizontal: 'left',
+          vertical: 'center',
+        }}
+        open={!!anchorEl}
+        onClose={handleClose}
+      >
         <MenuItem
           onClick={() => {
             onEdit()

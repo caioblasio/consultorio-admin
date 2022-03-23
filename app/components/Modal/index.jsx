@@ -24,7 +24,12 @@ const Modal = ({ children, title, open = false, onClose, actions = [] }) => {
           </StyledTitle>
           <StyledChildrenContainer>{children}</StyledChildrenContainer>
           {actions.length > 0 && (
-            <Grid container alignItems="center" direction="row-reverse">
+            <Grid
+              container
+              alignItems="center"
+              direction="row-reverse"
+              spacing={2}
+            >
               {actions.map(({ label, onClick, isLoading = false }, index) => (
                 <Grid item key={`action-${label}`}>
                   <LoadingButton

@@ -8,9 +8,9 @@ const ConfirmModal = ({
   onClose,
   onConfirm,
   isLoading = false,
-  localeText: { title, text } = {
-    title: 'Tem a certeza?',
-    text: 'Tem a certeza que quer continuar?',
+  localeText: {
+    title = 'Tem a certeza?',
+    text = 'Tem a certeza que quer continuar?',
   },
 }) => {
   return (
