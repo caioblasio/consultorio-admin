@@ -2,6 +2,8 @@ import React from 'react'
 import { Stack, Typography, Grid } from '@mui/material'
 import useDateAdapter from 'hooks/useDateAdapter'
 
+import { StyledError } from './styles'
+
 const Text = ({ text, color }) => (
   <Typography
     component="span"
@@ -15,9 +17,14 @@ const Text = ({ text, color }) => (
 
 const PaymentsCell = ({
   data: { type, madeAt, holder } = {},
-  status: { color } = {},
+  status: { color, id } = {},
 }) => {
   const adapter = useDateAdapter()
+
+  if (id === 'owing') {
+    return <StyledError color={color} />
+  }
+
   return (
     <Stack>
       <Typography component="span" color={`${color}.dark`}>
@@ -27,14 +34,14 @@ const PaymentsCell = ({
         <Grid item>
           <Text text={type} color={color} />
         </Grid>
-        <Grid item>
-          {madeAt && (
+        {madeAt && (
+          <Grid item>
             <Text
               text={adapter.formatByString(madeAt, 'MM/yyyy')}
               color={color}
             />
-          )}
-        </Grid>
+          </Grid>
+        )}
       </Grid>
     </Stack>
   )

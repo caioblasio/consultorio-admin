@@ -7,6 +7,7 @@ export const paymentMapper = ({
   madeAt,
   createdAt,
   id,
+  value,
 }) => ({
   id,
   rowId: patientId,
@@ -17,5 +18,6 @@ export const paymentMapper = ({
     madeAt,
     createdAt,
     holder,
+    value,
   },
 })

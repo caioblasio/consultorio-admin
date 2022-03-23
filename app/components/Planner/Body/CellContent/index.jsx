@@ -1,34 +1,20 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { Menu, MenuItem } from '@mui/material'
 
 import PlannerCell from 'components/Planner/Cell'
-import { StyledError, StyledErrorItem } from './styles'
+import { StyledErrorItem } from './styles'
 
 const PlannerCellContent = ({
   onEdit,
   onDelete,
   children,
-  status: { color, id, type } = {},
+  status: { color } = {},
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const content = useMemo(() => {
-    let newContent
-    switch (type) {
-      case 'error':
-        newContent = <StyledError color={color} />
-        break
-
-      default:
-        newContent = children
-        break
-    }
-
-    return newContent
-  }, [id, color])
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
+
   const handleClose = () => {
     setAnchorEl(null)
   }
@@ -36,7 +22,7 @@ const PlannerCellContent = ({
   return (
     <>
       <PlannerCell color={color} onClick={handleClick}>
-        {content}
+        {children}
       </PlannerCell>
       <Menu
         anchorEl={anchorEl}

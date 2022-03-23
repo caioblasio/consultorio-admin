@@ -11,7 +11,7 @@ import Modal from 'components/Modal'
 import SelectField from 'components/SelectField'
 import Autocomplete from 'components/Autocomplete'
 
-import { centesimalToStandard, standardToCentesimal } from 'utils/currency'
+import { standardToCentesimal, centesimalToStandard } from 'utils/currency'
 
 import VALIDATION_SCHEMA from './validations'
 import { useMemo } from 'react'
@@ -32,7 +32,7 @@ const PaymentsFormModal = ({
       madeAt: new Date(),
       status: 'paid',
       type: 'card',
-      value: centesimalToStandard(9000),
+      value: 0,
     }
   }, [currentDate])
 
@@ -53,6 +53,8 @@ const PaymentsFormModal = ({
         newData.id = data.id
       }
 
+      newData.status = data.status
+
       if (data.rowId && data.columnId) {
         const patient = patients.find(({ id }) => id === data.rowId)
         const reference = new Date(newData.reference.toISOString())
@@ -66,9 +68,11 @@ const PaymentsFormModal = ({
       }
 
       if (data.data) {
+        const { value, ...rest } = data.data
         newData = {
           ...newData,
-          ...data.data,
+          ...rest,
+          value: centesimalToStandard(value),
         }
       }
     }
@@ -157,7 +161,7 @@ const PaymentsFormModal = ({
                 label="Estado"
                 options={[
                   { label: 'Pago', value: 'paid' },
-                  { label: 'Devendo', value: 'due' },
+                  { label: 'Devendo', value: 'owing' },
                   { label: 'Perdoado', value: 'forgiven' },
                 ]}
                 {...field}

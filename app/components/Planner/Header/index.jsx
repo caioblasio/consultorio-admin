@@ -14,10 +14,10 @@ const PlannerHeader = ({ firstDate, currentDate, onDateChange, columns }) => {
   const adapter = useDateAdapter()
 
   const renderElements = useCallback(() => {
-    const currentMonth = adapter.format(currentDate, 'month')
-
-    return columns.map(({ label: month }) => {
-      const isCurrent = month === currentMonth
+    return columns.map(({ date, label: month }) => {
+      const isCurrent =
+        date.getFullYear() === currentDate.getFullYear() &&
+        date.getMonth() === currentDate.getMonth()
 
       return (
         <Grid item key={`month-${month}`} xs>

@@ -61,7 +61,7 @@ const PaymentsCard = ({ patient, isLoading }) => {
     const colors = {
       paid: 'success.dark',
       forgiven: 'info.dark',
-      due: 'error.dark',
+      owing: 'error.dark',
       default: 'text.primary',
     }
     return colors[status] || colors.default
