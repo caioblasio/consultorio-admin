@@ -107,7 +107,7 @@ const DataTable = ({
     <>
       <Paper>
         <DataGrid
-          rows={data}
+          rows={isLoading ? [] : data}
           columns={styledActionableColumns}
           autoHeight
           loading={isLoading}
@@ -119,7 +119,12 @@ const DataTable = ({
           hideFooter
           components={{
             Toolbar: (props) => (
-              <DataTableToolbar {...props} data={data} columns={columns} />
+              <DataTableToolbar
+                {...props}
+                data={data}
+                columns={columns}
+                disabled={isLoading}
+              />
             ),
             LoadingOverlay: StyledLoaderContainer,
             NoRowsOverlay: StyledNoData,

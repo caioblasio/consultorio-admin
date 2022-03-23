@@ -11,6 +11,7 @@ const DataTableToolbar = ({
   onSearchChange,
   components,
   localeText,
+  disabled,
 }) => {
   const csvData = useMemo(() => {
     const newData = [
@@ -33,6 +34,7 @@ const DataTableToolbar = ({
 
   return (
     <Toolbar
+      disabled={disabled}
       searchValue={searchValue}
       onCreateClick={onCreateClick}
       disableExport={disableExport}

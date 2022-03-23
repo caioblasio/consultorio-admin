@@ -11,6 +11,7 @@ import {
 import { SaveContext } from 'contexts/Save'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import Page from 'containers/Page'
+import { paymentMapper } from './utils'
 import Planner from './Planner'
 
 const PaymentsPage = () => {
@@ -18,7 +19,7 @@ const PaymentsPage = () => {
   const [patients, setPatients] = useState([])
 
   const [loading, setLoading] = useState(true)
-  const { onSaving } = useContext(SaveContext)
+  const { onSaving, saving } = useContext(SaveContext)
   const [search, setSearch] = useState('')
 
   useAsyncEffect(async (isMounted) => {
@@ -42,74 +43,41 @@ const PaymentsPage = () => {
     [patients]
   )
 
-  const data = useMemo(
-    () =>
-      payments.map(
-        ({ patientId, status, reference, type, holder, madeAt, id }) => ({
-          id,
-          rowId: patientId,
-          columnId: reference,
-          status,
-          data: {
-            type,
-            madeAt,
-            holder,
-          },
-        })
-      ),
-    [payments]
-  )
+  const data = useMemo(() => payments.map(paymentMapper), [payments])
 
   const onCreatePayment = async (payment) => {
-    try {
-      onSaving(true)
-      const createdPaymentId = await createPayment(payment)
-      const newPayments = [...payments, { ...payment, id: createdPaymentId }]
-      setPayments(newPayments)
-    } finally {
-      onSaving(false)
-    }
+    const createdPaymentId = await onSaving(() => createPayment(payment))
+    const newPayments = [...payments, { ...payment, id: createdPaymentId }]
+    setPayments(newPayments)
   }
 
-  const onEditPatient = async (payment) => {
-    try {
-      onSaving(true)
-
-      await editPayment(payment)
-
-      const paymentIndex = payments.findIndex(({ id }) => id === payment.id)
-      const newPayments = [...payments]
-      newPayments[paymentIndex] = payment
-      setPayments(newPayments)
-    } finally {
-      onSaving(false)
-    }
+  const onEditPayment = async (payment) => {
+    await onSaving(() => editPayment(payment))
+    const paymentIndex = payments.findIndex(({ id }) => id === payment.id)
+    const newPayments = [...payments]
+    newPayments[paymentIndex] = payment
+    setPayments(newPayments)
   }
 
   const onDeletePayment = async (paymentId) => {
-    try {
-      onSaving(true)
-      await deletePayment(paymentId)
-      const paymentIndex = payments.findIndex(({ id }) => id === paymentId)
-      const newPayments = [...payments]
-      newPayments.splice(paymentIndex, 1)
-      setPayments(newPayments)
-    } finally {
-      onSaving(false)
-    }
+    await onSaving(() => deletePayment(paymentId))
+    const paymentIndex = payments.findIndex(({ id }) => id === paymentId)
+    const newPayments = [...payments]
+    newPayments.splice(paymentIndex, 1)
+    setPayments(newPayments)
   }
 
   return (
     <Page breadcrumbs={<Breadcrumbs current="Pagamentos" />}>
       <Planner
-        isLoading={loading}
+        isLoading={loading || saving}
         rows={rows}
         data={data}
         searchValue={search}
         onSearchChange={(newValue) => setSearch(newValue)}
         onCreate={onCreatePayment}
         onDelete={onDeletePayment}
-        onEdit={onEditPatient}
+        onEdit={onEditPayment}
       />
     </Page>
   )

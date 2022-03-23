@@ -18,33 +18,31 @@ const Modal = ({ children, title, open = false, onClose, actions = [] }) => {
             <CloseIcon />
           </IconButton>
         </StyledCloseContainer>
-        <Stack spacing={2}>
-          <StyledTitle variant="h6" component="h2">
-            {title}
-          </StyledTitle>
-          <StyledChildrenContainer>{children}</StyledChildrenContainer>
-          {actions.length > 0 && (
-            <Grid
-              container
-              alignItems="center"
-              direction="row-reverse"
-              spacing={2}
-            >
-              {actions.map(({ label, onClick, isLoading = false }, index) => (
-                <Grid item key={`action-${label}`}>
-                  <LoadingButton
-                    onClick={onClick}
-                    variant={index === 0 ? 'contained' : undefined}
-                    color={index === 0 ? 'primary' : undefined}
-                    loading={isLoading}
-                  >
-                    {label}
-                  </LoadingButton>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-        </Stack>
+        <StyledTitle variant="h6" component="h2" gutterBottom>
+          {title}
+        </StyledTitle>
+        <StyledChildrenContainer>{children}</StyledChildrenContainer>
+        {actions.length > 0 && (
+          <Grid
+            container
+            alignItems="center"
+            direction="row-reverse"
+            spacing={2}
+          >
+            {actions.map(({ label, onClick, isLoading = false }, index) => (
+              <Grid item key={`action-${label}`}>
+                <LoadingButton
+                  onClick={onClick}
+                  variant={index === 0 ? 'contained' : undefined}
+                  color={index === 0 ? 'primary' : undefined}
+                  loading={isLoading}
+                >
+                  {label}
+                </LoadingButton>
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </StyledModalContainer>
     </MuiModal>
   )

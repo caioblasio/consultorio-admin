@@ -11,21 +11,21 @@ import {
   doc,
   deleteDoc,
 } from 'firebase/firestore'
-import { patientUiMapper, patientApiMapper } from './utils'
+import { patientMapper } from './utils'
 
 const COLLECTION_NAME = 'patients'
 
 export const fetchAllPatients = async () => {
   const q = query(collection(db, COLLECTION_NAME))
   const snapshot = await getDocs(q)
-  return snapshot.docs.map(patientUiMapper)
+  return snapshot.docs.map(patientMapper)
 }
 
 export const fetchPatientById = async (id) => {
   const docRef = doc(db, COLLECTION_NAME, id)
   const snapshot = await getDoc(docRef)
 
-  return snapshot.exists() ? patientUiMapper(snapshot) : null
+  return snapshot.exists() ? patientMapper(snapshot) : null
 }
 
 export const fetchActivePatients = async () => {
@@ -34,7 +34,7 @@ export const fetchActivePatients = async () => {
     where('isActive', '==', true)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map(patientUiMapper)
+  return snapshot.docs.map(patientMapper)
 }
 
 export const fetchPatientsCount = async () => {
@@ -49,17 +49,14 @@ export const fetchPatientsWithinDateRange = async (startDate, endDate) => {
     where('createdAt', '<=', endDate)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map(patientUiMapper)
+  return snapshot.docs.map(patientMapper)
 }
 
 export const createPatient = async (patient) => {
-  const docRef = await addDoc(
-    collection(db, COLLECTION_NAME),
-    patientApiMapper({
-      ...patient,
-      createdAt: serverTimestamp(),
-    })
-  )
+  const docRef = await addDoc(collection(db, COLLECTION_NAME), {
+    ...patient,
+    createdAt: serverTimestamp(),
+  })
   const snapshot = await getDoc(docRef)
   return snapshot.exists() ? snapshot.id : null
 }
@@ -67,7 +64,7 @@ export const createPatient = async (patient) => {
 export const editPatient = async (patient) => {
   const id = patient.id
   const docRef = doc(collection(db, COLLECTION_NAME), id)
-  await setDoc(docRef, patientApiMapper(patient))
+  await setDoc(docRef, patient)
   const snapshot = await getDoc(docRef)
   return snapshot.exists() ? snapshot.id : null
 }

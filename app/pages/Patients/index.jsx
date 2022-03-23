@@ -13,7 +13,7 @@ import { unformatCPF } from 'utils/cpf'
 import Table from './Table'
 
 const PatientsPage = () => {
-  const { onSaving } = useContext(SaveContext)
+  const { saving, onSaving } = useContext(SaveContext)
   const [patients, setPatients] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -36,50 +36,32 @@ const PatientsPage = () => {
   )
 
   const onCreatePatient = async (patient) => {
-    try {
-      onSaving(true)
-      const createdPatientId = await createPatient(patient)
-      const newPatients = [...patients, { ...patient, id: createdPatientId }]
-      setPatients(newPatients)
-    } finally {
-      onSaving(false)
-    }
+    const createdPatientId = await onSaving(() => createPatient(patient))
+    const newPatients = [...patients, { ...patient, id: createdPatientId }]
+    setPatients(newPatients)
   }
 
   const onEditPatient = async (patient) => {
-    try {
-      onSaving(true)
-
-      await editPatient(patient)
-
-      const patientIndex = patients.findIndex(({ id }) => id === patient.id)
-      const newPatients = [...patients]
-      newPatients[patientIndex] = patient
-      setPatients(newPatients)
-    } finally {
-      onSaving(false)
-    }
+    await onSaving(() => editPatient(patient))
+    const patientIndex = patients.findIndex(({ id }) => id === patient.id)
+    const newPatients = [...patients]
+    newPatients[patientIndex] = patient
+    setPatients(newPatients)
   }
 
   const onDeletePatient = async (patientId) => {
-    try {
-      onSaving(true)
-      await deletePatient(patientId)
-
-      const patientIndex = patients.findIndex(({ id }) => id === patientId)
-      const newPatients = [...patients]
-      newPatients.splice(patientIndex, 1)
-      setPatients(newPatients)
-    } finally {
-      onSaving(false)
-    }
+    await onSaving(() => deletePatient(patientId))
+    const patientIndex = patients.findIndex(({ id }) => id === patientId)
+    const newPatients = [...patients]
+    newPatients.splice(patientIndex, 1)
+    setPatients(newPatients)
   }
 
   return (
     <Page breadcrumbs={<Breadcrumbs current="Pacientes" />}>
       <Table
         data={filteredPatients}
-        isLoading={loading}
+        isLoading={loading || saving}
         onCreate={onCreatePatient}
         onDelete={onDeletePatient}
         onEdit={onEditPatient}

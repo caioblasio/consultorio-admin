@@ -66,6 +66,7 @@ const Planner = ({
     <>
       <Stack spacing={2}>
         <PlannerToolbar
+          disabled={isLoading}
           firstDate={firstDate}
           data={data}
           rows={rows}

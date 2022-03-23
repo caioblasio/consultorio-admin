@@ -1,4 +1,4 @@
-export const paymentUiMapper = (doc) => {
+export const paymentMapper = (doc) => {
   const { createdAt, reference, madeAt, ...rest } = doc.data()
   return {
     ...rest,
@@ -7,8 +7,4 @@ export const paymentUiMapper = (doc) => {
     reference: reference.toDate(),
     madeAt: madeAt.toDate(),
   }
-}
-
-export const paymentApiMapper = (payment) => {
-  return { ...payment }
 }

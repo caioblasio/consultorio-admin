@@ -15,7 +15,6 @@ const PatientCard = ({ patient, isLoading, onSaving }) => {
   }, [patient])
 
   const handleConfirm = async (newData) => {
-    onSaving(true)
     const submitData = {
       ...newData,
       ...(newData.phone
@@ -23,8 +22,7 @@ const PatientCard = ({ patient, isLoading, onSaving }) => {
         : {}),
     }
 
-    await editPatient(submitData)
-    onSaving(false)
+    await onSaving(() => editPatient(submitData))
   }
 
   return (

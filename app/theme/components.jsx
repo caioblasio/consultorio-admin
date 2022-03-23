@@ -96,16 +96,19 @@ const components = {
           }),
         }),
 
-        ...(ownerState.variant === 'text' &&
-          ownerState.color === 'grey' && {
+        ...(ownerState.variant === 'text' && {
+          '&:hover': {
+            boxShadow: theme.shadows[1],
+          },
+
+          ...(ownerState.color === 'grey' && {
             color: theme.palette.grey.dark,
             '&:hover': {
-              backgroundColor: alpha(
-                theme.palette.grey.dark,
-                theme.palette.action.hoverOpacity
-              ),
+              boxShadow: theme.shadows[1],
+              backgroundColor: theme.palette.grey.light,
             },
           }),
+        }),
       }),
     },
   },

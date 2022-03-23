@@ -6,6 +6,7 @@ import { exportToCsv } from 'utils/export'
 const PlannerToolbar = ({
   firstDate,
   data,
+  disabled,
   rows,
   searchValue,
   onCreateClick,
@@ -69,6 +70,7 @@ const PlannerToolbar = ({
 
   return (
     <Toolbar
+      disabled={disabled}
       searchValue={searchValue}
       onCreateClick={onCreateClick}
       disableExport={disableExport}

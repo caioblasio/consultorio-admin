@@ -49,6 +49,10 @@ const PaymentsFormModal = ({
   useEffect(() => {
     let newData = { ...defaultValues }
     if (data) {
+      if (data.id) {
+        newData.id = data.id
+      }
+
       if (data.rowId && data.columnId) {
         const patient = patients.find(({ id }) => id === data.rowId)
         const reference = new Date(newData.reference.toISOString())
@@ -61,21 +65,24 @@ const PaymentsFormModal = ({
         }
       }
 
-      newData = {
-        ...newData,
-        ...data,
+      if (data.data) {
+        newData = {
+          ...newData,
+          ...data.data,
+        }
       }
     }
 
     reset(newData)
   }, [data])
 
-  const handleConfirm = ({ patient, ...rest }) => {
+  const handleConfirm = ({ patient, value, ...rest }) => {
     const submitData = {
       ...rest,
-      value: standardToCentesimal(rest.value),
+      value: standardToCentesimal(value),
       patientId: patient.id,
     }
+
     handleClose()
     onConfirm(submitData)
   }

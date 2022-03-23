@@ -12,14 +12,14 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import { fetchActivePatients } from 'api/database'
-import { paymentUiMapper, paymentApiMapper } from './utils'
+import { paymentMapper } from './utils'
 
 const COLLECTION_NAME = 'payments'
 
 export const fetchAllPayments = async () => {
   const q = query(collection(db, COLLECTION_NAME))
   const snapshot = await getDocs(q)
-  return snapshot.docs.map(paymentUiMapper)
+  return snapshot.docs.map(paymentMapper)
 }
 
 export const fetchPaymentsWithinRange = async (startDate, endDate) => {
@@ -29,7 +29,7 @@ export const fetchPaymentsWithinRange = async (startDate, endDate) => {
     where('reference', '<=', endDate)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map(paymentUiMapper)
+  return snapshot.docs.map(paymentMapper)
 }
 
 export const fetchPaymentsWithinRangeByPatient = async (
@@ -44,7 +44,7 @@ export const fetchPaymentsWithinRangeByPatient = async (
     where('reference', '<=', endDate)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map(paymentUiMapper)
+  return snapshot.docs.map(paymentMapper)
 }
 
 export const fetchMissingPaymentsWithinRange = async (startDate, endDate) => {
@@ -57,13 +57,10 @@ export const fetchMissingPaymentsWithinRange = async (startDate, endDate) => {
 }
 
 export const createPayment = async (payment) => {
-  const docRef = await addDoc(
-    collection(db, COLLECTION_NAME),
-    paymentApiMapper({
-      ...payment,
-      createdAt: serverTimestamp(),
-    })
-  )
+  const docRef = await addDoc(collection(db, COLLECTION_NAME), {
+    ...payment,
+    createdAt: serverTimestamp(),
+  })
   const snapshot = await getDoc(docRef)
   return snapshot.exists() ? snapshot.id : null
 }
@@ -71,7 +68,7 @@ export const createPayment = async (payment) => {
 export const editPayment = async (payment) => {
   const id = payment.id
   const docRef = doc(collection(db, COLLECTION_NAME), id)
-  await setDoc(docRef, paymentApiMapper(payment))
+  await setDoc(docRef, payment)
   const snapshot = await getDoc(docRef)
   return snapshot.exists() ? snapshot.id : null
 }

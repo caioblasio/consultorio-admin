@@ -11,6 +11,7 @@ const Toolbar = ({
   onCreateClick,
   onExportClick,
   disableExport = false,
+  disabled = false,
   onSearchChange,
   components: { CreateButtonIcon = AddRounded, ExportIcon = SaveAltRounded },
   localeText: {
@@ -30,6 +31,7 @@ const Toolbar = ({
               color="primary"
               size="small"
               onClick={onCreateClick}
+              disabled={disabled}
             >
               {createLabel}
             </Button>
@@ -43,6 +45,7 @@ const Toolbar = ({
               color="grey"
               size="small"
               onClick={onExportClick}
+              disabled={disabled}
             >
               {exportLabel}
             </Button>
@@ -54,6 +57,7 @@ const Toolbar = ({
               onChange={({ target }) => onSearchChange(target.value)}
               value={searchValue}
               placeholder={searchPlaceholder}
+              disabled={disabled}
             />
           </Grid>
         )}

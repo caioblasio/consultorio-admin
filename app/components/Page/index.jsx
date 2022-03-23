@@ -17,57 +17,55 @@ const Page = ({
   isSaving,
 }) => {
   return (
-    <>
-      <StyledGrid
-        container
-        spacing={8}
-        className={className}
-        direction="column"
-        wrap="nowrap"
-      >
-        {(breadcrumbs || !disableAutoSave) && (
-          <Grid item>
-            <Grid
-              container
-              spacing={2}
-              justifyContent="space-between"
-              alignItems="baseline"
-            >
-              {breadcrumbs && <Grid item>{breadcrumbs}</Grid>}
-              {!disableAutoSave && (
-                <Grid item>
-                  <Tooltip
-                    title="Qualquer nova alteração é automaticamente salva no servidor."
-                    placement="top-end"
-                  >
-                    <div>
-                      <StyledIcon
-                        fontSize="small"
-                        component={
-                          isSaving ? StyledSyncOutlined : CloudDoneOutlined
-                        }
-                      />
-                      <StyledText
-                        component="span"
-                        color="grey.dark"
-                        variant="body2"
-                      >
-                        {isSaving
-                          ? 'Salvando as suas novas alterações...'
-                          : 'Todas as suas alterações estão salvas'}
-                      </StyledText>
-                    </div>
-                  </Tooltip>
-                </Grid>
-              )}
-            </Grid>
+    <StyledGrid
+      container
+      spacing={8}
+      className={className}
+      direction="column"
+      wrap="nowrap"
+    >
+      {(breadcrumbs || !disableAutoSave) && (
+        <Grid item>
+          <Grid
+            container
+            spacing={2}
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            {breadcrumbs && <Grid item>{breadcrumbs}</Grid>}
+            {!disableAutoSave && (
+              <Grid item>
+                <Tooltip
+                  title="Qualquer nova alteração é automaticamente salva no servidor."
+                  placement="top-end"
+                >
+                  <div>
+                    <StyledIcon
+                      fontSize="small"
+                      component={
+                        isSaving ? StyledSyncOutlined : CloudDoneOutlined
+                      }
+                    />
+                    <StyledText
+                      component="span"
+                      color="grey.dark"
+                      variant="body2"
+                    >
+                      {isSaving
+                        ? 'Salvando as suas novas alterações...'
+                        : 'Todas as suas alterações estão salvas'}
+                    </StyledText>
+                  </div>
+                </Tooltip>
+              </Grid>
+            )}
           </Grid>
-        )}
-        <Grid item xs>
-          {children}
         </Grid>
-      </StyledGrid>
-    </>
+      )}
+      <Grid item xs>
+        {children}
+      </Grid>
+    </StyledGrid>
   )
 }
 
