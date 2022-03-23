@@ -32,7 +32,7 @@ const PaymentsFormModal = ({
       madeAt: new Date(),
       status: 'paid',
       type: 'card',
-      value: 0,
+      value: 90,
     }
   }, [currentDate])
 
@@ -53,7 +53,9 @@ const PaymentsFormModal = ({
         newData.id = data.id
       }
 
-      newData.status = data.status
+      if (data.status) {
+        newData.status = data.status
+      }
 
       if (data.rowId && data.columnId) {
         const patient = patients.find(({ id }) => id === data.rowId)
