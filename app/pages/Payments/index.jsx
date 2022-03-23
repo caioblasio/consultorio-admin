@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useContext } from 'react'
 import useAsyncEffect from 'use-async-effect'
 
 import {
@@ -8,9 +8,9 @@ import {
   deletePayment,
   editPayment,
 } from 'api/database'
-import Snackbar from 'components/Snackbar'
+import { SaveContext } from 'contexts/Save'
 import Breadcrumbs from 'containers/Breadcrumbs'
-import Page from 'components/Page'
+import Page from 'containers/Page'
 import Planner from './Planner'
 
 const PaymentsPage = () => {
@@ -18,8 +18,8 @@ const PaymentsPage = () => {
   const [patients, setPatients] = useState([])
 
   const [loading, setLoading] = useState(true)
+  const { onSaving } = useContext(SaveContext)
   const [search, setSearch] = useState('')
-  const [alert, setAlert] = useState({ progress: false })
 
   useAsyncEffect(async (isMounted) => {
     const allPatients = await fetchAllPatients()
@@ -62,28 +62,18 @@ const PaymentsPage = () => {
 
   const onCreatePayment = async (payment) => {
     try {
-      setLoading(true)
+      onSaving(true)
       const createdPaymentId = await createPayment(payment)
       const newPayments = [...payments, { ...payment, id: createdPaymentId }]
       setPayments(newPayments)
-      setAlert({
-        title: 'Sucesso!',
-        message: (
-          <>
-            Pagamento <strong>{payment.name}</strong> criado com sucesso.
-          </>
-        ),
-        severity: 'success',
-        progress: true,
-      })
     } finally {
-      setLoading(false)
+      onSaving(false)
     }
   }
 
   const onEditPatient = async (payment) => {
     try {
-      setLoading(true)
+      onSaving(true)
 
       await editPayment(payment)
 
@@ -91,48 +81,22 @@ const PaymentsPage = () => {
       const newPayments = [...payments]
       newPayments[paymentIndex] = payment
       setPayments(newPayments)
-      setAlert({
-        title: 'Sucesso!',
-        message: (
-          <>
-            Pagamento <strong>{payment.name}</strong> editado com sucesso.
-          </>
-        ),
-        severity: 'success',
-        progress: true,
-      })
     } finally {
-      setLoading(false)
+      onSaving(false)
     }
   }
 
   const onDeletePayment = async (paymentId) => {
     try {
-      setLoading(true)
+      onSaving(true)
       await deletePayment(paymentId)
       const paymentIndex = payments.findIndex(({ id }) => id === paymentId)
-      const payment = payments[paymentIndex]
       const newPayments = [...payments]
       newPayments.splice(paymentIndex, 1)
-      setPatients(newPayments)
-      setAlert({
-        title: 'Sucesso!',
-        message: (
-          <>
-            Pagamento <strong>{payment.name}</strong> removido com sucesso.
-          </>
-        ),
-
-        severity: 'success',
-        progress: true,
-      })
+      setPayments(newPayments)
     } finally {
-      setLoading(false)
+      onSaving(false)
     }
-  }
-
-  const handleClose = () => {
-    setAlert({ ...alert, progress: false })
   }
 
   return (
@@ -147,14 +111,6 @@ const PaymentsPage = () => {
         onDelete={onDeletePayment}
         onEdit={onEditPatient}
       />
-      <Snackbar
-        title={alert.title}
-        open={alert.progress}
-        onClose={handleClose}
-        severity={alert.severity}
-      >
-        {alert.message}
-      </Snackbar>
     </Page>
   )
 }

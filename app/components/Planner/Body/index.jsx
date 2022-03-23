@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { Grid, Typography } from '@mui/material'
 import LoaderContainer from 'components/LoaderContainer'
 import { Mode } from 'constants/mode'
@@ -74,11 +74,16 @@ const PlannerBody = ({
     [rows, data, columns]
   )
 
+  const isEmpty = useMemo(
+    () => data.length === 0 || rows.length === 0,
+    [data, rows]
+  )
+
   return (
-    <StyledPaper isEmpty={isLoading || data.length === 0}>
+    <StyledPaper isEmpty={isLoading || isEmpty}>
       {isLoading ? (
         <LoaderContainer />
-      ) : data.length === 0 ? (
+      ) : isEmpty ? (
         <StyledNoData />
       ) : (
         rows.map((row, index) => (

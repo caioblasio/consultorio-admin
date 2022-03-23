@@ -7,7 +7,7 @@ import { EmailOutlined, LockOutlined } from '@mui/icons-material'
 
 import TextField from 'components/TextField'
 import PasswordField from 'components/PasswordField'
-import AuthPage from 'components/AuthPage'
+import AuthPage from 'containers/AuthPage'
 import Alert from 'components/Alert'
 import { signIn } from 'api/authentication'
 import { homeURL } from 'configs/urls'

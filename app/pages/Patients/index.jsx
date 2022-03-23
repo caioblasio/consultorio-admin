@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import {
   fetchAllPatients,
@@ -7,16 +7,16 @@ import {
   deletePatient,
 } from 'api/database'
 import Breadcrumbs from 'containers/Breadcrumbs'
-import Page from 'components/Page'
-import Snackbar from 'components/Snackbar'
+import { SaveContext } from 'contexts/Save'
+import Page from 'containers/Page'
 import { unformatCPF } from 'utils/cpf'
 import Table from './Table'
 
 const PatientsPage = () => {
+  const { onSaving } = useContext(SaveContext)
   const [patients, setPatients] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
-  const [alert, setAlert] = useState({ progress: false })
 
   useAsyncEffect(async (isMounted) => {
     const allPatients = await fetchAllPatients()
@@ -28,10 +28,6 @@ const PatientsPage = () => {
     setLoading(false)
   }, [])
 
-  const handleClose = () => {
-    setAlert({ ...alert, progress: false })
-  }
-
   const filteredPatients = patients.filter(
     ({ name, phone, cpf }) =>
       name.toLowerCase().includes(search.toLowerCase()) ||
@@ -41,28 +37,18 @@ const PatientsPage = () => {
 
   const onCreatePatient = async (patient) => {
     try {
-      setLoading(true)
+      onSaving(true)
       const createdPatientId = await createPatient(patient)
       const newPatients = [...patients, { ...patient, id: createdPatientId }]
       setPatients(newPatients)
-      setAlert({
-        title: 'Sucesso!',
-        message: (
-          <>
-            Paciente <strong>{patient.name}</strong> criado com sucesso.
-          </>
-        ),
-        severity: 'success',
-        progress: true,
-      })
     } finally {
-      setLoading(false)
+      onSaving(false)
     }
   }
 
   const onEditPatient = async (patient) => {
     try {
-      setLoading(true)
+      onSaving(true)
 
       await editPatient(patient)
 
@@ -70,44 +56,22 @@ const PatientsPage = () => {
       const newPatients = [...patients]
       newPatients[patientIndex] = patient
       setPatients(newPatients)
-      setAlert({
-        title: 'Sucesso!',
-        message: (
-          <>
-            Paciente <strong>{patient.name}</strong> editado com sucesso.
-          </>
-        ),
-        severity: 'success',
-        progress: true,
-      })
     } finally {
-      setLoading(false)
+      onSaving(false)
     }
   }
 
   const onDeletePatient = async (patientId) => {
     try {
-      setLoading(true)
+      onSaving(true)
       await deletePatient(patientId)
 
       const patientIndex = patients.findIndex(({ id }) => id === patientId)
-      const patient = patients[patientIndex]
       const newPatients = [...patients]
       newPatients.splice(patientIndex, 1)
       setPatients(newPatients)
-      setAlert({
-        title: 'Sucesso!',
-        message: (
-          <>
-            Paciente <strong>{patient.name}</strong> removido com sucesso.
-          </>
-        ),
-
-        severity: 'success',
-        progress: true,
-      })
     } finally {
-      setLoading(false)
+      onSaving(false)
     }
   }
 
@@ -122,14 +86,6 @@ const PatientsPage = () => {
         searchValue={search}
         onSearchChange={(value) => setSearch(value)}
       />
-      <Snackbar
-        title={alert.title}
-        open={alert.progress}
-        onClose={handleClose}
-        severity={alert.severity}
-      >
-        {alert.message}
-      </Snackbar>
     </Page>
   )
 }

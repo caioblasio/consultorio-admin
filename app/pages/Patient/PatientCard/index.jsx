@@ -4,7 +4,7 @@ import Card from 'components/Card'
 import { editPatient } from 'api/database'
 import PatientForm from './Form'
 
-const PatientCard = ({ patient, isLoading }) => {
+const PatientCard = ({ patient, isLoading, onSaving }) => {
   const { control, handleSubmit, reset, watch } = useForm({
     defaultValues: patient,
     mode: 'onChange',
@@ -15,6 +15,7 @@ const PatientCard = ({ patient, isLoading }) => {
   }, [patient])
 
   const handleConfirm = async (newData) => {
+    onSaving(true)
     const submitData = {
       ...newData,
       ...(newData.phone
@@ -23,6 +24,7 @@ const PatientCard = ({ patient, isLoading }) => {
     }
 
     await editPatient(submitData)
+    onSaving(false)
   }
 
   return (

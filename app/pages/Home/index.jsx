@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Grid } from '@mui/material'
 import { AuthContext } from 'contexts/Auth'
 import Breadcrumbs from 'containers/Breadcrumbs'
-import Page from 'components/Page'
+import Page from 'containers/Page'
 import PatientsCard from './PatientsCard'
 import PaymentsCard from './PaymentsCard'
 import SchedulesCard from './SchedulesCard'
@@ -14,7 +14,7 @@ const HomePage = () => {
   const title = `Bem-vindo ${currentUser.email},`
 
   return (
-    <Page breadcrumbs={<Breadcrumbs current={title} />}>
+    <Page breadcrumbs={<Breadcrumbs current={title} />} disableAutoSave>
       <StyledGrid container spacing={6} alignItems="stretch">
         <Grid item xs={8}>
           <StyledGrid container spacing={3} direction="column" wrap="nowrap">

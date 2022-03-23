@@ -1,11 +1,11 @@
 import React from 'react'
 
-import Page from 'components/Page'
+import Page from 'containers/Page'
 import { StyledAuthBox, StyledBackground } from './styles'
 
 const AuthPage = ({ children }) => {
   return (
-    <Page>
+    <Page disableAutoSave>
       <StyledBackground />
       <StyledAuthBox>{children}</StyledAuthBox>
     </Page>

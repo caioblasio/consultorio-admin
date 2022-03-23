@@ -29,7 +29,7 @@ const components = {
     styleOverrides: {
       root: ({ theme }) => ({
         backgroundColor: alpha(theme.palette.background.default, 0.75),
-        backdropFilter: `blur(${theme.spacing(2)})`,
+        backdropFilter: `blur(${theme.spacing(1)})`,
         [theme.breakpoints.up('sm')]: {
           padding: theme.spacing(0, 8),
         },

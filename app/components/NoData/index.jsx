@@ -6,12 +6,7 @@ const NoData = ({ className }) => {
   return (
     <Stack spacing={2} alignItems="center" className={className}>
       <InboxIcon align="center" fontSize="large" color="grey" />
-      <Typography
-        component="span"
-        variant="body1"
-        color="grey.main"
-        fontWeight="600"
-      >
+      <Typography component="span" color="grey.main" fontWeight="600">
         Sem Dados
       </Typography>
     </Stack>

@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useAsyncEffect from 'use-async-effect'
 import { Grid } from '@mui/material'
 import { fetchPatientById } from 'api/database'
 import Breadcrumbs from 'containers/Breadcrumbs'
-import Page from 'components/Page'
+import Page from 'containers/Page'
+import { SaveContext } from 'contexts/Save'
 
 import ScheduleCard from './ScheduleCard'
 import PatientCard from './PatientCard'
@@ -13,6 +14,7 @@ import PaymentsCard from './PaymentsCard'
 const PatientPage = () => {
   const [patient, setPatient] = useState()
   const [loading, setLoading] = useState(true)
+  const { onSaving } = useContext(SaveContext)
 
   const { patientId } = useParams()
 
@@ -33,7 +35,11 @@ const PatientPage = () => {
     >
       <Grid container spacing={4}>
         <Grid item xs={4}>
-          <PatientCard patient={patient} isLoading={loading} />
+          <PatientCard
+            patient={patient}
+            isLoading={loading}
+            onSaving={onSaving}
+          />
         </Grid>
         <Grid item xs={4}>
           <ScheduleCard patient={patient} isLoading={loading} />
