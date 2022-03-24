@@ -6,7 +6,8 @@ import NavLink from 'containers/NavLink'
 import { patientURL } from 'configs/urls'
 
 import PaymentsFormModal from './FormModal'
-import PaymentsCell from './Cell'
+import ReferencePaymentsCell from './ReferenceCell'
+import IncomePaymentsCell from './IncomeCell'
 
 const PaymentsPlanner = ({
   data,
@@ -17,6 +18,7 @@ const PaymentsPlanner = ({
   searchValue,
   onSearchChange,
   isLoading,
+  view,
 }) => {
   return (
     <Planner
@@ -28,10 +30,12 @@ const PaymentsPlanner = ({
       onCreate={onCreate}
       onDelete={onDelete}
       onEdit={onEdit}
+      view={view}
       components={{
         CreateButtonIcon: AddShoppingCartOutlined,
         FormModal: (props) => <PaymentsFormModal {...props} patients={rows} />,
-        CellRenderer: PaymentsCell,
+        CellRenderer:
+          view === 'reference' ? ReferencePaymentsCell : IncomePaymentsCell,
         RowHeader: ({ row: { id, label } }) => (
           <NavLink underline="always" to={patientURL(id)}>
             {label}

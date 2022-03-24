@@ -19,6 +19,7 @@ const PlannerBody = ({
   isLoading,
   onCellClick,
   columns,
+  view,
   components: {
     CellRenderer,
     RowHeader = ({ label }) => (
@@ -26,7 +27,7 @@ const PlannerBody = ({
     ),
   },
 }) => {
-  const renderElements = useCallback(
+  const renderReferenceElements = useCallback(
     (id, isBottom) => {
       const rowData = data.filter(({ rowId }) => rowId === id)
 
@@ -74,6 +75,34 @@ const PlannerBody = ({
     [rows, data, columns]
   )
 
+  const renderIncomeElements = useCallback((id, isBottom) => {
+    const rowData = data.filter(({ rowId }) => rowId === id)
+
+    return columns.map(({ date }, index) => {
+      const year = date.getFullYear()
+      const month = date.getMonth()
+
+      const total = rowData.reduce((acc, { columnId, data: { value } }) => {
+        return columnId.getMonth() === month && columnId.getFullYear() === year
+          ? acc + value
+          : 0
+      }, 0)
+
+      return (
+        <StyledBodyGridItem
+          item
+          key={`body-item-${id}-${month}`}
+          isLeft={index === 0}
+          isBottom={isBottom}
+          isRight={index === columns.length - 1}
+          xs
+        >
+          <CellRenderer data={total} />
+        </StyledBodyGridItem>
+      )
+    })
+  })
+
   const isEmpty = useMemo(
     () => data.length === 0 || rows.length === 0,
     [data, rows]
@@ -91,7 +120,9 @@ const PlannerBody = ({
             <StyledHeaderGridItem item xs={2}>
               <RowHeader row={row} />
             </StyledHeaderGridItem>
-            {renderElements(row.id, index === rows.length - 1)}
+            {view === 'reference'
+              ? renderReferenceElements(row.id, index === rows.length - 1)
+              : renderIncomeElements(row.id, index === rows.length - 1)}
           </Grid>
         ))
       )}

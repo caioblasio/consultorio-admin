@@ -21,6 +21,7 @@ const Planner = ({
   onSearchChange,
   typeMapping,
   isLoading = false,
+  view,
   components: { FormModal, CreateButtonIcon, CellRenderer, RowHeader },
   localeText: {
     deleteText,
@@ -100,6 +101,7 @@ const Planner = ({
           typeMapping={typeMapping}
           isLoading={isLoading}
           components={{ CellRenderer, RowHeader }}
+          view={view}
           onCellClick={(mode, cell) => {
             setMode(mode)
             setCell(cell)

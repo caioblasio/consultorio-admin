@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useContext } from 'react'
 import useAsyncEffect from 'use-async-effect'
-
+import { Tabs, Tab } from '@mui/material'
 import {
   fetchAllPayments,
   fetchAllPatients,
@@ -11,7 +11,7 @@ import {
 import { SaveContext } from 'contexts/Save'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import Page from 'containers/Page'
-import { paymentMapper } from './utils'
+import { paymentReferenceMapper, paymentIncomeMapper } from './utils'
 import Planner from './Planner'
 
 const PaymentsPage = () => {
@@ -21,6 +21,12 @@ const PaymentsPage = () => {
   const [loading, setLoading] = useState(true)
   const { onSaving, saving } = useContext(SaveContext)
   const [search, setSearch] = useState('')
+
+  const [tabValue, setTabValue] = useState(0)
+
+  const handleTabChange = (_event, newValue) => {
+    setTabValue(newValue)
+  }
 
   useAsyncEffect(async (isMounted) => {
     const allPatients = await fetchAllPatients()
@@ -43,7 +49,12 @@ const PaymentsPage = () => {
     [patients]
   )
 
-  const data = useMemo(() => payments.map(paymentMapper), [payments])
+  const data = useMemo(() => payments.map(paymentReferenceMapper), [payments])
+
+  const dataRevenue = useMemo(
+    () => payments.map(paymentIncomeMapper),
+    [payments]
+  )
 
   const onCreatePayment = async (payment) => {
     const createdPaymentId = await onSaving(() => createPayment(payment))
@@ -67,18 +78,41 @@ const PaymentsPage = () => {
     setPayments(newPayments)
   }
 
+  const TabPanel = ({ children, value, index }) => (
+    <div hidden={value !== index}>{value === index && <>{children}</>}</div>
+  )
+
   return (
     <Page breadcrumbs={<Breadcrumbs current="Pagamentos" />}>
-      <Planner
-        isLoading={loading || saving}
-        rows={rows}
-        data={data}
-        searchValue={search}
-        onSearchChange={(newValue) => setSearch(newValue)}
-        onCreate={onCreatePayment}
-        onDelete={onDeletePayment}
-        onEdit={onEditPayment}
-      />
+      <Tabs value={tabValue} onChange={handleTabChange}>
+        <Tab label="Mensalidade" />
+        <Tab label="Receita" />
+      </Tabs>
+      <TabPanel value={tabValue} index={0}>
+        <Planner
+          isLoading={loading || saving}
+          rows={rows}
+          data={data}
+          searchValue={search}
+          onSearchChange={(newValue) => setSearch(newValue)}
+          onCreate={onCreatePayment}
+          onDelete={onDeletePayment}
+          onEdit={onEditPayment}
+          view="reference"
+        />
+      </TabPanel>
+
+      <TabPanel value={tabValue} index={1}>
+        <Planner
+          isLoading={loading || saving}
+          rows={rows}
+          data={dataRevenue}
+          searchValue={search}
+          onSearchChange={(newValue) => setSearch(newValue)}
+          onCreate={onCreatePayment}
+          view="income"
+        />
+      </TabPanel>
     </Page>
   )
 }

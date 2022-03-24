@@ -9,6 +9,8 @@ import {
   ToggleButtonGroup,
   ToggleButton,
   Divider,
+  Tabs,
+  Tab,
 } from '@mui/material'
 import {
   ChevronLeft as ChevronLeftIcon,
@@ -26,14 +28,15 @@ const PaymentsCard = ({ patient, isLoading }) => {
   const adapter = useDateAdapter()
   const currentYear = new Date().getFullYear()
 
-  const [report, setReport] = useState('reference')
   const [year, setYear] = useState(currentYear)
 
-  const handleReport = (_event, newReport) => {
-    if (newReport) {
-      setReport(newReport)
-    }
+  const [tabValue, setTabValue] = useState(0)
+
+  const handleTabChange = (_event, newValue) => {
+    setTabValue(newValue)
   }
+
+  const report = tabValue === 0 ? 'reference' : 'income'
 
   const startDate = new Date(year, 0, 1)
   const endDate = new Date(year, 11, 31, 23, 59, 59)
@@ -144,16 +147,11 @@ const PaymentsCard = ({ patient, isLoading }) => {
   return (
     <Card title="Pagamentos" color="success" isLoading={loading}>
       <Stack spacing={2}>
-        <ToggleButtonGroup
-          value={report}
-          exclusive
-          onChange={handleReport}
-          color="grey"
-          fullWidth
-        >
-          <ToggleButton value="reference">Mensalidade</ToggleButton>
-          <ToggleButton value="income">Receita</ToggleButton>
-        </ToggleButtonGroup>
+        <Tabs value={tabValue} onChange={handleTabChange}>
+          <Tab label="Mensalidade" />
+          <Tab label="Receita" />
+        </Tabs>
+
         <Grid container alignItems="center">
           <Grid item>
             <IconButton onClick={() => setYear(year - 1)}>
