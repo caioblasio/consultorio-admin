@@ -19,6 +19,7 @@ const PaymentsPlanner = ({
   onSearchChange,
   isLoading,
   view,
+  typeMapping,
 }) => {
   return (
     <Planner
@@ -46,21 +47,7 @@ const PaymentsPlanner = ({
         searchPlaceholder: 'Buscar por paciente...',
         createLabel: 'Criar Pagamento',
       }}
-      typeMapping={{
-        paid: {
-          label: 'Pago',
-          color: 'success',
-        },
-        owing: {
-          label: 'Devendo',
-          color: 'error',
-          type: 'error',
-        },
-        forgiven: {
-          label: 'Perdoado',
-          color: 'primary',
-        },
-      }}
+      typeMapping={typeMapping}
     />
   )
 }

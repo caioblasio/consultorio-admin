@@ -98,6 +98,21 @@ const PaymentsPage = () => {
           onCreate={onCreatePayment}
           onDelete={onDeletePayment}
           onEdit={onEditPayment}
+          typeMapping={{
+            paid: {
+              label: 'Pago',
+              color: 'success',
+            },
+            owing: {
+              label: 'Devendo',
+              color: 'error',
+              type: 'error',
+            },
+            forgiven: {
+              label: 'Perdoado',
+              color: 'primary',
+            },
+          }}
           view="reference"
         />
       </TabPanel>
@@ -108,8 +123,8 @@ const PaymentsPage = () => {
           rows={rows}
           data={dataRevenue}
           searchValue={search}
-          onSearchChange={(newValue) => setSearch(newValue)}
           onCreate={onCreatePayment}
+          onSearchChange={(newValue) => setSearch(newValue)}
           view="income"
         />
       </TabPanel>

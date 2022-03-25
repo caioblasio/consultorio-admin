@@ -71,10 +71,13 @@ const Planner = ({
           firstDate={firstDate}
           data={data}
           rows={rows}
-          onCreateClick={() => {
-            setMode(Mode.CREATE)
-            setCell(undefined)
-          }}
+          onCreateClick={
+            onCreate &&
+            (() => {
+              setMode(Mode.CREATE)
+              setCell(undefined)
+            })
+          }
           searchValue={searchValue}
           onSearchChange={onSearchChange}
           components={{ CreateButtonIcon }}
@@ -107,7 +110,7 @@ const Planner = ({
             setCell(cell)
           }}
         />
-        <PlannerLegend typeMapping={typeMapping} />
+        {typeMapping && <PlannerLegend typeMapping={typeMapping} />}
       </Stack>
       {onDelete && (
         <ConfirmModal

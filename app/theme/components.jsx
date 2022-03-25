@@ -339,6 +339,13 @@ const components = {
       }),
     },
   },
+  MuiTabs: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        marginBottom: theme.spacing(2),
+      }),
+    },
+  },
 }
 
 export default components

@@ -6,10 +6,7 @@ import {
   Grid,
   Typography,
   IconButton,
-  ToggleButtonGroup,
-  ToggleButton,
   Divider,
-  Tabs,
   Tab,
 } from '@mui/material'
 import {
@@ -20,6 +17,7 @@ import { fetchPaymentsWithinRangeByPatient } from 'api/database'
 import { formatCurrency } from 'utils/currency'
 import Card from 'components/Card'
 import useDateAdapter from 'hooks/useDateAdapter'
+import { StyledTabs } from './styles'
 
 const PaymentsCard = ({ patient, isLoading }) => {
   const [payments, setPayments] = useState([])
@@ -147,10 +145,10 @@ const PaymentsCard = ({ patient, isLoading }) => {
   return (
     <Card title="Pagamentos" color="success" isLoading={loading}>
       <Stack spacing={2}>
-        <Tabs value={tabValue} onChange={handleTabChange}>
+        <StyledTabs value={tabValue} onChange={handleTabChange}>
           <Tab label="Mensalidade" />
           <Tab label="Receita" />
-        </Tabs>
+        </StyledTabs>
 
         <Grid container alignItems="center">
           <Grid item>
