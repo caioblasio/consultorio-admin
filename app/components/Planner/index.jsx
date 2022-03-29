@@ -38,6 +38,7 @@ const Planner = ({
   const currentDate = useMemo(() => new Date(), [])
   const firstDate = useMemo(() => {
     const newDate = new Date(pivotDate.toISOString())
+    newDate.setDate(1)
     newDate.setMonth(newDate.getMonth() - VISIBLE_MONTHS + 1)
     return newDate
   }, [pivotDate])
