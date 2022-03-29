@@ -11,6 +11,9 @@ import {
 import { SaveContext } from 'contexts/Save'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import Page from 'containers/Page'
+import ConfirmModal from 'components/ConfirmModal'
+import useDateAdapter from 'hooks/useDateAdapter'
+import PaymentAlreadyExistsError from 'errors/PaymentAlreadyExists'
 import { paymentReferenceMapper, paymentIncomeMapper } from './utils'
 import Planner from './Planner'
 
@@ -23,6 +26,9 @@ const PaymentsPage = () => {
   const [search, setSearch] = useState('')
 
   const [tabValue, setTabValue] = useState(0)
+  const [paymentToConfirm, setPaymentToConfirm] = useState(null)
+
+  const adapter = useDateAdapter()
 
   const handleTabChange = (_event, newValue) => {
     setTabValue(newValue)
@@ -56,10 +62,25 @@ const PaymentsPage = () => {
     [payments]
   )
 
+  const paymentConfirmationMessage = useMemo(
+    () =>
+      `Já existe um pagamento para este paciente no período de ${
+        paymentToConfirm &&
+        adapter.formatByString(paymentToConfirm?.reference, 'MMMM yyyy')
+      }. Deseja sobrescrevê-lo?`,
+    [paymentToConfirm]
+  )
+
   const onCreatePayment = async (payment) => {
-    const createdPaymentId = await onSaving(() => createPayment(payment))
-    const newPayments = [...payments, { ...payment, id: createdPaymentId }]
-    setPayments(newPayments)
+    try {
+      const createdPaymentId = await onSaving(() => createPayment(payment))
+      const newPayments = [...payments, { ...payment, id: createdPaymentId }]
+      setPayments(newPayments)
+    } catch (e) {
+      if (e instanceof PaymentAlreadyExistsError) {
+        setPaymentToConfirm({ ...e.paymentData, ...payment })
+      }
+    }
   }
 
   const onEditPayment = async (payment) => {
@@ -76,6 +97,10 @@ const PaymentsPage = () => {
     const newPayments = [...payments]
     newPayments.splice(paymentIndex, 1)
     setPayments(newPayments)
+  }
+
+  const handleConfirmModalClose = () => {
+    setPaymentToConfirm(null)
   }
 
   const TabPanel = ({ children, value, index }) => (
@@ -128,6 +153,16 @@ const PaymentsPage = () => {
           view="income"
         />
       </TabPanel>
+      <ConfirmModal
+        open={Boolean(paymentToConfirm)}
+        onConfirm={async () => {
+          await onEditPayment(paymentToConfirm)
+        }}
+        localeText={{
+          text: paymentConfirmationMessage,
+        }}
+        onClose={handleConfirmModalClose}
+      />
     </Page>
   )
 }

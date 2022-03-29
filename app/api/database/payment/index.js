@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore'
 import { fetchActivePatients } from 'api/database'
 import { paymentMapper } from './utils'
+import PaymentAlreadyExistsError from 'errors/PaymentAlreadyExists'
 
 const COLLECTION_NAME = 'payments'
 
@@ -57,6 +58,21 @@ export const fetchMissingPaymentsWithinRange = async (startDate, endDate) => {
 }
 
 export const createPayment = async (payment) => {
+  const { patientId, reference } = payment
+  const existingPayments = await fetchPaymentsWithinRangeByPatient(
+    patientId,
+    reference,
+    reference
+  )
+
+  if (existingPayments.length) {
+    const existingPayment = existingPayments[0]
+    throw new PaymentAlreadyExistsError({
+      id: existingPayment.id,
+      createdAt: existingPayment.createdAt,
+    })
+  }
+
   const docRef = await addDoc(collection(db, COLLECTION_NAME), {
     ...payment,
     createdAt: serverTimestamp(),
@@ -66,9 +82,9 @@ export const createPayment = async (payment) => {
 }
 
 export const editPayment = async (payment) => {
-  const id = payment.id
+  const { id, ...rest } = payment
   const docRef = doc(collection(db, COLLECTION_NAME), id)
-  await setDoc(docRef, payment)
+  await setDoc(docRef, rest)
   const snapshot = await getDoc(docRef)
   return snapshot.exists() ? snapshot.id : null
 }
