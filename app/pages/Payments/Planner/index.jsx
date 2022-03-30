@@ -24,6 +24,7 @@ const PaymentsPlanner = ({
   isLoading,
   view,
   typeMapping,
+  disableCellClick,
 }) => {
   return (
     <Planner
@@ -59,6 +60,7 @@ const PaymentsPlanner = ({
         createLabel: 'Criar Pagamento',
       }}
       typeMapping={typeMapping}
+      disableCellClick={disableCellClick}
     />
   )
 }

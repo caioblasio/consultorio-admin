@@ -32,9 +32,10 @@ const PlannerRow = ({
             columnId.getMonth() === month && columnId.getFullYear() === year
           )
         })
-        const status = item
-          ? { ...typeMapping[item.status], id: item.status }
-          : undefined
+        const status =
+          typeMapping && item
+            ? { ...typeMapping[item.status], id: item.status }
+            : undefined
 
         return (
           <StyledBodyGridItem
@@ -48,15 +49,27 @@ const PlannerRow = ({
             {item ? (
               <PlannerCellContent
                 status={status}
-                onDelete={() => onCellClick(Mode.DELETE, item)}
-                onEdit={() => onCellClick(Mode.EDIT, item)}
+                onDelete={
+                  onCellClick ? () => onCellClick(Mode.DELETE, item) : undefined
+                }
+                onEdit={
+                  onCellClick ? () => onCellClick(Mode.EDIT, item) : undefined
+                }
               >
-                <CellRenderer data={item.data} status={status} />
+                <CellRenderer
+                  data={data}
+                  row={row}
+                  item={item}
+                  status={status}
+                />
               </PlannerCellContent>
             ) : (
               <PlannerCellEmpty
-                onCreate={() =>
-                  onCellClick(Mode.CREATE, { rowId: id, columnId: date })
+                onCreate={
+                  onCellClick
+                    ? () =>
+                        onCellClick(Mode.CREATE, { rowId: id, columnId: date })
+                    : undefined
                 }
               />
             )}

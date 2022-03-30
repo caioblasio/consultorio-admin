@@ -167,6 +167,7 @@ const PaymentsPage = () => {
           showAllValue={showAll}
           onShowAllChange={(value) => setShowAll(value)}
           view="income"
+          disableCellClick
         />
       </TabPanel>
       <ConfirmModal

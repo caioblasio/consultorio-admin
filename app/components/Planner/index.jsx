@@ -21,6 +21,7 @@ const Planner = ({
   onSearchChange,
   typeMapping,
   isLoading = false,
+  disableCellClick = false,
   components: {
     FormModal,
     CreateButtonIcon,
@@ -113,10 +114,14 @@ const Planner = ({
           typeMapping={typeMapping}
           isLoading={isLoading}
           components={{ CellRenderer, RowHeader, Row }}
-          onCellClick={(mode, cell) => {
-            setMode(mode)
-            setCell(cell)
-          }}
+          onCellClick={
+            disableCellClick
+              ? undefined
+              : (mode, cell) => {
+                  setMode(mode)
+                  setCell(cell)
+                }
+          }
         />
         {typeMapping && <PlannerLegend typeMapping={typeMapping} />}
       </Stack>

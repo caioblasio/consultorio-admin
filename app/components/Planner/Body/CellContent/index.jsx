@@ -11,9 +11,12 @@ const PlannerCellContent = ({
   status: { color } = {},
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+  const handleClick =
+    onEdit || onDelete
+      ? (event) => {
+          setAnchorEl(event.currentTarget)
+        }
+      : undefined
 
   const handleClose = () => {
     setAnchorEl(null)
@@ -37,22 +40,26 @@ const PlannerCellContent = ({
         open={!!anchorEl}
         onClose={handleClose}
       >
-        <MenuItem
-          onClick={() => {
-            onEdit()
-            handleClose()
-          }}
-        >
-          Editar
-        </MenuItem>
-        <StyledErrorItem
-          onClick={() => {
-            onDelete()
-            handleClose()
-          }}
-        >
-          Deletar
-        </StyledErrorItem>
+        {onEdit && (
+          <MenuItem
+            onClick={() => {
+              onEdit()
+              handleClose()
+            }}
+          >
+            Editar
+          </MenuItem>
+        )}
+        {onDelete && (
+          <StyledErrorItem
+            onClick={() => {
+              onDelete()
+              handleClose()
+            }}
+          >
+            Deletar
+          </StyledErrorItem>
+        )}
       </Menu>
     </>
   )

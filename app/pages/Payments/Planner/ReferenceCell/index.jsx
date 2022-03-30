@@ -16,7 +16,7 @@ const Text = ({ text, color }) => (
 )
 
 const ReferencePaymentsCell = ({
-  data: { type, madeAt, holder } = {},
+  item: { data: { type, madeAt, holder } = {} },
   status: { color, id } = {},
 }) => {
   const adapter = useDateAdapter()
