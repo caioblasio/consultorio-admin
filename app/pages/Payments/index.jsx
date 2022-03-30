@@ -122,8 +122,8 @@ const PaymentsPage = () => {
   return (
     <Page breadcrumbs={<Breadcrumbs current="Pagamentos" />}>
       <Tabs value={tabValue} onChange={handleTabChange}>
-        <Tab label="Mensalidade" />
-        <Tab label="Receita" />
+        <Tab label="Referência" />
+        <Tab label="Realização" />
       </Tabs>
       <TabPanel value={tabValue} index={0}>
         <Planner

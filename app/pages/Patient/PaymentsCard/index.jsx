@@ -146,8 +146,8 @@ const PaymentsCard = ({ patient, isLoading }) => {
     <Card title="Pagamentos" color="success" isLoading={loading}>
       <Stack spacing={2}>
         <StyledTabs value={tabValue} onChange={handleTabChange}>
-          <Tab label="Mensalidade" />
-          <Tab label="Receita" />
+          <Tab label="Referência" />
+          <Tab label="Realização" />
         </StyledTabs>
 
         <Grid container alignItems="center">
