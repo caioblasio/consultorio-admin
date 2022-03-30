@@ -34,7 +34,7 @@ const DataTable = ({
     exportLabel,
     searchPlaceholder,
   },
-  components: { FormModal, CreateButtonIcon },
+  components: { FormModal, CreateButtonIcon, Row, ToolbarActions = () => null },
 }) => {
   const [mode, setMode] = useState(Mode.READ)
   const [row, setRow] = useState()
@@ -118,13 +118,16 @@ const DataTable = ({
           disableSelectionOnClick
           hideFooter
           components={{
+            Row,
             Toolbar: (props) => (
               <DataTableToolbar
                 {...props}
                 data={data}
                 columns={columns}
                 disabled={isLoading}
-              />
+              >
+                <ToolbarActions />
+              </DataTableToolbar>
             ),
             LoadingOverlay: StyledLoaderContainer,
             NoRowsOverlay: StyledNoData,

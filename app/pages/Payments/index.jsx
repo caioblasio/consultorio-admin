@@ -24,6 +24,7 @@ const PaymentsPage = () => {
   const [loading, setLoading] = useState(true)
   const { onSaving, saving } = useContext(SaveContext)
   const [search, setSearch] = useState('')
+  const [showAll, setShowAll] = useState(false)
 
   const [tabValue, setTabValue] = useState(0)
   const [paymentToConfirm, setPaymentToConfirm] = useState(null)
@@ -46,13 +47,24 @@ const PaymentsPage = () => {
     setLoading(false)
   }, [])
 
+  const filteredPatients = useMemo(
+    () =>
+      patients.filter(
+        ({ name, isActive }) =>
+          (showAll || isActive) &&
+          name.toLowerCase().includes(search.toLowerCase())
+      ),
+    [patients, showAll]
+  )
+
   const rows = useMemo(
     () =>
-      patients.map(({ id, name }) => ({
+      filteredPatients.map(({ id, name, isActive }) => ({
         id,
         label: name,
+        isActive,
       })),
-    [patients]
+    [filteredPatients]
   )
 
   const data = useMemo(() => payments.map(paymentReferenceMapper), [payments])
@@ -119,10 +131,12 @@ const PaymentsPage = () => {
           rows={rows}
           data={data}
           searchValue={search}
-          onSearchChange={(newValue) => setSearch(newValue)}
+          onSearchChange={(value) => setSearch(value)}
           onCreate={onCreatePayment}
           onDelete={onDeletePayment}
           onEdit={onEditPayment}
+          showAllValue={showAll}
+          onShowAllChange={(value) => setShowAll(value)}
           typeMapping={{
             paid: {
               label: 'Pago',
@@ -149,7 +163,9 @@ const PaymentsPage = () => {
           data={dataRevenue}
           searchValue={search}
           onCreate={onCreatePayment}
-          onSearchChange={(newValue) => setSearch(newValue)}
+          onSearchChange={(value) => setSearch(value)}
+          showAllValue={showAll}
+          onShowAllChange={(value) => setShowAll(value)}
           view="income"
         />
       </TabPanel>

@@ -18,7 +18,7 @@ const columns = [
   {
     field: 'phone',
     headerName: 'N° Celular',
-    width: 430,
+    width: 450,
     valueFormatter: ({ value }) => value.join(', '),
     renderCell: ({ value }) => (
       <Stack direction="row" spacing={1}>
@@ -31,13 +31,7 @@ const columns = [
   {
     field: 'cpf',
     headerName: 'CPF',
-    width: 175,
-  },
-  {
-    field: 'isActive',
-    headerName: 'Ativo?',
-    width: 120,
-    renderCell: ({ value }) => Active({ value }),
+    width: 250,
   },
 ]
 

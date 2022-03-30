@@ -12,6 +12,7 @@ const DataTableToolbar = ({
   components,
   localeText,
   disabled,
+  children,
 }) => {
   const csvData = useMemo(() => {
     const newData = [
@@ -42,7 +43,9 @@ const DataTableToolbar = ({
       components={components}
       localeText={localeText}
       onExportClick={() => exportToCsv(csvData)}
-    />
+    >
+      {children}
+    </Toolbar>
   )
 }
 

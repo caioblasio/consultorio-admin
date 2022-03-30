@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useMemo } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import {
   fetchAllPatients,
@@ -17,6 +17,7 @@ const PatientsPage = () => {
   const [patients, setPatients] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [showAll, setShowAll] = useState(false)
 
   useAsyncEffect(async (isMounted) => {
     const allPatients = await fetchAllPatients()
@@ -28,11 +29,16 @@ const PatientsPage = () => {
     setLoading(false)
   }, [])
 
-  const filteredPatients = patients.filter(
-    ({ name, phone, cpf }) =>
-      name.toLowerCase().includes(search.toLowerCase()) ||
-      phone.some((number) => number.includes(search)) ||
-      unformatCPF(cpf).includes(search)
+  const filteredPatients = useMemo(
+    () =>
+      patients.filter(
+        ({ name, phone, cpf, isActive }) =>
+          (showAll || isActive) &&
+          (name.toLowerCase().includes(search.toLowerCase()) ||
+            phone.some((number) => number.includes(search)) ||
+            unformatCPF(cpf).includes(search))
+      ),
+    [patients, showAll]
   )
 
   const onCreatePatient = async (patient) => {
@@ -66,6 +72,8 @@ const PatientsPage = () => {
         onDelete={onDeletePatient}
         onEdit={onEditPatient}
         searchValue={search}
+        showAllValue={showAll}
+        onShowAllChange={(value) => setShowAll(value)}
         onSearchChange={(value) => setSearch(value)}
       />
     </Page>

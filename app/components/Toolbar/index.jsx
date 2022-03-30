@@ -13,6 +13,7 @@ const Toolbar = ({
   disableExport = false,
   disabled = false,
   onSearchChange,
+  children,
   components: { CreateButtonIcon = AddRounded, ExportIcon = SaveAltRounded },
   localeText: {
     createLabel = 'Criar',
@@ -51,6 +52,7 @@ const Toolbar = ({
             </Button>
           </Grid>
         )}
+        {children && <Grid item>{children}</Grid>}
         {onSearchChange && (
           <Grid item xs>
             <SearchField

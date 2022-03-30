@@ -21,8 +21,14 @@ const Planner = ({
   onSearchChange,
   typeMapping,
   isLoading = false,
-  view,
-  components: { FormModal, CreateButtonIcon, CellRenderer, RowHeader },
+  components: {
+    FormModal,
+    CreateButtonIcon,
+    CellRenderer,
+    RowHeader,
+    Row,
+    ToolbarActions = () => null,
+  },
   localeText: {
     deleteText,
     deleteTitle,
@@ -87,7 +93,9 @@ const Planner = ({
             searchPlaceholder,
             createLabel,
           }}
-        />
+        >
+          <ToolbarActions />
+        </PlannerToolbar>
         <PlannerHeader
           columns={columns}
           firstDate={firstDate}
@@ -104,8 +112,7 @@ const Planner = ({
           rows={rows}
           typeMapping={typeMapping}
           isLoading={isLoading}
-          components={{ CellRenderer, RowHeader }}
-          view={view}
+          components={{ CellRenderer, RowHeader, Row }}
           onCellClick={(mode, cell) => {
             setMode(mode)
             setCell(cell)

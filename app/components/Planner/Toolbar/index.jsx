@@ -14,6 +14,7 @@ const PlannerToolbar = ({
   onSearchChange,
   components,
   localeText,
+  children,
 }) => {
   const adapter = useDateAdapter()
   const getCSVColumns = useCallback(() => {
@@ -78,7 +79,9 @@ const PlannerToolbar = ({
       components={components}
       localeText={localeText}
       onExportClick={() => exportToCsv(getCSVData())}
-    />
+    >
+      {children}
+    </Toolbar>
   )
 }
 

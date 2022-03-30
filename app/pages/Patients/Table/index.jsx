@@ -1,9 +1,10 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import DataTable from 'components/DataTable'
 import columns from './columns'
 import PatientModal from './FormModal'
+import PatientsActiveFilter from './ActiveFilter'
+import PatientsRow from './Row'
 
 const PatientsTable = ({
   data,
@@ -13,6 +14,8 @@ const PatientsTable = ({
   onDelete,
   searchValue,
   onSearchChange,
+  showAllValue,
+  onShowAllChange,
 }) => {
   return (
     <DataTable
@@ -27,6 +30,14 @@ const PatientsTable = ({
       components={{
         FormModal: PatientModal,
         CreateButtonIcon: PersonAddIcon,
+        Row: PatientsRow,
+        ToolbarActions: () => (
+          <PatientsActiveFilter
+            value={showAllValue}
+            onChange={onShowAllChange}
+            disabled={isLoading}
+          />
+        ),
       }}
       localeText={{
         createLabel: 'Criar Paciente',

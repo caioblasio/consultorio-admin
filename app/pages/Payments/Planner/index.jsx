@@ -8,6 +8,8 @@ import { patientURL } from 'configs/urls'
 import PaymentsFormModal from './FormModal'
 import ReferencePaymentsCell from './ReferenceCell'
 import IncomePaymentsCell from './IncomeCell'
+import PaymentsActiveFilter from './ActiveFilter'
+import PaymentsRow from './Row'
 
 const PaymentsPlanner = ({
   data,
@@ -17,6 +19,8 @@ const PaymentsPlanner = ({
   onDelete,
   searchValue,
   onSearchChange,
+  showAllValue,
+  onShowAllChange,
   isLoading,
   view,
   typeMapping,
@@ -31,7 +35,6 @@ const PaymentsPlanner = ({
       onCreate={onCreate}
       onDelete={onDelete}
       onEdit={onEdit}
-      view={view}
       components={{
         CreateButtonIcon: AddShoppingCartOutlined,
         FormModal: (props) => <PaymentsFormModal {...props} patients={rows} />,
@@ -41,6 +44,14 @@ const PaymentsPlanner = ({
           <NavLink underline="always" to={patientURL(id)}>
             {label}
           </NavLink>
+        ),
+        Row: PaymentsRow,
+        ToolbarActions: () => (
+          <PaymentsActiveFilter
+            value={showAllValue}
+            onChange={onShowAllChange}
+            disabled={isLoading}
+          />
         ),
       }}
       localeText={{

@@ -1,16 +1,8 @@
-import React, { useCallback, useMemo } from 'react'
-import { Grid, Typography } from '@mui/material'
+import React, { useMemo } from 'react'
 import LoaderContainer from 'components/LoaderContainer'
-import { Mode } from 'constants/mode'
-import PlannerCellEmpty from './CellEmpty'
-import PlannerCellContent from './CellContent'
+import PlannerRow from 'components/Planner/Row'
 
-import {
-  StyledHeaderGridItem,
-  StyledBodyGridItem,
-  StyledPaper,
-  StyledNoData,
-} from './styles'
+import { StyledPaper, StyledNoData } from './styles'
 
 const PlannerBody = ({
   data,
@@ -19,90 +11,8 @@ const PlannerBody = ({
   isLoading,
   onCellClick,
   columns,
-  view,
-  components: {
-    CellRenderer,
-    RowHeader = ({ label }) => (
-      <Typography component="span">{label}</Typography>
-    ),
-  },
+  components: { CellRenderer, RowHeader, Row = PlannerRow },
 }) => {
-  const renderReferenceElements = useCallback(
-    (id, isBottom) => {
-      const rowData = data.filter(({ rowId }) => rowId === id)
-
-      return columns.map(({ date }, index) => {
-        const year = date.getFullYear()
-        const month = date.getMonth()
-
-        const item = rowData.find(({ columnId }) => {
-          return (
-            columnId.getMonth() === month && columnId.getFullYear() === year
-          )
-        })
-        const status = item
-          ? { ...typeMapping[item.status], id: item.status }
-          : undefined
-
-        return (
-          <StyledBodyGridItem
-            item
-            key={`body-item-${id}-${month}`}
-            isLeft={index === 0}
-            isBottom={isBottom}
-            isRight={index === columns.length - 1}
-            xs
-          >
-            {item ? (
-              <PlannerCellContent
-                status={status}
-                onDelete={() => onCellClick(Mode.DELETE, item)}
-                onEdit={() => onCellClick(Mode.EDIT, item)}
-              >
-                <CellRenderer data={item.data} status={status} />
-              </PlannerCellContent>
-            ) : (
-              <PlannerCellEmpty
-                onCreate={() =>
-                  onCellClick(Mode.CREATE, { rowId: id, columnId: date })
-                }
-              />
-            )}
-          </StyledBodyGridItem>
-        )
-      })
-    },
-    [rows, data, columns]
-  )
-
-  const renderIncomeElements = useCallback((id, isBottom) => {
-    const rowData = data.filter(({ rowId }) => rowId === id)
-
-    return columns.map(({ date }, index) => {
-      const year = date.getFullYear()
-      const month = date.getMonth()
-
-      const total = rowData.reduce((acc, { columnId, data: { value } }) => {
-        return columnId.getMonth() === month && columnId.getFullYear() === year
-          ? acc + value
-          : 0
-      }, 0)
-
-      return (
-        <StyledBodyGridItem
-          item
-          key={`body-item-${id}-${month}`}
-          isLeft={index === 0}
-          isBottom={isBottom}
-          isRight={index === columns.length - 1}
-          xs
-        >
-          <CellRenderer data={total} />
-        </StyledBodyGridItem>
-      )
-    })
-  })
-
   const isEmpty = useMemo(
     () => data.length === 0 || rows.length === 0,
     [data, rows]
@@ -116,14 +26,19 @@ const PlannerBody = ({
         <StyledNoData />
       ) : (
         rows.map((row, index) => (
-          <Grid container key={`row-${row.id}`}>
-            <StyledHeaderGridItem item xs={2}>
-              <RowHeader row={row} />
-            </StyledHeaderGridItem>
-            {view === 'reference'
-              ? renderReferenceElements(row.id, index === rows.length - 1)
-              : renderIncomeElements(row.id, index === rows.length - 1)}
-          </Grid>
+          <Row
+            key={`row-${row.id}`}
+            data={data}
+            row={row}
+            isLast={index === rows.length - 1}
+            columns={columns}
+            typeMapping={typeMapping}
+            onCellClick={onCellClick}
+            components={{
+              CellRenderer,
+              Header: RowHeader,
+            }}
+          />
         ))
       )}
     </StyledPaper>
