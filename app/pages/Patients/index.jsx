@@ -38,7 +38,7 @@ const PatientsPage = () => {
             phone.some((number) => number.includes(search)) ||
             unformatCPF(cpf).includes(search))
       ),
-    [patients, showAll]
+    [patients, showAll, search]
   )
 
   const onCreatePatient = async (patient) => {
@@ -74,7 +74,7 @@ const PatientsPage = () => {
         searchValue={search}
         showAllValue={showAll}
         onShowAllChange={(value) => setShowAll(value)}
-        onSearchChange={(value) => setSearch(value)}
+        onSearchChange={(_, value) => setSearch(value)}
       />
     </Page>
   )

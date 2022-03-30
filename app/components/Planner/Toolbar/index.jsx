@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import useDateAdapter from 'hooks/useDateAdapter'
 import Toolbar from 'components/Toolbar'
 import { exportToCsv } from 'utils/export'
@@ -10,7 +10,7 @@ const PlannerToolbar = ({
   rows,
   searchValue,
   onCreateClick,
-  disableExport,
+  hideExport,
   onSearchChange,
   components,
   localeText,
@@ -74,7 +74,7 @@ const PlannerToolbar = ({
       disabled={disabled}
       searchValue={searchValue}
       onCreateClick={onCreateClick}
-      disableExport={disableExport}
+      hideExport={hideExport}
       onSearchChange={onSearchChange}
       components={components}
       localeText={localeText}

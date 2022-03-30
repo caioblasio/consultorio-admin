@@ -1,8 +1,13 @@
+import { Paper } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { GridActionsCellItem } from '@mui/x-data-grid'
 
 import LoaderContainer from 'components/LoaderContainer'
 import NoData from 'components/NoData'
+
+export const StyledPaper = styled(Paper)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}))
 
 export const StyledGridActionsCellItem = styled(GridActionsCellItem)(
   ({ theme }) => ({

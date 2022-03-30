@@ -22,6 +22,7 @@ const Planner = ({
   typeMapping,
   isLoading = false,
   disableCellClick = false,
+  hideExport,
   components: {
     FormModal,
     CreateButtonIcon,
@@ -76,6 +77,7 @@ const Planner = ({
       <Stack spacing={2}>
         <PlannerToolbar
           disabled={isLoading}
+          hideExport={hideExport}
           firstDate={firstDate}
           data={data}
           rows={rows}

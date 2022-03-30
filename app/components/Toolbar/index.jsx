@@ -10,7 +10,7 @@ const Toolbar = ({
   searchValue,
   onCreateClick,
   onExportClick,
-  disableExport = false,
+  hideExport = false,
   disabled = false,
   onSearchChange,
   children,
@@ -38,7 +38,7 @@ const Toolbar = ({
             </Button>
           </Grid>
         )}
-        {!disableExport && (
+        {!hideExport && (
           <Grid item>
             <Button
               variant="outlined"
@@ -56,7 +56,7 @@ const Toolbar = ({
         {onSearchChange && (
           <Grid item xs>
             <SearchField
-              onChange={({ target }) => onSearchChange(target.value)}
+              onChange={onSearchChange}
               value={searchValue}
               placeholder={searchPlaceholder}
               disabled={disabled}

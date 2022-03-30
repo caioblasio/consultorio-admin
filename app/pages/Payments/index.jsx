@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useContext } from 'react'
+import React, { useMemo, useState, useContext, useEffect } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { Tabs, Tab } from '@mui/material'
 import {
@@ -16,6 +16,10 @@ import useDateAdapter from 'hooks/useDateAdapter'
 import PaymentAlreadyExistsError from 'errors/PaymentAlreadyExists'
 import { paymentReferenceMapper, paymentIncomeMapper } from './utils'
 import Planner from './Planner'
+
+const TabPanel = ({ children, value, index }) => (
+  <div hidden={value !== index}>{value === index && <>{children}</>}</div>
+)
 
 const PaymentsPage = () => {
   const [payments, setPayments] = useState([])
@@ -54,7 +58,7 @@ const PaymentsPage = () => {
           (showAll || isActive) &&
           name.toLowerCase().includes(search.toLowerCase())
       ),
-    [patients, showAll]
+    [patients, showAll, search]
   )
 
   const rows = useMemo(
@@ -115,10 +119,6 @@ const PaymentsPage = () => {
     setPaymentToConfirm(null)
   }
 
-  const TabPanel = ({ children, value, index }) => (
-    <div hidden={value !== index}>{value === index && <>{children}</>}</div>
-  )
-
   return (
     <Page breadcrumbs={<Breadcrumbs current="Pagamentos" />}>
       <Tabs value={tabValue} onChange={handleTabChange}>
@@ -131,7 +131,7 @@ const PaymentsPage = () => {
           rows={rows}
           data={data}
           searchValue={search}
-          onSearchChange={(value) => setSearch(value)}
+          onSearchChange={(_, value) => setSearch(value)}
           onCreate={onCreatePayment}
           onDelete={onDeletePayment}
           onEdit={onEditPayment}
@@ -163,7 +163,7 @@ const PaymentsPage = () => {
           data={dataRevenue}
           searchValue={search}
           onCreate={onCreatePayment}
-          onSearchChange={(value) => setSearch(value)}
+          onSearchChange={(_, value) => setSearch(value)}
           showAllValue={showAll}
           onShowAllChange={(value) => setShowAll(value)}
           view="income"

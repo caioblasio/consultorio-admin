@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react'
-import { Paper, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDownRounded'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUpRounded'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
 import ConfirmModal from 'components/ConfirmModal'
 import { Mode } from 'constants/mode'
 
@@ -13,20 +12,21 @@ import {
   StyledLoaderContainer,
   StyledNoData,
   StyledGridActionsCellItem,
+  StyledPaper,
 } from './styles'
 import DataTableToolbar from './Toolbar'
 
 const DataTable = ({
   data = [],
   columns = [],
-  isLoading = true,
+  isLoading = false,
   onEdit,
   onCreate,
   onDelete,
   searchValue,
   onSearchChange,
-  disableExport = false,
-  disableSearch = false,
+  hideExport,
+  disableSearch,
   localeText: {
     deleteText,
     deleteTitle,
@@ -105,30 +105,40 @@ const DataTable = ({
 
   return (
     <>
-      <Paper>
+      <DataTableToolbar
+        data={data}
+        columns={columns}
+        disabled={isLoading}
+        onSearchChange={onSearchChange}
+        searchValue={searchValue}
+        localeText={{
+          createLabel,
+          exportLabel,
+          searchPlaceholder,
+        }}
+        disableSearch={disableSearch}
+        hideExport={hideExport}
+        onCreate={() => {
+          setMode(Mode.CREATE)
+          setRow(undefined)
+        }}
+        components={{
+          CreateButtonIcon,
+        }}
+      >
+        <ToolbarActions />
+      </DataTableToolbar>
+      <StyledPaper>
         <DataGrid
           rows={isLoading ? [] : data}
           columns={styledActionableColumns}
           autoHeight
           loading={isLoading}
-          localeText={{
-            toolbarExport: exportLabel,
-          }}
           disableColumnMenu
           disableSelectionOnClick
           hideFooter
           components={{
             Row,
-            Toolbar: (props) => (
-              <DataTableToolbar
-                {...props}
-                data={data}
-                columns={columns}
-                disabled={isLoading}
-              >
-                <ToolbarActions />
-              </DataTableToolbar>
-            ),
             LoadingOverlay: StyledLoaderContainer,
             NoRowsOverlay: StyledNoData,
             ColumnSortedDescendingIcon: (props) => (
@@ -137,27 +147,9 @@ const DataTable = ({
             ColumnSortedAscendingIcon: (props) => (
               <ArrowDropDownIcon {...props} color="primary" />
             ),
-            ExportIcon: CloudDownloadIcon,
-          }}
-          componentsProps={{
-            toolbar: {
-              disableSearch,
-              disableExport,
-              onCreateClick: () => {
-                setMode(Mode.CREATE)
-                setRow(undefined)
-              },
-              searchValue,
-              onSearchChange: (value) => onSearchChange(value),
-              components: { CreateButtonIcon },
-              localeText: {
-                createLabel,
-                searchPlaceholder,
-              },
-            },
           }}
         />
-      </Paper>
+      </StyledPaper>
 
       {onDelete && (
         <ConfirmModal
