@@ -14,8 +14,8 @@
     "build:dev": "npx cross-env NODE_ENV=development npm run build -- --colors --progress",
     "start": "npx webpack serve --config ./internals/webpack/webpack.serve.js --progress",
     "addUser": "node ./internals/scripts/createUser.js",
-    "login:firebase": "firebase login",
-    "predeploy": "yarn login:firebase",
+    "login:firebase": "npx firebase login",
+    "predeploy": "npm run login:firebase",
     "deploy": "firebase deploy --only hosting"
   },
   "keywords": [],

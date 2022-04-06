@@ -27,6 +27,7 @@ const Planner = ({
     FormModal,
     CreateButtonIcon,
     CellRenderer,
+    CellActions,
     RowHeader,
     Row,
     ToolbarActions = () => null,
@@ -115,7 +116,7 @@ const Planner = ({
           rows={rows}
           typeMapping={typeMapping}
           isLoading={isLoading}
-          components={{ CellRenderer, RowHeader, Row }}
+          components={{ CellRenderer, CellActions, RowHeader, Row }}
           onCellClick={
             disableCellClick
               ? undefined

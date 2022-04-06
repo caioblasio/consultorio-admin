@@ -16,6 +16,7 @@ const PlannerRow = ({
   className,
   components: {
     CellRenderer,
+    CellActions,
     Header = ({ label }) => <Typography component="span">{label}</Typography>,
   },
 }) => {
@@ -48,6 +49,9 @@ const PlannerRow = ({
           >
             {item ? (
               <PlannerCellContent
+                components={{
+                  CellActions,
+                }}
                 status={status}
                 onDelete={
                   onCellClick ? () => onCellClick(Mode.DELETE, item) : undefined
@@ -55,6 +59,13 @@ const PlannerRow = ({
                 onEdit={
                   onCellClick ? () => onCellClick(Mode.EDIT, item) : undefined
                 }
+                onCreate={
+                  onCellClick
+                    ? () =>
+                        onCellClick(Mode.CREATE, { rowId: id, columnId: date })
+                    : undefined
+                }
+                disableClick={!onCellClick}
               >
                 <CellRenderer
                   data={data}

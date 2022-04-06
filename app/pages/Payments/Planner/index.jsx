@@ -5,6 +5,7 @@ import Planner from 'components/Planner'
 import NavLink from 'containers/NavLink'
 import { patientURL } from 'configs/urls'
 
+import ReferenceCellActions from './ReferenceCell/Actions'
 import PaymentsFormModal from './FormModal'
 import ReferencePaymentsCell from './ReferenceCell'
 import IncomePaymentsCell from './IncomeCell'
@@ -41,6 +42,7 @@ const PaymentsPlanner = ({
         FormModal: (props) => <PaymentsFormModal {...props} patients={rows} />,
         CellRenderer:
           view === 'reference' ? ReferencePaymentsCell : IncomePaymentsCell,
+        CellActions: view === 'reference' ? ReferenceCellActions : undefined,
         RowHeader: ({ row: { id, label } }) => (
           <NavLink underline="always" to={patientURL(id)}>
             {label}

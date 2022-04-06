@@ -11,7 +11,7 @@ const PlannerBody = ({
   isLoading,
   onCellClick,
   columns,
-  components: { CellRenderer, RowHeader, Row = PlannerRow },
+  components: { CellRenderer, CellActions, RowHeader, Row = PlannerRow },
 }) => {
   const isEmpty = useMemo(
     () => data.length === 0 || rows.length === 0,
@@ -36,6 +36,7 @@ const PlannerBody = ({
             onCellClick={onCellClick}
             components={{
               CellRenderer,
+              CellActions,
               Header: RowHeader,
             }}
           />

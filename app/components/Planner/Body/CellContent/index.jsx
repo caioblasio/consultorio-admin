@@ -2,21 +2,23 @@ import React, { useState } from 'react'
 import { Menu, MenuItem } from '@mui/material'
 
 import PlannerCell from 'components/Planner/Cell'
+import PlannerCellActions from './Actions'
 import { StyledErrorItem } from './styles'
 
 const PlannerCellContent = ({
+  onCreate,
   onEdit,
   onDelete,
   children,
-  status: { color } = {},
+  components: { CellActions = PlannerCellActions },
+  status: { color, id: statusId } = {},
+  disableClick,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null)
-  const handleClick =
-    onEdit || onDelete
-      ? (event) => {
-          setAnchorEl(event.currentTarget)
-        }
-      : undefined
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
     setAnchorEl(null)
@@ -24,43 +26,55 @@ const PlannerCellContent = ({
 
   return (
     <>
-      <PlannerCell color={color} onClick={handleClick}>
+      <PlannerCell
+        color={color}
+        onClick={disableClick ? undefined : handleClick}
+      >
         {children}
       </PlannerCell>
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          horizontal: 'right',
-          vertical: 'center',
-        }}
-        transformOrigin={{
-          horizontal: 'left',
-          vertical: 'center',
-        }}
-        open={!!anchorEl}
-        onClose={handleClose}
-      >
-        {onEdit && (
-          <MenuItem
-            onClick={() => {
-              onEdit()
-              handleClose()
-            }}
-          >
-            Editar
-          </MenuItem>
-        )}
-        {onDelete && (
-          <StyledErrorItem
-            onClick={() => {
-              onDelete()
-              handleClose()
-            }}
-          >
-            Deletar
-          </StyledErrorItem>
-        )}
-      </Menu>
+      {!disableClick && (
+        <CellActions
+          statusId={statusId}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          createAction={
+            onCreate ? (
+              <MenuItem
+                onClick={() => {
+                  onCreate()
+                  handleClose()
+                }}
+              >
+                Criar
+              </MenuItem>
+            ) : undefined
+          }
+          editAction={
+            onEdit ? (
+              <MenuItem
+                onClick={() => {
+                  onEdit()
+                  handleClose()
+                }}
+              >
+                Editar
+              </MenuItem>
+            ) : undefined
+          }
+          deleteAction={
+            onDelete ? (
+              <StyledErrorItem
+                onClick={() => {
+                  onDelete()
+                  handleClose()
+                }}
+              >
+                Deletar
+              </StyledErrorItem>
+            ) : undefined
+          }
+        />
+      )}
     </>
   )
 }
