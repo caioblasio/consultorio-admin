@@ -45,8 +45,8 @@ const Planner = ({
   const [cell, setCell] = useState()
   const currentDate = useMemo(() => new Date(), [])
   const firstDate = useMemo(() => {
-    const newDate = new Date(pivotDate.toISOString())
-    newDate.setDate(1)
+    const newDate = new Date(pivotDate)
+    newDate.setDate(15)
     newDate.setMonth(newDate.getMonth() - VISIBLE_MONTHS + 1)
     return newDate
   }, [pivotDate])
@@ -54,7 +54,7 @@ const Planner = ({
   const columns = useMemo(() => {
     const newColumns = []
     for (let i = 0; i < VISIBLE_MONTHS; i += 1) {
-      const nextDate = new Date(firstDate.toISOString())
+      const nextDate = new Date(firstDate)
       nextDate.setMonth(nextDate.getMonth() + i)
       const month = adapter.format(nextDate, 'month')
       newColumns.push({ label: month, date: nextDate })
@@ -104,7 +104,7 @@ const Planner = ({
           firstDate={firstDate}
           currentDate={currentDate}
           onDateChange={(newDate) => {
-            const newPivotDate = new Date(newDate.toISOString())
+            const newPivotDate = new Date(newDate)
             newPivotDate.setMonth(newPivotDate.getMonth() + VISIBLE_MONTHS - 1)
             setPivotDate(newPivotDate)
           }}

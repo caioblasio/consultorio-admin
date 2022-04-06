@@ -59,7 +59,7 @@ const PaymentsFormModal = ({
 
       if (data.rowId && data.columnId) {
         const patient = patients.find(({ id }) => id === data.rowId)
-        const reference = new Date(newData.reference.toISOString())
+        const reference = new Date(newData.reference)
         reference.setMonth(data.columnId.getMonth())
         reference.setFullYear(data.columnId.getFullYear())
         newData = {

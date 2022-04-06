@@ -20,7 +20,7 @@ const PlannerToolbar = ({
   const getCSVColumns = useCallback(() => {
     const columns = []
     for (let i = 0; i < 12; i++) {
-      const newDate = new Date(firstDate.toISOString())
+      const newDate = new Date(firstDate)
       newDate.setMonth(i)
       columns.push(newDate)
     }

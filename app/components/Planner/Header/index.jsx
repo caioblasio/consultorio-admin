@@ -45,7 +45,7 @@ const PlannerHeader = ({ firstDate, currentDate, onDateChange, columns }) => {
         <StyledHeaderMonthsGrid container alignItems="center">
           <StyledPreviousMonthButton
             onClick={() => {
-              const newDate = new Date(firstDate.toISOString())
+              const newDate = new Date(firstDate)
               newDate.setMonth(newDate.getMonth() - 1)
               onDateChange(newDate)
             }}
@@ -55,7 +55,7 @@ const PlannerHeader = ({ firstDate, currentDate, onDateChange, columns }) => {
           {renderElements()}
           <StyledNextMonthButton
             onClick={() => {
-              const newDate = new Date(firstDate.toISOString())
+              const newDate = new Date(firstDate)
               newDate.setMonth(newDate.getMonth() + 1)
               onDateChange(newDate)
             }}
