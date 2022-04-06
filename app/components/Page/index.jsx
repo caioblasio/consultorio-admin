@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Tooltip } from '@mui/material'
 import { CloudDoneOutlined } from '@mui/icons-material'
+
+import useDateAdapter from 'hooks/useDateAdapter'
 
 import {
   StyledGrid,
@@ -16,6 +18,39 @@ const Page = ({
   disableAutoSave,
   isSaving,
 }) => {
+  const adapter = useDateAdapter()
+  const [dirty, setDirty] = useState(false)
+  const [savingText, setSavingText] = useState(
+    'Todas as suas alterações estão salvas'
+  )
+
+  useEffect(() => {
+    if (isSaving) {
+      setDirty(true)
+      setSavingText('Salvando as suas novas alterações...')
+      return
+    }
+
+    if (!dirty) {
+      return
+    }
+
+    const saveTime = new Date()
+    const updateText = () => {
+      const distance = adapter.formatDistance(new Date(), saveTime)
+      setSavingText(`Última alteração feita há ${distance}`)
+    }
+
+    updateText()
+    const interval = setInterval(() => {
+      updateText()
+    }, [60000])
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [isSaving])
+
   return (
     <StyledGrid
       container
@@ -51,9 +86,7 @@ const Page = ({
                       color="grey.dark"
                       variant="body2"
                     >
-                      {isSaving
-                        ? 'Salvando as suas novas alterações...'
-                        : 'Todas as suas alterações estão salvas'}
+                      {savingText}
                     </StyledText>
                   </div>
                 </Tooltip>

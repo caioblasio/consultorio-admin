@@ -1,7 +1,7 @@
 import React from 'react'
-import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider, MuiPickersAdapterContext } from '@mui/lab'
 import { ptBR } from 'date-fns/locale'
+import DateAdapter from './DateAdapter'
 
 export const DateContext = MuiPickersAdapterContext
 
