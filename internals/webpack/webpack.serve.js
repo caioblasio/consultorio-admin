@@ -1,1 +1,1 @@
-module.exports = require('./serve/webpack.dev');
+module.exports = require('./serve/webpack.dev')

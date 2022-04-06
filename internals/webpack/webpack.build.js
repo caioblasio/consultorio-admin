@@ -1,6 +1,6 @@
 const isValid = (_env) => {
-  const env = `${_env}`.toLowerCase();
-  const allowedEnvs = ["dev", "production"];
+  const env = `${_env}`.toLowerCase()
+  const allowedEnvs = ['dev', 'production']
 
   if (!allowedEnvs.includes(env)) {
     const messages = [
@@ -8,16 +8,16 @@ const isValid = (_env) => {
       `env should contain one of ["${allowedEnvs.join(
         '", "'
       )}"] (upper case allowed), received "${_env}".`,
-    ];
+    ]
 
-    throw new Error(messages.join("\n"));
+    throw new Error(messages.join('\n'))
   }
 
-  return true;
-};
+  return true
+}
 
-const env = process.env.NODE_ENV;
+const env = process.env.NODE_ENV
 
 module.exports = isValid(env)
   ? require(`./build/webpack.${env.toLowerCase()}`)
-  : process.exit(1);
+  : process.exit(1)
