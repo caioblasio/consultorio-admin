@@ -1,7 +1,8 @@
 import React from 'react'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import DataTable from 'components/DataTable'
-import columns from './columns'
+import useDateAdapter from 'hooks/useDateAdapter'
+import getColumns from './columns'
 import PatientModal from './FormModal'
 import PatientsActiveFilter from './ActiveFilter'
 import PatientsRow from './Row'
@@ -17,9 +18,11 @@ const PatientsTable = ({
   showAllValue,
   onShowAllChange,
 }) => {
+  const adapter = useDateAdapter()
+
   return (
     <DataTable
-      columns={columns}
+      columns={getColumns(adapter)}
       data={data}
       isLoading={isLoading}
       onCreate={onCreate}

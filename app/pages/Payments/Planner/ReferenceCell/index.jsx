@@ -21,10 +21,6 @@ const ReferencePaymentsCell = ({
   status: { color, id } = {},
 }) => {
   const adapter = useDateAdapter()
-  const typeLabel = useMemo(() => {
-    const { label } = PAYMENT_TYPE_OPTIONS.find(({ value }) => value === type)
-    return label
-  }, [type])
 
   if (id === 'forgiven') {
     return <StyledInfo color={color} />
@@ -33,6 +29,11 @@ const ReferencePaymentsCell = ({
   if (id === 'owing') {
     return <StyledError color={color} />
   }
+
+  const typeLabel = useMemo(() => {
+    const { label } = PAYMENT_TYPE_OPTIONS.find(({ value }) => value === type)
+    return label
+  }, [type])
 
   return (
     <Stack>

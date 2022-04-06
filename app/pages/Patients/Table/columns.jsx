@@ -4,7 +4,7 @@ import { patientURL } from 'configs/urls'
 import Active from 'components/Active'
 import NavLink from 'containers/NavLink'
 
-const columns = [
+const getColumns = (dateAdapter) => [
   {
     field: 'name',
     headerName: 'Nome Completo',
@@ -33,6 +33,13 @@ const columns = [
     headerName: 'CPF',
     width: 250,
   },
+  {
+    field: 'treatmentBegin',
+    headerName: 'Início do tratamento',
+    valueFormatter: ({ value }) =>
+      dateAdapter.formatByString(value, 'dd/MM/yyyy'),
+    width: 200,
+  },
 ]
 
-export default columns
+export default getColumns

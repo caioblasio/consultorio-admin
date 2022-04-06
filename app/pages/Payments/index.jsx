@@ -14,6 +14,7 @@ import Page from 'containers/Page'
 import ConfirmModal from 'components/ConfirmModal'
 import useDateAdapter from 'hooks/useDateAdapter'
 import PaymentAlreadyExistsError from 'errors/PaymentAlreadyExists'
+import { getMonthDifference } from 'utils/date'
 import { paymentReferenceMapper, paymentIncomeMapper } from './utils'
 import Planner from './Planner'
 
@@ -73,6 +74,37 @@ const PaymentsPage = () => {
 
   const data = useMemo(() => payments.map(paymentReferenceMapper), [payments])
 
+  const processMissingData = () => {
+    let missingData = []
+    const currentDate = useMemo(() => new Date(), [])
+    filteredPatients.forEach((patient) => {
+      const { treatmentBegin, id: patientId, name: patientName } = patient
+      const patientPayments = data.filter(({ rowId }) => rowId === patientId)
+      const differenceInMonths = getMonthDifference(treatmentBegin, currentDate)
+
+      for (let i = 0; i < differenceInMonths + 1; i++) {
+        const pivotDate = adapter.addMonths(treatmentBegin, i)
+        const pivotDatePayment = patientPayments.find(({ columnId }) =>
+          adapter.isSameMonth(pivotDate, columnId)
+        )
+        if (!pivotDatePayment) {
+          const missingPayment = {
+            rowId: patientId,
+            columnId: new Date(pivotDate.getFullYear(), pivotDate.getMonth()),
+            status: 'owing',
+            data: {
+              holder: patientName,
+              value: 9000,
+            },
+          }
+          missingData.push(missingPayment)
+        }
+      }
+    })
+
+    return missingData
+  }
+
   const dataRevenue = useMemo(
     () => payments.map(paymentIncomeMapper),
     [payments]
@@ -129,7 +161,7 @@ const PaymentsPage = () => {
         <Planner
           isLoading={loading || saving}
           rows={rows}
-          data={data}
+          data={[...data, ...processMissingData()]}
           searchValue={search}
           onSearchChange={(_, value) => setSearch(value)}
           onCreate={onCreatePayment}

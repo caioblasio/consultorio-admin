@@ -54,10 +54,11 @@ const PaymentsFormModal = ({
     if (status === 'forgiven') {
       setValue('holder', '')
       setValue('value', 0)
-      setValue
+      setValue('type', '')
     } else if (status === 'paid') {
       setValue('holder', patient.label)
       setValue('value', defaultValues.value)
+      setValue('type', defaultValues.type)
     }
   }, [status, holder])
 
