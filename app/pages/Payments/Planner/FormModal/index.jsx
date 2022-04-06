@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Grid, Stack } from '@mui/material'
+import React, { useEffect, useMemo } from 'react'
+import { Grid, Stack, Divider } from '@mui/material'
 import { PersonRounded } from '@mui/icons-material'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 import DatePicker from '@mui/lab/DatePicker'
@@ -14,7 +14,7 @@ import Autocomplete from 'components/Autocomplete'
 import { standardToCentesimal, centesimalToStandard } from 'utils/currency'
 
 import VALIDATION_SCHEMA from './validations'
-import { useMemo } from 'react'
+import { PAYMENT_TYPE_OPTIONS, PAYMENT_STATUS_OPTIONS } from './constants'
 
 const PaymentsFormModal = ({
   data,
@@ -41,10 +41,25 @@ const PaymentsFormModal = ({
   })
 
   const patient = watch('patient')
+  const status = watch('status')
+  const holder = watch('holder')
 
-  if (patient) {
-    setValue('holder', patient.label)
-  }
+  useEffect(() => {
+    if (patient) {
+      setValue('holder', patient.label)
+    }
+  }, [patient])
+
+  useEffect(() => {
+    if (status === 'forgiven') {
+      setValue('holder', '')
+      setValue('value', 0)
+      setValue
+    } else if (status === 'paid') {
+      setValue('holder', patient.label)
+      setValue('value', defaultValues.value)
+    }
+  }, [status, holder])
 
   useEffect(() => {
     let newData = { ...defaultValues }
@@ -111,6 +126,19 @@ const PaymentsFormModal = ({
       <form>
         <Stack spacing={2}>
           <Controller
+            name="status"
+            control={control}
+            rules={{ ...VALIDATION_SCHEMA.status }}
+            render={({ field }) => (
+              <SelectField
+                label="Tipo de Pagamento"
+                options={PAYMENT_STATUS_OPTIONS}
+                {...field}
+              />
+            )}
+          />
+          <Divider />
+          <Controller
             name="patient"
             control={control}
             rules={{ ...VALIDATION_SCHEMA.patientId }}
@@ -123,12 +151,14 @@ const PaymentsFormModal = ({
               />
             )}
           />
-          <Controller
-            name="holder"
-            control={control}
-            rules={{ ...VALIDATION_SCHEMA.holder }}
-            render={({ field }) => <TextField label="Titular" {...field} />}
-          />
+          {status === 'paid' && (
+            <Controller
+              name="holder"
+              control={control}
+              rules={{ ...VALIDATION_SCHEMA.holder }}
+              render={({ field }) => <TextField label="Titular" {...field} />}
+            />
+          )}
           <Controller
             name="reference"
             control={control}
@@ -154,54 +184,36 @@ const PaymentsFormModal = ({
               />
             )}
           />
-          <Controller
-            name="status"
-            control={control}
-            rules={{ ...VALIDATION_SCHEMA.status }}
-            render={({ field }) => (
-              <SelectField
-                label="Estado"
-                options={[
-                  { label: 'Pago', value: 'paid' },
-                  { label: 'Devendo', value: 'owing' },
-                  { label: 'Perdoado', value: 'forgiven' },
-                ]}
-                {...field}
-              />
-            )}
-          />
 
-          <Grid container columnGap={2}>
-            <Grid item xs>
-              <Controller
-                name="type"
-                control={control}
-                rules={{ ...VALIDATION_SCHEMA.type }}
-                render={({ field }) => (
-                  <SelectField
-                    label="Modo"
-                    options={[
-                      { label: 'Cartão', value: 'card' },
-                      { label: 'Dinheiro', value: 'cash' },
-                      { label: 'PIX', value: 'transfer' },
-                    ]}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
+          {status === 'paid' && (
+            <Grid container columnGap={2}>
+              <Grid item xs>
+                <Controller
+                  name="type"
+                  control={control}
+                  rules={{ ...VALIDATION_SCHEMA.type }}
+                  render={({ field }) => (
+                    <SelectField
+                      label="Modo de Pagamento"
+                      options={PAYMENT_TYPE_OPTIONS}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
 
-            <Grid item xs>
-              <Controller
-                name="value"
-                control={control}
-                rules={{ ...VALIDATION_SCHEMA.type }}
-                render={({ field }) => (
-                  <CurrencyField disabled label="Valor" {...field} />
-                )}
-              />
+              <Grid item xs>
+                <Controller
+                  name="value"
+                  control={control}
+                  rules={{ ...VALIDATION_SCHEMA.type }}
+                  render={({ field }) => (
+                    <CurrencyField disabled label="Valor" {...field} />
+                  )}
+                />
+              </Grid>
             </Grid>
-          </Grid>
+          )}
         </Stack>
       </form>
     </Modal>

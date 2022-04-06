@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Stack, Typography, Grid } from '@mui/material'
 import useDateAdapter from 'hooks/useDateAdapter'
 
-import { StyledError } from './styles'
+import { PAYMENT_TYPE_OPTIONS } from 'pages/Payments/Planner/FormModal/constants'
+import { StyledError, StyledInfo } from './styles'
 
 const Text = ({ text, color }) => (
   <Typography
@@ -20,6 +21,14 @@ const ReferencePaymentsCell = ({
   status: { color, id } = {},
 }) => {
   const adapter = useDateAdapter()
+  const typeLabel = useMemo(() => {
+    const { label } = PAYMENT_TYPE_OPTIONS.find(({ value }) => value === type)
+    return label
+  }, [type])
+
+  if (id === 'forgiven') {
+    return <StyledInfo color={color} />
+  }
 
   if (id === 'owing') {
     return <StyledError color={color} />
@@ -32,7 +41,7 @@ const ReferencePaymentsCell = ({
       </Typography>
       <Grid container justifyContent="space-between">
         <Grid item>
-          <Text text={type} color={color} />
+          <Text text={typeLabel} color={color} />
         </Grid>
         {madeAt && (
           <Grid item>
