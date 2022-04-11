@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react'
-import { Stack, Grid, Button, IconButton } from '@mui/material'
+import { Stack, Grid, Button, IconButton, Typography } from '@mui/material'
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 import AddIcon from '@mui/icons-material/Add'
-import { RemoveCircleOutlineOutlined } from '@mui/icons-material'
+import { RemoveCircleOutlineOutlined, PersonRounded } from '@mui/icons-material'
 import InputMask from 'react-input-mask'
 import { Controller, useFieldArray } from 'react-hook-form'
 
+import Autocomplete from 'components/Autocomplete'
 import TextField from 'components/TextField'
 import Switch from 'components/Switch'
 import VALIDATION_SCHEMA from './validations'
 
 const PatientForm = ({
+  holders,
   data,
   onDataChange,
   defaultValues = {},
@@ -27,11 +30,11 @@ const PatientForm = ({
   useEffect(() => {
     let newData = defaultValues
     if (data) {
+      const { phone, ...rest } = data
       newData = {
-        ...data,
-        ...(data.phone
-          ? { phone: data.phone.map((value) => ({ value })) }
-          : {}),
+        ...rest,
+        phone: phone.map((value) => ({ value })),
+        holder: holders.find(({ id }) => id === data.holderId) || '',
       }
     }
 
@@ -45,7 +48,7 @@ const PatientForm = ({
           name="name"
           control={control}
           rules={{ ...VALIDATION_SCHEMA.name }}
-          render={({ field }) => (
+          render={({ field, fieldState: { invalid, error } }) => (
             <TextField
               label="Nome Completo"
               {...field}
@@ -55,6 +58,36 @@ const PatientForm = ({
                   onDataChange()
                 }
               }}
+              error={invalid}
+              helperText={error?.message}
+            />
+          )}
+        />
+        <Controller
+          name="holder"
+          control={control}
+          rules={{ ...VALIDATION_SCHEMA.holder }}
+          render={({ field, fieldState: { invalid, error } }) => (
+            <Autocomplete
+              label="Responsável"
+              startAdornment={<PersonRounded />}
+              options={holders}
+              content={({ cpf }) => (
+                <Typography component="span" color="grey.dark" variant="body2">
+                  {cpf}
+                </Typography>
+              )}
+              InputProps={{
+                onBlur: () => {
+                  field.onBlur()
+                  if (onDataChange) {
+                    onDataChange()
+                  }
+                },
+                error: invalid,
+                helperText: error?.message,
+              }}
+              {...field}
             />
           )}
         />
@@ -116,6 +149,19 @@ const PatientForm = ({
             </Button>
           )}
         </Stack>
+
+        <Controller
+          name="treatmentBegin"
+          control={control}
+          rules={{ ...VALIDATION_SCHEMA.treatmentBegin }}
+          render={({ field }) => (
+            <DesktopDatePicker
+              label="Início do Tratamento"
+              {...field}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          )}
+        />
 
         <Grid container columnGap={3}>
           <Grid item xs>

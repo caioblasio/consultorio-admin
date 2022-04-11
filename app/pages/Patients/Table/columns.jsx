@@ -1,10 +1,10 @@
 import React from 'react'
 import { Stack, Chip } from '@mui/material'
-import { patientURL } from 'configs/urls'
+import { patientURL, holderURL } from 'configs/urls'
 import Active from 'components/Active'
 import NavLink from 'containers/NavLink'
 
-const getColumns = (dateAdapter) => [
+const getColumns = ({ adapter, holders }) => [
   {
     field: 'name',
     headerName: 'Nome Completo',
@@ -34,10 +34,19 @@ const getColumns = (dateAdapter) => [
     width: 250,
   },
   {
+    field: 'holderId',
+    headerName: 'Responsável',
+    width: 250,
+    renderCell: ({ value }) => (
+      <NavLink underline="always" to={holderURL(value)}>
+        {holders.find(({ id }) => id === value)?.label}
+      </NavLink>
+    ),
+  },
+  {
     field: 'treatmentBegin',
     headerName: 'Início do tratamento',
-    valueFormatter: ({ value }) =>
-      dateAdapter.formatByString(value, 'dd/MM/yyyy'),
+    valueFormatter: ({ value }) => adapter.formatByString(value, 'dd/MM/yyyy'),
     width: 200,
   },
 ]

@@ -3,7 +3,7 @@ import useAsyncEffect from 'use-async-effect'
 
 import AutocompleteComponent from 'components/AutocompleteComponent'
 
-const Autocomplete = ({ className, callFn, value, onChange }) => {
+const Autocomplete = ({ callFn, value, ...rest }) => {
   const [options, setOptions] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -24,11 +24,10 @@ const Autocomplete = ({ className, callFn, value, onChange }) => {
 
   return (
     <AutocompleteComponent
-      className={className}
       value={value}
-      onChange={onChange}
       options={options}
       isLoading={loading}
+      {...rest}
     />
   )
 }

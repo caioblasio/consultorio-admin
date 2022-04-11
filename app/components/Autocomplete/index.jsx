@@ -5,20 +5,71 @@ import { MenuItem } from '@mui/material'
 import TextField from 'components/TextField'
 import Loader from 'components/Loader'
 
+import { createFilterOptions } from '@mui/material/Autocomplete'
+
 import { StyledAutocomplete, StyledHighlightedText } from './styles'
+
+const filter = createFilterOptions()
 
 const Autocomplete = (
   {
     startAdornment,
     isLoading = false,
     options = [],
+    content,
     label,
     value,
     onChange,
+    hasCreateOption,
+    InputProps,
     ...rest
   },
   ref
 ) => {
+  const hasCreateOptionProps = hasCreateOption
+    ? {
+        onChange: (_, newOption) => {
+          if (newOption && newOption.inputValue) {
+            // will pass only string to onChange
+            // we can differentiate a new option from an existing by typeof
+            onChange(newOption.inputValue)
+            return
+          }
+          onChange(newOption)
+        },
+        filterOptions: (options, params) => {
+          const filtered = filter(options, params)
+
+          const { inputValue } = params
+
+          const isExisting = options.some(
+            (option) => inputValue === option.label
+          )
+          if (inputValue !== '' && !isExisting) {
+            filtered.push({
+              inputValue,
+              label: `Criar "${inputValue}"`,
+            })
+          }
+
+          return filtered
+        },
+        getOptionLabel: (option) => {
+          if (typeof option === 'string') {
+            return option
+          }
+          if (option.inputValue) {
+            return option.inputValue
+          }
+
+          return option.label
+        },
+        freeSolo: true,
+        clearOnBlur: true,
+        selectOnFocus: true,
+      }
+    : {}
+
   return (
     <StyledAutocomplete
       ref={ref}
@@ -41,6 +92,7 @@ const Autocomplete = (
           label={label}
           endAdornment={isLoading ? <Loader size="small" /> : undefined}
           startAdornment={startAdornment}
+          {...InputProps}
         />
       )}
       renderOption={(props, option, { inputValue }) => {
@@ -60,9 +112,11 @@ const Autocomplete = (
                 </StyledHighlightedText>
               ))}
             </div>
+            {content && content(option)}
           </MenuItem>
         )
       }}
+      {...hasCreateOptionProps}
       {...rest}
     />
   )

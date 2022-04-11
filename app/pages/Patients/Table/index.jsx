@@ -9,6 +9,7 @@ import PatientsRow from './Row'
 
 const PatientsTable = ({
   data,
+  holders,
   isLoading,
   onCreate,
   onEdit,
@@ -22,7 +23,7 @@ const PatientsTable = ({
 
   return (
     <DataTable
-      columns={getColumns(adapter)}
+      columns={getColumns({ adapter, holders })}
       data={data}
       isLoading={isLoading}
       onCreate={onCreate}
@@ -31,7 +32,7 @@ const PatientsTable = ({
       searchValue={searchValue}
       onSearchChange={onSearchChange}
       components={{
-        FormModal: PatientModal,
+        FormModal: (props) => <PatientModal {...props} holders={holders} />,
         CreateButtonIcon: PersonAddIcon,
         Row: PatientsRow,
         ToolbarActions: () => (
