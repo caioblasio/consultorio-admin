@@ -1,2 +1,3 @@
-export * from './patient'
-export * from './payment'
+export * from './Patients'
+export * from './Payments'
+export * from './Holders'

@@ -5,20 +5,73 @@ import { MenuItem } from '@mui/material'
 import TextField from 'components/TextField'
 import Loader from 'components/Loader'
 
+import { createFilterOptions } from '@mui/material/Autocomplete'
+
 import { StyledAutocomplete, StyledHighlightedText } from './styles'
+
+const filter = createFilterOptions()
 
 const Autocomplete = (
   {
     startAdornment,
     isLoading = false,
     options = [],
+    components: { OptionRenderer = () => null },
     label,
     value,
+    freeSolo,
     onChange,
+    isCreatable,
+    onInputBlur,
+    error,
+    helperText,
     ...rest
   },
   ref
 ) => {
+  const creatableProps = isCreatable
+    ? {
+        onChange: (_, newOption) => {
+          if (newOption && newOption.inputValue) {
+            // will pass only string to onChange
+            // we can differentiate a new option from an existing by typeof
+            onChange(newOption.inputValue)
+            return
+          }
+          onChange(newOption)
+        },
+        filterOptions: (options, params) => {
+          const filtered = filter(options, params)
+
+          const { inputValue } = params
+
+          const isExisting = options.some(
+            (option) => inputValue === option.label
+          )
+          if (inputValue !== '' && !isExisting) {
+            filtered.push({
+              inputValue,
+              label: `Criar "${inputValue}"`,
+            })
+          }
+
+          return filtered
+        },
+        getOptionLabel: (option) => {
+          if (typeof option === 'string') {
+            return option
+          }
+          if (option.inputValue) {
+            return option.inputValue
+          }
+
+          return option.label
+        },
+        clearOnBlur: true,
+        selectOnFocus: true,
+      }
+    : {}
+
   return (
     <StyledAutocomplete
       ref={ref}
@@ -41,6 +94,9 @@ const Autocomplete = (
           label={label}
           endAdornment={isLoading ? <Loader size="small" /> : undefined}
           startAdornment={startAdornment}
+          onBlur={onInputBlur}
+          error={error}
+          helperText={helperText}
         />
       )}
       renderOption={(props, option, { inputValue }) => {
@@ -60,9 +116,12 @@ const Autocomplete = (
                 </StyledHighlightedText>
               ))}
             </div>
+            {OptionRenderer(option)}
           </MenuItem>
         )
       }}
+      freeSolo={freeSolo}
+      {...creatableProps}
       {...rest}
     />
   )

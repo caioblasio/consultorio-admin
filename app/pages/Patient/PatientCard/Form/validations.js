@@ -4,6 +4,9 @@ const VALIDATION_SCHEMA = {
   name: {
     required: 'Este campo é obrigatório',
   },
+  holder: {
+    required: 'Este campo é obrigatório',
+  },
   phone: {
     required: 'Este campo é obrigatório',
     pattern: {
@@ -21,6 +24,9 @@ const VALIDATION_SCHEMA = {
   cpf: {
     required: 'Este campo é obrigatório',
     validate: (v) => validateCPF(v) || 'CPF inválido',
+  },
+  treatmentBegin: {
+    required: 'Este campo é obrigatório',
   },
 }
 

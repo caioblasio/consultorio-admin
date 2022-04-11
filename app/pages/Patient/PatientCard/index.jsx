@@ -1,25 +1,46 @@
-import React, { useEffect } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
+import useAsyncEffect from 'use-async-effect'
 import { useForm } from 'react-hook-form'
 import Card from 'components/Card'
-import { editPatient } from 'api/database'
+import { editPatient, fetchAllHolders } from 'api/database'
 import PatientForm from './Form'
 
 const PatientCard = ({ patient, isLoading, onSaving }) => {
+  const [holders, setHolders] = useState([])
+
   const { control, handleSubmit, reset, watch } = useForm({
     defaultValues: patient,
     mode: 'onChange',
   })
 
+  useAsyncEffect(async (isMounted) => {
+    const allHolders = await fetchAllHolders()
+    if (!isMounted()) {
+      return
+    }
+
+    setHolders(allHolders)
+  }, [])
+
+  const allHolders = useMemo(
+    () =>
+      holders.map(({ id, name, cpf }) => ({
+        id,
+        label: name,
+        cpf,
+      })),
+    [holders]
+  )
+
   useEffect(() => {
     reset(patient)
   }, [patient])
 
-  const handleConfirm = async (newData) => {
+  const handleConfirm = async ({ holder, phone, ...rest }) => {
     const submitData = {
-      ...newData,
-      ...(newData.phone
-        ? { phone: newData.phone.map(({ value }) => value) }
-        : {}),
+      ...rest,
+      phone: phone.map(({ value }) => value),
+      holderId: holder?.id,
     }
 
     await onSaving(() => editPatient(submitData))
@@ -29,6 +50,7 @@ const PatientCard = ({ patient, isLoading, onSaving }) => {
     <Card title="Detalhes" color="info" isLoading={isLoading}>
       <PatientForm
         data={patient}
+        holders={allHolders}
         control={control}
         reset={reset}
         watch={watch}

@@ -5,6 +5,7 @@ import {
   createPatient,
   editPatient,
   deletePatient,
+  fetchAllHolders,
 } from 'api/database'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import { SaveContext } from 'contexts/Save'
@@ -15,16 +16,19 @@ import Table from './Table'
 const PatientsPage = () => {
   const { saving, onSaving } = useContext(SaveContext)
   const [patients, setPatients] = useState([])
+  const [holders, setHolders] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [showAll, setShowAll] = useState(false)
 
   useAsyncEffect(async (isMounted) => {
     const allPatients = await fetchAllPatients()
+    const allHolders = await fetchAllHolders()
     if (!isMounted()) {
       return
     }
 
+    setHolders(allHolders)
     setPatients(allPatients)
     setLoading(false)
   }, [])
@@ -39,6 +43,16 @@ const PatientsPage = () => {
             unformatCPF(cpf).includes(search))
       ),
     [patients, showAll, search]
+  )
+
+  const allHolders = useMemo(
+    () =>
+      holders.map(({ id, name, cpf }) => ({
+        id,
+        label: name,
+        cpf,
+      })),
+    [holders]
   )
 
   const onCreatePatient = async (patient) => {
@@ -67,6 +81,7 @@ const PatientsPage = () => {
     <Page breadcrumbs={<Breadcrumbs current="Pacientes" />}>
       <Table
         data={filteredPatients}
+        holders={allHolders}
         isLoading={loading || saving}
         onCreate={onCreatePatient}
         onDelete={onDeletePatient}

@@ -4,24 +4,26 @@ import Modal from 'components/Modal'
 
 import PatientForm from 'pages/Patient/PatientCard/Form'
 
-const PatientModal = ({ data, onConfirm, onClose, open = false }) => {
+const PatientModal = ({ data, holders, onConfirm, onClose, open = false }) => {
   const defaultValues = {
     name: '',
-    phone: [{ value: '' }],
+    holder: '',
     cpf: '',
+    phone: [{ value: '' }],
+    treatmentBegin: new Date(),
     isActive: true,
   }
   const { control, handleSubmit, reset, watch } = useForm({
     defaultValues,
   })
 
-  const handleConfirm = (newData) => {
+  const handleConfirm = ({ holder, phone, ...rest }) => {
     const submitData = {
-      ...newData,
-      ...(newData.phone
-        ? { phone: newData.phone.map(({ value }) => value) }
-        : {}),
+      ...rest,
+      phone: phone.map(({ value }) => value),
+      holderId: holder?.id,
     }
+
     handleClose()
     onConfirm(submitData)
   }
@@ -43,6 +45,7 @@ const PatientModal = ({ data, onConfirm, onClose, open = false }) => {
     >
       <PatientForm
         data={data}
+        holders={holders}
         defaultValues={defaultValues}
         control={control}
         reset={reset}
