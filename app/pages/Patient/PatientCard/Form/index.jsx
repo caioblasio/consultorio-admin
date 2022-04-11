@@ -72,21 +72,27 @@ const PatientForm = ({
               label="Responsável"
               startAdornment={<PersonRounded />}
               options={holders}
-              content={({ cpf }) => (
-                <Typography component="span" color="grey.dark" variant="body2">
-                  {cpf}
-                </Typography>
-              )}
-              InputProps={{
-                onBlur: () => {
-                  field.onBlur()
-                  if (onDataChange) {
-                    onDataChange()
-                  }
-                },
-                error: invalid,
-                helperText: error?.message,
+              isCreatable
+              freeSolo
+              components={{
+                OptionRenderer: ({ cpf }) => (
+                  <Typography
+                    component="span"
+                    color="grey.dark"
+                    variant="body2"
+                  >
+                    {cpf}
+                  </Typography>
+                ),
               }}
+              onInputBlur={() => {
+                field.onBlur()
+                if (onDataChange) {
+                  onDataChange()
+                }
+              }}
+              error={invalid}
+              helperText={error?.message}
               {...field}
             />
           )}

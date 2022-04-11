@@ -16,17 +16,20 @@ const Autocomplete = (
     startAdornment,
     isLoading = false,
     options = [],
-    content,
+    components: { OptionRenderer = () => null },
     label,
     value,
+    freeSolo,
     onChange,
-    hasCreateOption,
-    InputProps,
+    isCreatable,
+    onInputBlur,
+    error,
+    helperText,
     ...rest
   },
   ref
 ) => {
-  const hasCreateOptionProps = hasCreateOption
+  const creatableProps = isCreatable
     ? {
         onChange: (_, newOption) => {
           if (newOption && newOption.inputValue) {
@@ -64,7 +67,6 @@ const Autocomplete = (
 
           return option.label
         },
-        freeSolo: true,
         clearOnBlur: true,
         selectOnFocus: true,
       }
@@ -92,7 +94,9 @@ const Autocomplete = (
           label={label}
           endAdornment={isLoading ? <Loader size="small" /> : undefined}
           startAdornment={startAdornment}
-          {...InputProps}
+          onBlur={onInputBlur}
+          error={error}
+          helperText={helperText}
         />
       )}
       renderOption={(props, option, { inputValue }) => {
@@ -112,11 +116,12 @@ const Autocomplete = (
                 </StyledHighlightedText>
               ))}
             </div>
-            {content && content(option)}
+            {OptionRenderer(option)}
           </MenuItem>
         )
       }}
-      {...hasCreateOptionProps}
+      freeSolo={freeSolo}
+      {...creatableProps}
       {...rest}
     />
   )
