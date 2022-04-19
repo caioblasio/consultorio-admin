@@ -11,8 +11,10 @@ import {
   FaceOutlined,
   CalendarToday,
   CalendarTodayOutlined,
-  ShoppingCart,
-  ShoppingCartOutlined,
+  ManageAccounts,
+  ManageAccountsOutlined,
+  Payments,
+  PaymentsOutlined,
 } from '@mui/icons-material'
 
 import {
@@ -22,6 +24,7 @@ import {
   paymentsURL,
   accountURL,
   schedulesURL,
+  holdersURL,
 } from 'configs/urls'
 import { signOut } from 'api/authentication'
 import LogoTitle from 'components/LogoTitle'
@@ -71,20 +74,30 @@ const Header = () => {
               </Grid>
               <Grid item>
                 <HeaderNavLink
+                  inactiveIcon={<ManageAccountsOutlined />}
+                  activeIcon={<ManageAccounts />}
+                  to={holdersURL()}
+                >
+                  Responsáveis
+                </HeaderNavLink>
+              </Grid>
+
+              <Grid item>
+                <HeaderNavLink
+                  inactiveIcon={<PaymentsOutlined />}
+                  activeIcon={<Payments />}
+                  to={paymentsURL()}
+                >
+                  Pagamentos
+                </HeaderNavLink>
+              </Grid>
+              <Grid item>
+                <HeaderNavLink
                   inactiveIcon={<CalendarTodayOutlined />}
                   activeIcon={<CalendarToday />}
                   to={schedulesURL()}
                 >
                   Agendamentos
-                </HeaderNavLink>
-              </Grid>
-              <Grid item>
-                <HeaderNavLink
-                  inactiveIcon={<ShoppingCartOutlined />}
-                  activeIcon={<ShoppingCart />}
-                  to={paymentsURL()}
-                >
-                  Pagamentos
                 </HeaderNavLink>
               </Grid>
               <Grid item>

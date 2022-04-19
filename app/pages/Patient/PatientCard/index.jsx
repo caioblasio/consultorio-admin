@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { useForm } from 'react-hook-form'
 import Card from 'components/Card'
-import { editPatient, fetchAllHolders } from 'api/database'
+import { editPatient, fetchAllActiveHolders } from 'api/database'
 import PatientForm from './Form'
 
 const PatientCard = ({ patient, isLoading, onSaving }) => {
@@ -14,7 +14,7 @@ const PatientCard = ({ patient, isLoading, onSaving }) => {
   })
 
   useAsyncEffect(async (isMounted) => {
-    const allHolders = await fetchAllHolders()
+    const allHolders = await fetchAllActiveHolders()
     if (!isMounted()) {
       return
     }

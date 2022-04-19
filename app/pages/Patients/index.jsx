@@ -5,7 +5,7 @@ import {
   createPatient,
   editPatient,
   deletePatient,
-  fetchAllHolders,
+  fetchAllActiveHolders,
 } from 'api/database'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import { SaveContext } from 'contexts/Save'
@@ -23,7 +23,7 @@ const PatientsPage = () => {
 
   useAsyncEffect(async (isMounted) => {
     const allPatients = await fetchAllPatients()
-    const allHolders = await fetchAllHolders()
+    const allHolders = await fetchAllActiveHolders()
     if (!isMounted()) {
       return
     }

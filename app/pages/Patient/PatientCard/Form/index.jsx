@@ -72,8 +72,6 @@ const PatientForm = ({
               label="Responsável"
               startAdornment={<PersonRounded />}
               options={holders}
-              isCreatable
-              freeSolo
               components={{
                 OptionRenderer: ({ cpf }) => (
                   <Typography

@@ -1,10 +1,17 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import { homeURL, patientsURL, paymentsURL, patientURL } from 'configs/urls'
+import {
+  homeURL,
+  patientsURL,
+  holdersURL,
+  paymentsURL,
+  patientURL,
+} from 'configs/urls'
 import PrivateRoute from 'containers/PrivateRoute'
 import HomePage from 'pages/Home'
 import PatientsPage from 'pages/Patients'
 import PaymentsPage from 'pages/Payments'
+import HoldersPage from 'pages/Holders'
 import PatientPage from 'pages/Patient'
 
 const PrivateRoutes = [
@@ -17,6 +24,11 @@ const PrivateRoutes = [
     key="patientsPage"
     path={patientsURL()}
     element={<PrivateRoute component={PatientsPage} />}
+  />,
+  <Route
+    key="holdersPage"
+    path={holdersURL()}
+    element={<PrivateRoute component={HoldersPage} />}
   />,
   <Route
     key="paymentsPage"
