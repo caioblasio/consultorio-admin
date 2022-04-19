@@ -8,7 +8,6 @@ const PatientModal = ({ data, holders, onConfirm, onClose, open = false }) => {
   const defaultValues = {
     name: '',
     holder: '',
-    cpf: '',
     phone: [{ value: '' }],
     treatmentBegin: new Date(),
     isActive: true,

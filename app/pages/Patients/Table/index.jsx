@@ -45,7 +45,7 @@ const PatientsTable = ({
       }}
       localeText={{
         createLabel: 'Criar Paciente',
-        searchPlaceholder: 'Buscar por nome, celular ou CPF...',
+        searchPlaceholder: 'Buscar por nome, celular...',
       }}
     />
   )

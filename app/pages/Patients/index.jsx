@@ -10,7 +10,6 @@ import {
 import Breadcrumbs from 'containers/Breadcrumbs'
 import { SaveContext } from 'contexts/Save'
 import Page from 'containers/Page'
-import { unformatCPF } from 'utils/cpf'
 import Table from './Table'
 
 const PatientsPage = () => {
@@ -36,11 +35,10 @@ const PatientsPage = () => {
   const filteredPatients = useMemo(
     () =>
       patients.filter(
-        ({ name, phone, cpf, isActive }) =>
+        ({ name, phone, isActive }) =>
           (showAll || isActive) &&
           (name.toLowerCase().includes(search.toLowerCase()) ||
-            phone.some((number) => number.includes(search)) ||
-            unformatCPF(cpf).includes(search))
+            phone.some((number) => number.includes(search)))
       ),
     [patients, showAll, search]
   )

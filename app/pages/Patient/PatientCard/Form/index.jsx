@@ -142,7 +142,7 @@ const PatientForm = ({
               )}
             </Grid>
           ))}
-          {watchPhone.length < 3 && (
+          {watchPhone.length < 2 && (
             <Button
               variant="text"
               size="small"
@@ -154,45 +154,28 @@ const PatientForm = ({
           )}
         </Stack>
 
-        <Controller
-          name="treatmentBegin"
-          control={control}
-          rules={{ ...VALIDATION_SCHEMA.treatmentBegin }}
-          render={({ field }) => (
-            <DesktopDatePicker
-              label="Início do Tratamento"
-              {...field}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          )}
-        />
-
         <Grid container columnGap={3}>
           <Grid item xs>
             <Controller
-              name="cpf"
+              name="treatmentBegin"
               control={control}
-              rules={{ ...VALIDATION_SCHEMA.cpf }}
-              render={({ field, fieldState: { invalid, error } }) => (
-                <InputMask
-                  mask="999.999.999-99"
+              rules={{ ...VALIDATION_SCHEMA.treatmentBegin }}
+              render={({ field }) => (
+                <DesktopDatePicker
+                  label="Início do Tratamento"
                   {...field}
-                  onBlur={() => {
-                    field.onBlur()
-                    if (onDataChange) {
-                      onDataChange()
-                    }
-                  }}
-                >
-                  {(inputProps) => (
+                  renderInput={(params) => (
                     <TextField
-                      label="CPF"
-                      {...inputProps}
-                      error={invalid}
-                      helperText={error?.message}
+                      {...params}
+                      onBlur={() => {
+                        params.inputProps?.onBlur()
+                        if (onDataChange) {
+                          onDataChange()
+                        }
+                      }}
                     />
                   )}
-                </InputMask>
+                />
               )}
             />
           </Grid>

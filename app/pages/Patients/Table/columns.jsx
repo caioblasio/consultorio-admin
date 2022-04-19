@@ -18,7 +18,7 @@ const getColumns = ({ adapter, holders }) => [
   {
     field: 'phone',
     headerName: 'N° Celular',
-    width: 450,
+    width: 300,
     valueFormatter: ({ value }) => value.join(', '),
     renderCell: ({ value }) => (
       <Stack direction="row" spacing={1}>
@@ -29,14 +29,9 @@ const getColumns = ({ adapter, holders }) => [
     ),
   },
   {
-    field: 'cpf',
-    headerName: 'CPF',
-    width: 250,
-  },
-  {
     field: 'holderId',
     headerName: 'Responsável',
-    width: 250,
+    width: 200,
     renderCell: ({ value }) => (
       <NavLink underline="always" to={holderURL(value)}>
         {holders.find(({ id }) => id === value)?.label}

@@ -1,5 +1,3 @@
-import { validateCPF } from 'utils/cpf'
-
 const VALIDATION_SCHEMA = {
   name: {
     required: 'Este campo é obrigatório',
@@ -20,10 +18,6 @@ const VALIDATION_SCHEMA = {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       message: 'E-mail inválido',
     },
-  },
-  cpf: {
-    required: 'Este campo é obrigatório',
-    validate: (v) => validateCPF(v) || 'CPF inválido',
   },
   treatmentBegin: {
     required: 'Este campo é obrigatório',
