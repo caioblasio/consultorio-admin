@@ -5,10 +5,7 @@ import Planner from 'components/Planner'
 import NavLink from 'containers/NavLink'
 import { patientURL } from 'configs/urls'
 
-import ReferenceCellActions from './ReferenceCell/Actions'
 import PaymentsFormModal from './FormModal'
-import ReferencePaymentsCell from './ReferenceCell'
-import IncomePaymentsCell from './IncomeCell'
 import PaymentsActiveFilter from './ActiveFilter'
 import PaymentsRow from './Row'
 
@@ -23,9 +20,10 @@ const PaymentsPlanner = ({
   showAllValue,
   onShowAllChange,
   isLoading,
-  view,
   typeMapping,
   disableCellClick,
+  components,
+  localeText,
 }) => {
   return (
     <Planner
@@ -40,9 +38,6 @@ const PaymentsPlanner = ({
       components={{
         CreateButtonIcon: AddShoppingCartOutlined,
         FormModal: (props) => <PaymentsFormModal {...props} patients={rows} />,
-        CellRenderer:
-          view === 'reference' ? ReferencePaymentsCell : IncomePaymentsCell,
-        CellActions: view === 'reference' ? ReferenceCellActions : undefined,
         RowHeader: ({ row: { id, label } }) => (
           <NavLink underline="always" to={patientURL(id)}>
             {label}
@@ -56,13 +51,11 @@ const PaymentsPlanner = ({
             disabled={isLoading}
           />
         ),
+        ...components,
       }}
       localeText={{
-        searchPlaceholder:
-          view === 'reference'
-            ? 'Buscar por paciente...'
-            : 'Buscar por responsável...',
         createLabel: 'Criar Pagamento',
+        ...localeText,
       }}
       typeMapping={typeMapping}
       disableCellClick={disableCellClick}

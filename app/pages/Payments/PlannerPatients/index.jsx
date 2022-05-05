@@ -1,0 +1,121 @@
+import React, { useMemo, useState } from 'react'
+
+import { getMonthDifference } from 'utils/date'
+import useDateAdapter from 'hooks/useDateAdapter'
+import PaymentsPlanner from 'pages/Payments/Planner'
+import CellActions from './Cell/Actions'
+import Cell from './Cell'
+import { paymentMapper } from './utils'
+
+const PlannerPatients = ({
+  data: payments,
+  patients,
+  holders,
+  onCreate,
+  onEdit,
+  onDelete,
+  isLoading,
+}) => {
+  const [search, setSearch] = useState('')
+  const [showAll, setShowAll] = useState(false)
+  const adapter = useDateAdapter()
+
+  const filteredPatients = useMemo(
+    () =>
+      patients.filter(
+        ({ name, isActive }) =>
+          (showAll || isActive) &&
+          name.toLowerCase().includes(search.toLowerCase())
+      ),
+    [patients, showAll, search]
+  )
+
+  const rows = useMemo(
+    () =>
+      filteredPatients.map(({ id, name, isActive }) => ({
+        id,
+        label: name,
+        isActive,
+      })),
+    [filteredPatients]
+  )
+
+  const data = useMemo(
+    () => payments.map((payment) => paymentMapper(payment, holders)),
+    [payments, holders]
+  )
+
+  const missingData = useMemo(() => {
+    let newMissingData = []
+    const currentDate = new Date()
+    filteredPatients.forEach(
+      ({ treatmentBegin, id: patientId, name: patientName }) => {
+        const patientPayments = data.filter(({ rowId }) => rowId === patientId)
+        const differenceInMonths = getMonthDifference(
+          treatmentBegin,
+          currentDate
+        )
+
+        for (let i = 0; i < differenceInMonths + 1; i++) {
+          const pivotDate = adapter.addMonths(treatmentBegin, i)
+          const pivotDatePayment = patientPayments.find(({ columnId }) =>
+            adapter.isSameMonth(pivotDate, columnId)
+          )
+          if (!pivotDatePayment) {
+            const missingPayment = {
+              rowId: patientId,
+              columnId: new Date(pivotDate.getFullYear(), pivotDate.getMonth()),
+              status: 'owing',
+              data: {
+                holder: patientName,
+                value: 9000,
+              },
+            }
+            newMissingData.push(missingPayment)
+          }
+        }
+      }
+    )
+
+    return newMissingData
+  }, [filteredPatients, data])
+
+  return (
+    <PaymentsPlanner
+      isLoading={isLoading}
+      rows={rows}
+      data={[...data, ...missingData]}
+      searchValue={search}
+      onSearchChange={(_, value) => setSearch(value)}
+      onCreate={onCreate}
+      onDelete={onDelete}
+      onEdit={onEdit}
+      showAllValue={showAll}
+      onShowAllChange={(value) => setShowAll(value)}
+      components={{
+        CellRenderer: Cell,
+        CellActions,
+      }}
+      localeText={{
+        searchPlaceholder: 'Buscar por paciente...',
+      }}
+      typeMapping={{
+        paid: {
+          label: 'Pago',
+          color: 'success',
+        },
+        owing: {
+          label: 'Devendo',
+          color: 'error',
+          type: 'error',
+        },
+        forgiven: {
+          label: 'Perdoado',
+          color: 'primary',
+        },
+      }}
+    />
+  )
+}
+
+export default PlannerPatients
