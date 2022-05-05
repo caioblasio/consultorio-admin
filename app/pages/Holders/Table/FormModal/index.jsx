@@ -1,20 +1,9 @@
-import React, { useEffect } from 'react'
-import { Stack, Grid } from '@mui/material'
-import { useForm, Controller } from 'react-hook-form'
-import InputMask from 'react-input-mask'
-
+import React from 'react'
+import { useForm } from 'react-hook-form'
 import Modal from 'components/Modal'
-import TextField from 'components/TextField'
-import Switch from 'components/Switch'
-import VALIDATION_SCHEMA from './validations'
+import HolderForm from 'components/HolderForm'
 
-const HolderModal = ({
-  data,
-  onConfirm,
-  onClose,
-  onDataChange,
-  open = false,
-}) => {
+const HolderModal = ({ data, onConfirm, onClose, open = false }) => {
   const defaultValues = {
     name: '',
     cpf: '',
@@ -23,16 +12,6 @@ const HolderModal = ({
   const { control, handleSubmit, reset, watch } = useForm({
     defaultValues,
   })
-
-  useEffect(() => {
-    let newData = defaultValues
-    if (data) {
-      const { patients, ...rest } = data
-      newData = { ...rest }
-    }
-
-    reset(newData)
-  }, [data])
 
   const handleConfirm = (submitData) => {
     handleClose()
@@ -54,78 +33,13 @@ const HolderModal = ({
         { label: 'Cancelar', onClick: handleClose },
       ]}
     >
-      <form>
-        <Stack spacing={2}>
-          <Controller
-            name="name"
-            control={control}
-            rules={{ ...VALIDATION_SCHEMA.name }}
-            render={({ field, fieldState: { invalid, error } }) => (
-              <TextField
-                label="Nome Completo"
-                {...field}
-                onBlur={() => {
-                  field.onBlur()
-                  if (onDataChange) {
-                    onDataChange()
-                  }
-                }}
-                error={invalid}
-                helperText={error?.message}
-              />
-            )}
-          />
-
-          <Grid container columnGap={3}>
-            <Grid item xs>
-              <Controller
-                name="cpf"
-                control={control}
-                rules={{ ...VALIDATION_SCHEMA.cpf }}
-                render={({ field, fieldState: { invalid, error } }) => (
-                  <InputMask
-                    mask="999.999.999-99"
-                    {...field}
-                    onBlur={() => {
-                      field.onBlur()
-                      if (onDataChange) {
-                        onDataChange()
-                      }
-                    }}
-                  >
-                    {(inputProps) => (
-                      <TextField
-                        label="CPF"
-                        {...inputProps}
-                        error={invalid}
-                        helperText={error?.message}
-                      />
-                    )}
-                  </InputMask>
-                )}
-              />
-            </Grid>
-            <Grid item>
-              <Controller
-                name="isActive"
-                control={control}
-                render={({ field }) => (
-                  <Switch
-                    label="Ativo"
-                    {...field}
-                    onBlur={() => {
-                      field.onBlur()
-                      if (onDataChange) {
-                        onDataChange()
-                      }
-                    }}
-                  />
-                )}
-              />
-            </Grid>
-          </Grid>
-        </Stack>
-      </form>
+      <HolderForm
+        data={data}
+        defaultValues={defaultValues}
+        control={control}
+        reset={reset}
+        watch={watch}
+      />
     </Modal>
   )
 }

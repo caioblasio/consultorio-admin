@@ -9,6 +9,7 @@ import { StyledSkeleton } from './styles'
 const breadcrumbNameMap = {
   [URLS.homeURL()]: 'Home',
   [URLS.patientsURL()]: 'Pacientes',
+  [URLS.holdersURL()]: 'Responsáveis',
   [URLS.paymentsURL()]: 'Pagamentos',
 }
 

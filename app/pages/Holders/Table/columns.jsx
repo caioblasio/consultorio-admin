@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stack } from '@mui/material'
-import { patientURL } from 'configs/urls'
+import { holderURL, patientURL } from 'configs/urls'
 import NavLink from 'containers/NavLink'
 
 const getColumns = () => [
@@ -9,7 +9,7 @@ const getColumns = () => [
     headerName: 'Nome Completo',
     width: 250,
     renderCell: ({ value, id }) => (
-      <NavLink underline="always" to={patientURL(id)}>
+      <NavLink underline="always" to={holderURL(id)}>
         {value}
       </NavLink>
     ),

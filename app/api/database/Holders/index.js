@@ -21,6 +21,13 @@ export const fetchAllHolders = async () => {
   return snapshot.docs.map(holderMapper)
 }
 
+export const fetchHolderById = async (id) => {
+  const docRef = doc(db, COLLECTION_NAME, id)
+  const snapshot = await getDoc(docRef)
+
+  return snapshot.exists() ? holderMapper(snapshot) : null
+}
+
 export const fetchAllActiveHolders = async () => {
   const q = query(
     collection(db, COLLECTION_NAME),
