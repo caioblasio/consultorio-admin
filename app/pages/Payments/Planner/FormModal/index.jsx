@@ -26,7 +26,6 @@ const PaymentsFormModal = ({
 }) => {
   const defaultValues = useMemo(() => {
     return {
-      holder: '',
       patient: '',
       reference: new Date(currentDate.getFullYear(), currentDate.getMonth()),
       madeAt: new Date(),
@@ -42,25 +41,16 @@ const PaymentsFormModal = ({
 
   const patient = watch('patient')
   const status = watch('status')
-  const holder = watch('holder')
-
-  useEffect(() => {
-    if (patient) {
-      setValue('holder', patient.label)
-    }
-  }, [patient])
 
   useEffect(() => {
     if (status === 'forgiven') {
-      setValue('holder', '')
       setValue('value', 0)
       setValue('type', '')
     } else if (status === 'paid') {
-      setValue('holder', patient.label)
       setValue('value', defaultValues.value)
       setValue('type', defaultValues.type)
     }
-  }, [status, holder])
+  }, [status])
 
   useEffect(() => {
     let newData = { ...defaultValues }
@@ -152,14 +142,6 @@ const PaymentsFormModal = ({
               />
             )}
           />
-          {status === 'paid' && (
-            <Controller
-              name="holder"
-              control={control}
-              rules={{ ...VALIDATION_SCHEMA.holder }}
-              render={({ field }) => <TextField label="Titular" {...field} />}
-            />
-          )}
           <Controller
             name="reference"
             control={control}

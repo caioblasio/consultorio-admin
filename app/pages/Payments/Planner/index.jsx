@@ -58,7 +58,10 @@ const PaymentsPlanner = ({
         ),
       }}
       localeText={{
-        searchPlaceholder: 'Buscar por paciente...',
+        searchPlaceholder:
+          view === 'reference'
+            ? 'Buscar por paciente...'
+            : 'Buscar por responsável...',
         createLabel: 'Criar Pagamento',
       }}
       typeMapping={typeMapping}

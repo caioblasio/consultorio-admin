@@ -1,9 +1,10 @@
-import React, { useMemo, useState, useContext, useEffect } from 'react'
+import React, { useMemo, useState, useContext } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { Tabs, Tab } from '@mui/material'
 import {
   fetchAllPayments,
   fetchAllPatients,
+  fetchAllHolders,
   createPayment,
   deletePayment,
   editPayment,
@@ -25,6 +26,7 @@ const TabPanel = ({ children, value, index }) => (
 const PaymentsPage = () => {
   const [payments, setPayments] = useState([])
   const [patients, setPatients] = useState([])
+  const [holders, setHolders] = useState([])
 
   const [loading, setLoading] = useState(true)
   const { onSaving, saving } = useContext(SaveContext)
@@ -43,12 +45,14 @@ const PaymentsPage = () => {
   useAsyncEffect(async (isMounted) => {
     const allPatients = await fetchAllPatients()
     const allPayments = await fetchAllPayments()
+    const allHolders = await fetchAllHolders()
     if (!isMounted()) {
       return
     }
 
     setPayments(allPayments)
     setPatients(allPatients)
+    setHolders(allHolders)
     setLoading(false)
   }, [])
 
@@ -72,43 +76,97 @@ const PaymentsPage = () => {
     [filteredPatients]
   )
 
-  const data = useMemo(() => payments.map(paymentReferenceMapper), [payments])
+  const filteredHolders = useMemo(
+    () =>
+      holders.filter(
+        ({ name, isActive }) =>
+          (showAll || isActive) &&
+          name.toLowerCase().includes(search.toLowerCase())
+      ),
+    [holders, showAll, search]
+  )
 
-  const processMissingData = () => {
-    let missingData = []
-    const currentDate = useMemo(() => new Date(), [])
-    filteredPatients.forEach((patient) => {
-      const { treatmentBegin, id: patientId, name: patientName } = patient
-      const patientPayments = data.filter(({ rowId }) => rowId === patientId)
-      const differenceInMonths = getMonthDifference(treatmentBegin, currentDate)
+  const rowsRevenue = useMemo(
+    () =>
+      filteredHolders.map(({ id, name, isActive }) => ({
+        id,
+        label: name,
+        isActive,
+      })),
+    [filteredHolders]
+  )
 
-      for (let i = 0; i < differenceInMonths + 1; i++) {
-        const pivotDate = adapter.addMonths(treatmentBegin, i)
-        const pivotDatePayment = patientPayments.find(({ columnId }) =>
-          adapter.isSameMonth(pivotDate, columnId)
+  const data = useMemo(
+    () =>
+      payments.map((payment) =>
+        paymentReferenceMapper(payment, patients, holders)
+      ),
+    [payments, patients, holders]
+  )
+
+  const missingData = useMemo(() => {
+    let newMissingData = []
+    const currentDate = new Date()
+    filteredPatients.forEach(
+      ({ treatmentBegin, id: patientId, name: patientName }) => {
+        const patientPayments = data.filter(({ rowId }) => rowId === patientId)
+        const differenceInMonths = getMonthDifference(
+          treatmentBegin,
+          currentDate
         )
-        if (!pivotDatePayment) {
-          const missingPayment = {
-            rowId: patientId,
-            columnId: new Date(pivotDate.getFullYear(), pivotDate.getMonth()),
-            status: 'owing',
-            data: {
-              holder: patientName,
-              value: 9000,
-            },
+
+        for (let i = 0; i < differenceInMonths + 1; i++) {
+          const pivotDate = adapter.addMonths(treatmentBegin, i)
+          const pivotDatePayment = patientPayments.find(({ columnId }) =>
+            adapter.isSameMonth(pivotDate, columnId)
+          )
+          if (!pivotDatePayment) {
+            const missingPayment = {
+              rowId: patientId,
+              columnId: new Date(pivotDate.getFullYear(), pivotDate.getMonth()),
+              status: 'owing',
+              data: {
+                holder: patientName,
+                value: 9000,
+              },
+            }
+            newMissingData.push(missingPayment)
           }
-          missingData.push(missingPayment)
         }
+      }
+    )
+
+    return newMissingData
+  }, [filteredPatients, data])
+
+  const dataRevenue = useMemo(() => {
+    const paymentsByHolders = []
+    payments.forEach(({ id, holderId, madeAt, value }) => {
+      const existedPaymentIndex = paymentsByHolders.findIndex(
+        ({ rowId, columnId }) =>
+          rowId === holderId &&
+          columnId.getMonth() === madeAt.getMonth() &&
+          columnId.getFullYear() === madeAt.getFullYear()
+      )
+
+      if (existedPaymentIndex === -1) {
+        const newPaymentData = {
+          id,
+          rowId: holderId,
+          columnId: madeAt,
+          data: {
+            value,
+          },
+        }
+
+        paymentsByHolders.push(newPaymentData)
+      } else {
+        paymentsByHolders[existedPaymentIndex].data.value += value
       }
     })
 
-    return missingData
-  }
-
-  const dataRevenue = useMemo(
-    () => payments.map(paymentIncomeMapper),
-    [payments]
-  )
+    return paymentsByHolders
+  }, [payments])
 
   const paymentConfirmationMessage = useMemo(
     () =>
@@ -161,7 +219,7 @@ const PaymentsPage = () => {
         <Planner
           isLoading={loading || saving}
           rows={rows}
-          data={[...data, ...processMissingData()]}
+          data={[...data, ...missingData]}
           searchValue={search}
           onSearchChange={(_, value) => setSearch(value)}
           onCreate={onCreatePayment}
@@ -191,7 +249,7 @@ const PaymentsPage = () => {
       <TabPanel value={tabValue} index={1}>
         <Planner
           isLoading={loading || saving}
-          rows={rows}
+          rows={rowsRevenue}
           data={dataRevenue}
           searchValue={search}
           onCreate={onCreatePayment}
