@@ -16,7 +16,7 @@ const Autocomplete = (
     startAdornment,
     isLoading = false,
     options = [],
-    components: { OptionRenderer = () => null },
+    components: { OptionRenderer } = { OptionRenderer: () => null },
     label,
     value,
     freeSolo,
