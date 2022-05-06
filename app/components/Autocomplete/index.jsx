@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import match from 'autosuggest-highlight/match'
 import parse from 'autosuggest-highlight/parse'
-import { MenuItem } from '@mui/material'
+import { MenuItem, ListItemText } from '@mui/material'
 import TextField from 'components/TextField'
 import Loader from 'components/Loader'
 
@@ -16,7 +16,7 @@ const Autocomplete = (
     startAdornment,
     isLoading = false,
     options = [],
-    components: { OptionRenderer } = { OptionRenderer: () => null },
+    components: { SubOptionRenderer } = { SubOptionRenderer: () => null },
     label,
     value,
     freeSolo,
@@ -105,7 +105,7 @@ const Autocomplete = (
 
         return (
           <MenuItem {...props}>
-            <div>
+            <ListItemText>
               {parts.map((part, index) => (
                 <StyledHighlightedText
                   component="span"
@@ -115,8 +115,8 @@ const Autocomplete = (
                   {part.text}
                 </StyledHighlightedText>
               ))}
-            </div>
-            {OptionRenderer(option)}
+            </ListItemText>
+            {SubOptionRenderer({ data: option })}
           </MenuItem>
         )
       }}

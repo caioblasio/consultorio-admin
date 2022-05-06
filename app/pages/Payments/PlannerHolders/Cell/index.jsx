@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Grid, Typography } from '@mui/material'
 import { formatCurrency } from 'utils/currency'
 import { StyledRevenueGrid } from './styles'
@@ -9,7 +9,7 @@ const Text = ({ text, color }) => (
   </Typography>
 )
 
-const IncomePaymentsCell = ({ item }) => {
+const CellHolders = ({ item }) => {
   return (
     <StyledRevenueGrid container justifyContent="center" alignItems="center">
       <Grid item>
@@ -19,4 +19,4 @@ const IncomePaymentsCell = ({ item }) => {
   )
 }
 
-export default IncomePaymentsCell
+export default CellHolders

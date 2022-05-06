@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import { Grid } from '@mui/material'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
-import useDateAdapter from 'hooks/useDateAdapter'
 import {
   StyledHeaderMonthsGrid,
   StyledYearText,
@@ -11,8 +10,6 @@ import {
 } from './styles'
 
 const PlannerHeader = ({ firstDate, currentDate, onDateChange, columns }) => {
-  const adapter = useDateAdapter()
-
   const renderElements = useCallback(() => {
     return columns.map(({ date, label: month }) => {
       const isCurrent =

@@ -3,8 +3,9 @@ import React, { useMemo, useState } from 'react'
 import { getMonthDifference } from 'utils/date'
 import useDateAdapter from 'hooks/useDateAdapter'
 import PaymentsPlanner from 'pages/Payments/Planner'
-import CellActions from './Cell/Actions'
-import Cell from './Cell'
+import CellActionsPatients from './Cell/Actions'
+import CellPatients from './Cell'
+import RowHeaderPatients from './RowHeader'
 import { paymentMapper } from './utils'
 
 const PlannerPatients = ({
@@ -93,8 +94,9 @@ const PlannerPatients = ({
       showAllValue={showAll}
       onShowAllChange={(value) => setShowAll(value)}
       components={{
-        CellRenderer: Cell,
-        CellActions,
+        CellRenderer: CellPatients,
+        CellActions: CellActionsPatients,
+        RowHeader: RowHeaderPatients,
       }}
       localeText={{
         searchPlaceholder: 'Buscar por paciente...',

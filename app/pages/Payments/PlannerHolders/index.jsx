@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import PaymentsPlanner from 'pages/Payments/Planner'
 
-import Cell from './Cell'
+import CellHolders from './Cell'
+import RowHeaderHolders from './RowHeader'
 
 const PlannerHolders = ({ data: payments, holders, onCreate, isLoading }) => {
   const [search, setSearch] = useState('')
@@ -18,10 +19,13 @@ const PlannerHolders = ({ data: payments, holders, onCreate, isLoading }) => {
 
   const rows = useMemo(
     () =>
-      filteredHolders.map(({ id, name, isActive }) => ({
+      filteredHolders.map(({ id, name, isActive, cpf }) => ({
         id,
         label: name,
         isActive,
+        data: {
+          cpf,
+        },
       })),
     [filteredHolders]
   )
@@ -66,7 +70,8 @@ const PlannerHolders = ({ data: payments, holders, onCreate, isLoading }) => {
       onShowAllChange={(value) => setShowAll(value)}
       onCreate={onCreate}
       components={{
-        CellRenderer: Cell,
+        CellRenderer: CellHolders,
+        RowHeader: (props) => <RowHeaderHolders {...props} />,
       }}
       localeText={{
         searchPlaceholder: 'Buscar por responsável...',

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import Modal from 'components/Modal'
-import HolderForm from 'components/HolderForm'
+import HolderForm from 'pages/Holder/HolderCard/Form'
 
 const HolderModal = ({ data, onConfirm, onClose, open = false }) => {
   const defaultValues = {

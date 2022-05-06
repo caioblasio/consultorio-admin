@@ -1,14 +1,18 @@
 import React, { useEffect } from 'react'
-import { Stack, Grid, Button, IconButton, Typography } from '@mui/material'
+import { Stack, Grid, Button, IconButton } from '@mui/material'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
-import AddIcon from '@mui/icons-material/Add'
-import { RemoveCircleOutlineOutlined, PersonRounded } from '@mui/icons-material'
+import {
+  RemoveCircleOutlineOutlined,
+  PersonRounded,
+  Add,
+} from '@mui/icons-material'
 import InputMask from 'react-input-mask'
 import { Controller, useFieldArray } from 'react-hook-form'
 
 import Autocomplete from 'components/Autocomplete'
 import TextField from 'components/TextField'
 import Switch from 'components/Switch'
+import SubOptionHolder from './SubOptionHolder'
 import VALIDATION_SCHEMA from './validations'
 
 const PatientForm = ({
@@ -73,15 +77,7 @@ const PatientForm = ({
               startAdornment={<PersonRounded />}
               options={holders}
               components={{
-                OptionRenderer: ({ cpf }) => (
-                  <Typography
-                    component="span"
-                    color="grey.dark"
-                    variant="body2"
-                  >
-                    {cpf}
-                  </Typography>
-                ),
+                SubOptionRenderer: SubOptionHolder,
               }}
               onInputBlur={() => {
                 field.onBlur()
@@ -146,7 +142,7 @@ const PatientForm = ({
             <Button
               variant="text"
               size="small"
-              startIcon={<AddIcon />}
+              startIcon={<Add />}
               onClick={() => append({ value: '' })}
             >
               Adicionar novo contato

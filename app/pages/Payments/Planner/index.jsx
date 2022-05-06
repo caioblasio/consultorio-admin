@@ -2,8 +2,6 @@ import React from 'react'
 import { AddShoppingCartOutlined } from '@mui/icons-material'
 
 import Planner from 'components/Planner'
-import NavLink from 'containers/NavLink'
-import { patientURL } from 'configs/urls'
 
 import PaymentsFormModal from './FormModal'
 import PaymentsActiveFilter from './ActiveFilter'
@@ -38,11 +36,6 @@ const PaymentsPlanner = ({
       components={{
         CreateButtonIcon: AddShoppingCartOutlined,
         FormModal: (props) => <PaymentsFormModal {...props} patients={rows} />,
-        RowHeader: ({ row: { id, label } }) => (
-          <NavLink underline="always" to={patientURL(id)}>
-            {label}
-          </NavLink>
-        ),
         Row: PaymentsRow,
         ToolbarActions: () => (
           <PaymentsActiveFilter

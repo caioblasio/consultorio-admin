@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import Card from 'components/Card'
 import { editHolder } from 'api/database'
-import HolderForm from 'components/HolderForm'
+import HolderForm from 'pages/Holder/HolderCard/Form'
 
 const HolderCard = ({ holder, isLoading, onSaving }) => {
   const { control, handleSubmit, reset, watch } = useForm({

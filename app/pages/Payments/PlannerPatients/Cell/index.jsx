@@ -16,7 +16,7 @@ const Text = ({ text, color }) => (
   </Typography>
 )
 
-const ReferencePaymentsCell = ({
+const CellPatients = ({
   item: { data: { type, madeAt, holder } = {} },
   status: { color, id } = {},
 }) => {
@@ -57,4 +57,4 @@ const ReferencePaymentsCell = ({
   )
 }
 
-export default ReferencePaymentsCell
+export default CellPatients

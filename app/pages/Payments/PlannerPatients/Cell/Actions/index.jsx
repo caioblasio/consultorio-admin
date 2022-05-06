@@ -1,8 +1,7 @@
 import React from 'react'
-import { Menu } from '@mui/material'
 import PlannerCellActions from 'components/Planner/Body/CellContent/Actions'
 
-const ReferenceCellActions = ({
+const CellActionsPatients = ({
   createAction,
   editAction,
   deleteAction,
@@ -23,4 +22,4 @@ const ReferenceCellActions = ({
   )
 }
 
-export default ReferenceCellActions
+export default CellActionsPatients
