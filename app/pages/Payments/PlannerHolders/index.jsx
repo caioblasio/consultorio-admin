@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react'
 import PaymentsPlanner from 'pages/Payments/Planner'
+import { formatCurrency } from 'utils/currency'
 
 import CellHolders from './Cell'
 import RowHeaderHolders from './RowHeader'
@@ -26,6 +27,8 @@ const PlannerHolders = ({ data: payments, holders, onCreate, isLoading }) => {
         data: {
           cpf,
         },
+        valueFormatter: ({ value: { data } }) =>
+          formatCurrency(data.value, true),
       })),
     [filteredHolders]
   )
