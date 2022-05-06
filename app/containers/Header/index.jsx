@@ -11,8 +11,6 @@ import {
   FaceOutlined,
   CalendarToday,
   CalendarTodayOutlined,
-  ManageAccounts,
-  ManageAccountsOutlined,
   Payments,
   PaymentsOutlined,
 } from '@mui/icons-material'
@@ -30,6 +28,7 @@ import { signOut } from 'api/authentication'
 import LogoTitle from 'components/LogoTitle'
 import Logo from 'assets/svg/logo.svg'
 import HeaderNavLink from './NavLink'
+import HeaderNavDropdown from './NavDropdown'
 import { StyledAppBar, StyledToolbar, StyledLogoutLink } from './styles'
 
 const Header = () => {
@@ -64,22 +63,17 @@ const Header = () => {
                 </HeaderNavLink>
               </Grid>
               <Grid item>
-                <HeaderNavLink
+                <HeaderNavDropdown
                   inactiveIcon={<PeopleOutlined />}
                   activeIcon={<People />}
-                  to={patientsURL()}
+                  text="Pessoas"
+                  options={[
+                    { to: patientsURL(), text: 'Pacientes' },
+                    { to: holdersURL(), text: 'Responsáveis' },
+                  ]}
                 >
-                  Pacientes
-                </HeaderNavLink>
-              </Grid>
-              <Grid item>
-                <HeaderNavLink
-                  inactiveIcon={<ManageAccountsOutlined />}
-                  activeIcon={<ManageAccounts />}
-                  to={holdersURL()}
-                >
-                  Responsáveis
-                </HeaderNavLink>
+                  Pessoas
+                </HeaderNavDropdown>
               </Grid>
 
               <Grid item>
