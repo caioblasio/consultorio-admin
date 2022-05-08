@@ -184,6 +184,9 @@ const components = {
         color: theme.palette.common.black,
       }),
     },
+    defaultProps: {
+      placement: 'top-end',
+    },
   },
   MuiTableHead: {
     styleOverrides: {

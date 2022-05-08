@@ -1,13 +1,12 @@
 import React from 'react'
-import { Typography } from '@mui/material'
 import {
   StyledSkeleton,
   StyledCard,
   StyledCardContent,
-  StyledTitle,
+  StyledCardHeader,
 } from './styles'
 
-const Card = ({ isLoading, title, children, className, ...rest }) => {
+const Card = ({ isLoading, title, actions, children, className, ...rest }) => {
   return isLoading ? (
     <StyledSkeleton
       variant="rectangular"
@@ -17,9 +16,7 @@ const Card = ({ isLoading, title, children, className, ...rest }) => {
   ) : (
     <StyledCard className={className} {...rest}>
       <StyledCardContent>
-        <StyledTitle variant="h2" component="h2" align="center">
-          {title}
-        </StyledTitle>
+        <StyledCardHeader title={title} actions={actions} />
         {children}
       </StyledCardContent>
     </StyledCard>

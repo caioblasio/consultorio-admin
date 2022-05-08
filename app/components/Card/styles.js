@@ -1,5 +1,6 @@
 import { styled } from '@mui/system'
-import { Card, CardContent, Skeleton, Typography } from '@mui/material'
+import { Card, CardContent, Skeleton } from '@mui/material'
+import CardHeader from './Header'
 
 export const StyledCard = styled(Card, {
   shouldForwardProp: (prop) => prop !== 'color',
@@ -8,10 +9,7 @@ export const StyledCard = styled(Card, {
 }))
 
 export const StyledCardContent = styled(CardContent)(({ theme }) => ({
-  paddingTop: theme.spacing(4),
-  paddingBottom: theme.spacing(4),
-  paddingLeft: theme.spacing(6),
-  paddingRight: theme.spacing(6),
+  padding: theme.spacing(4),
 }))
 
 export const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
@@ -19,6 +17,6 @@ export const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
   height: theme.spacing(40),
 }))
 
-export const StyledTitle = styled(Typography)(({ theme }) => ({
+export const StyledCardHeader = styled(CardHeader)(({ theme }) => ({
   marginBottom: theme.spacing(4),
 }))

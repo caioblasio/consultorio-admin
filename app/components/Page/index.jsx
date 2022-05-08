@@ -70,10 +70,7 @@ const Page = ({
             {breadcrumbs && <Grid item>{breadcrumbs}</Grid>}
             {!disableAutoSave && (
               <Grid item>
-                <Tooltip
-                  title="Qualquer nova alteração é automaticamente salva no servidor."
-                  placement="top-end"
-                >
+                <Tooltip title="Qualquer nova alteração é automaticamente salva no servidor.">
                   <div>
                     <StyledIcon
                       fontSize="small"
