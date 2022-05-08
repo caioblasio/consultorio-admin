@@ -30,8 +30,8 @@ const colors = {
   },
   warning: {
     light: '#F9F1D6',
-    main: '#F4D670',
-    dark: '#A5861F',
+    main: '#FFDE69',
+    dark: '#EDB900',
   },
   info: {
     light: '#D2EAF5',

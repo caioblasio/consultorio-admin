@@ -7,7 +7,6 @@ export const StyledCard = styled(Card, {
 })(({ theme, color }) => ({
   transition: theme.transitions.create('all'),
   backgroundColor: theme.palette[color]['light'],
-  borderLeft: `10px solid ${theme.palette[color]['main']}`,
   '&:hover': {
     transform: 'translateY(-3px)',
     boxShadow: theme.shadows[2],

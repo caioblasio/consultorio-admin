@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
-import { TodayRounded } from '@mui/icons-material'
 import { fetchPatientsCount } from 'api/database'
-
+import calendar from 'assets/images/calendar.png'
 import DataCard from 'containers/DataCard'
 
 const SchedulesCard = () => {
@@ -21,7 +20,7 @@ const SchedulesCard = () => {
       color="purple"
       data={count}
       isLoading={loading}
-      icon={<TodayRounded />}
+      icon={<img src={calendar} width={82} />}
     />
   )
 }

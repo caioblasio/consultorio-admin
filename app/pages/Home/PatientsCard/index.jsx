@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
-import { PersonRounded } from '@mui/icons-material'
 import { patientsURL } from 'configs/urls'
 import { fetchPatientsCount } from 'api/database'
+import user from 'assets/images/user.png'
 
 import DataCard from 'containers/DataCard'
 
@@ -23,7 +23,7 @@ const PatientsCard = () => {
       color="info"
       data={count}
       isLoading={loading}
-      icon={<PersonRounded />}
+      icon={<img src={user} width={82} />}
       navigateTo={patientsURL()}
     />
   )
