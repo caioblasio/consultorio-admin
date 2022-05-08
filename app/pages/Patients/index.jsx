@@ -67,11 +67,12 @@ const PatientsPage = () => {
     setPatients(newPatients)
   }
 
-  const onDeletePatient = async (patientId) => {
-    await onSaving(() => deletePatient(patientId))
-    const patientIndex = patients.findIndex(({ id }) => id === patientId)
+  const onDeletePatient = async (patient) => {
+    const newPatient = { ...patient, isActive: false }
+    await onSaving(() => editPatient(newPatient))
+    const patientIndex = patients.findIndex(({ id }) => id === newPatient.id)
     const newPatients = [...patients]
-    newPatients.splice(patientIndex, 1)
+    newPatients[patientIndex] = newPatient
     setPatients(newPatients)
   }
 

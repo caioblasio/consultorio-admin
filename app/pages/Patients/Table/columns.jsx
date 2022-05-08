@@ -7,7 +7,7 @@ const getColumns = ({ adapter, holders }) => [
   {
     field: 'name',
     headerName: 'Nome Completo',
-    width: 250,
+    width: 280,
     renderCell: ({ value, id }) => (
       <NavLink underline="always" to={patientURL(id)}>
         {value}

@@ -91,6 +91,28 @@ const PatientForm = ({
             />
           )}
         />
+        <Controller
+          name="treatmentBegin"
+          control={control}
+          rules={{ ...VALIDATION_SCHEMA.treatmentBegin }}
+          render={({ field }) => (
+            <DesktopDatePicker
+              label="Início do Tratamento"
+              {...field}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  onBlur={() => {
+                    params.inputProps?.onBlur()
+                    if (onDataChange) {
+                      onDataChange()
+                    }
+                  }}
+                />
+              )}
+            />
+          )}
+        />
         <Stack spacing={2} alignItems="end">
           {fields.map((item, index) => (
             <Grid container columnGap={3} key={item.id}>
@@ -113,7 +135,7 @@ const PatientForm = ({
                       {(inputProps) => (
                         <TextField
                           {...inputProps}
-                          label="Celular"
+                          label="N° Celular"
                           error={invalid}
                           helperText={error?.message}
                         />
@@ -149,51 +171,6 @@ const PatientForm = ({
             </Button>
           )}
         </Stack>
-
-        <Grid container columnGap={3}>
-          <Grid item xs>
-            <Controller
-              name="treatmentBegin"
-              control={control}
-              rules={{ ...VALIDATION_SCHEMA.treatmentBegin }}
-              render={({ field }) => (
-                <DesktopDatePicker
-                  label="Início do Tratamento"
-                  {...field}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      onBlur={() => {
-                        params.inputProps?.onBlur()
-                        if (onDataChange) {
-                          onDataChange()
-                        }
-                      }}
-                    />
-                  )}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item>
-            <Controller
-              name="isActive"
-              control={control}
-              render={({ field }) => (
-                <Switch
-                  label="Ativo"
-                  {...field}
-                  onBlur={() => {
-                    field.onBlur()
-                    if (onDataChange) {
-                      onDataChange()
-                    }
-                  }}
-                />
-              )}
-            />
-          </Grid>
-        </Grid>
       </Stack>
     </form>
   )

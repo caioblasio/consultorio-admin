@@ -46,55 +46,32 @@ const HolderForm = ({
             />
           )}
         />
-
-        <Grid container columnGap={3}>
-          <Grid item xs>
-            <Controller
-              name="cpf"
-              control={control}
-              rules={{ ...VALIDATION_SCHEMA.cpf }}
-              render={({ field, fieldState: { invalid, error } }) => (
-                <InputMask
-                  mask="999.999.999-99"
-                  {...field}
-                  onBlur={() => {
-                    field.onBlur()
-                    if (onDataChange) {
-                      onDataChange()
-                    }
-                  }}
-                >
-                  {(inputProps) => (
-                    <TextField
-                      label="CPF"
-                      {...inputProps}
-                      error={invalid}
-                      helperText={error?.message}
-                    />
-                  )}
-                </InputMask>
-              )}
-            />
-          </Grid>
-          <Grid item>
-            <Controller
-              name="isActive"
-              control={control}
-              render={({ field }) => (
-                <Switch
-                  label="Ativo"
-                  {...field}
-                  onBlur={() => {
-                    field.onBlur()
-                    if (onDataChange) {
-                      onDataChange()
-                    }
-                  }}
+        <Controller
+          name="cpf"
+          control={control}
+          rules={{ ...VALIDATION_SCHEMA.cpf }}
+          render={({ field, fieldState: { invalid, error } }) => (
+            <InputMask
+              mask="999.999.999-99"
+              {...field}
+              onBlur={() => {
+                field.onBlur()
+                if (onDataChange) {
+                  onDataChange()
+                }
+              }}
+            >
+              {(inputProps) => (
+                <TextField
+                  label="CPF"
+                  {...inputProps}
+                  error={invalid}
+                  helperText={error?.message}
                 />
               )}
-            />
-          </Grid>
-        </Grid>
+            </InputMask>
+          )}
+        />
       </Stack>
     </form>
   )

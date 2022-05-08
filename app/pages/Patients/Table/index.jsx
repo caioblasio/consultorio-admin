@@ -1,5 +1,9 @@
 import React from 'react'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import {
+  BlockRounded as BlockIcon,
+  PersonAddRounded as PersonAddIcon,
+} from '@mui/icons-material'
+
 import DataTable from 'components/DataTable'
 import useDateAdapter from 'hooks/useDateAdapter'
 import getColumns from './columns'
@@ -34,6 +38,7 @@ const PatientsTable = ({
       components={{
         FormModal: (props) => <PatientModal {...props} holders={holders} />,
         CreateButtonIcon: PersonAddIcon,
+        DeleteButtonIcon: BlockIcon,
         Row: PatientsRow,
         ToolbarActions: () => (
           <PatientsActiveFilter
@@ -45,7 +50,8 @@ const PatientsTable = ({
       }}
       localeText={{
         createLabel: 'Criar Paciente',
-        searchPlaceholder: 'Buscar por nome, celular...',
+        searchPlaceholder: 'Buscar por Nome ou N° Celular...',
+        deleteText: 'Tem a certeza que quer inativar este paciente?',
       }}
     />
   )

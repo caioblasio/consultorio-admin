@@ -31,7 +31,7 @@ const NotFoundPage = () => {
             color="primary"
             onClick={() => navigate(homeURL())}
           >
-            Voltar para a página principal
+            Voltar para página principal
           </Button>
         </Stack>
       </StyledBox>

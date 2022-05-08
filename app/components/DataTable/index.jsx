@@ -1,10 +1,13 @@
 import React, { useMemo, useState } from 'react'
 import { Typography } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDownRounded'
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUpRounded'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
+import {
+  ArrowDropDownRounded as ArrowDropDownIcon,
+  ArrowDropUpRounded as ArrowDropUpIcon,
+  EditRounded as EditIcon,
+  Delete as DeleteIcon,
+} from '@mui/icons-material'
+
 import ConfirmModal from 'components/ConfirmModal'
 import { Mode } from 'constants/mode'
 
@@ -34,7 +37,14 @@ const DataTable = ({
     exportLabel,
     searchPlaceholder,
   },
-  components: { FormModal, CreateButtonIcon, Row, ToolbarActions = () => null },
+  components: {
+    FormModal,
+    CreateButtonIcon,
+    DeleteButtonIcon = DeleteIcon,
+    EditButtonIcon = EditIcon,
+    Row,
+    ToolbarActions = () => null,
+  },
 }) => {
   const [mode, setMode] = useState(Mode.READ)
   const [row, setRow] = useState()
@@ -66,7 +76,7 @@ const DataTable = ({
             if (onEdit) {
               newActions = [
                 <StyledGridActionsCellItem
-                  icon={<EditIcon />}
+                  icon={<EditButtonIcon />}
                   onClick={() => {
                     setRow(row)
                     setMode(Mode.EDIT)
@@ -79,7 +89,7 @@ const DataTable = ({
               newActions = [
                 ...newActions,
                 <StyledGridActionsCellItem
-                  icon={<DeleteIcon />}
+                  icon={<DeleteButtonIcon />}
                   onClick={() => {
                     setRow(row)
                     setMode(Mode.DELETE)
@@ -155,7 +165,7 @@ const DataTable = ({
         <ConfirmModal
           open={mode === Mode.DELETE}
           onConfirm={async () => {
-            await onDelete(row.id)
+            await onDelete(row)
           }}
           localeText={{
             text: deleteText,

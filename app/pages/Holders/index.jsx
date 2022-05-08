@@ -71,11 +71,17 @@ const HoldersPage = () => {
     setHolders(newHolders)
   }
 
-  const onDeleteHolder = async (holderId) => {
-    await onSaving(() => deleteHolder(holderId))
-    const holderIndex = holders.findIndex(({ id }) => id === holderId)
+  const onDeleteHolder = async (holder) => {
+    const newHolder = { ...holder, isActive: false }
+    await onSaving(() => editHolder(newHolder))
+    const holderIndex = holders.findIndex(({ id }) => id === newHolder.id)
     const newHolders = [...holders]
-    newHolders.splice(holderIndex, 1)
+    newHolders[holderIndex] = {
+      ...newHolder,
+      patients: [
+        ...patients.filter(({ holderId }) => holderId === newHolder.id),
+      ],
+    }
     setHolders(newHolders)
   }
 

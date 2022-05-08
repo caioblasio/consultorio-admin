@@ -1,5 +1,9 @@
 import React from 'react'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import {
+  BlockRounded as BlockIcon,
+  PersonAddRounded as PersonAddIcon,
+} from '@mui/icons-material'
+
 import DataTable from 'components/DataTable'
 import getColumns from './columns'
 import HoldersRow from './Row'
@@ -30,6 +34,7 @@ const HoldersTable = ({
       components={{
         FormModal: HolderModal,
         CreateButtonIcon: PersonAddIcon,
+        DeleteButtonIcon: BlockIcon,
         Row: HoldersRow,
         ToolbarActions: () => (
           <HoldersActiveFilter
@@ -41,7 +46,8 @@ const HoldersTable = ({
       }}
       localeText={{
         createLabel: 'Criar Responsável',
-        searchPlaceholder: 'Buscar por nome, celular ou CPF...',
+        searchPlaceholder: 'Buscar por Nome, N° Celular ou CPF...',
+        deleteText: 'Tem a certeza que quer inativar este responsável?',
       }}
     />
   )
