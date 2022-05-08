@@ -1,5 +1,6 @@
 import React from 'react'
 import { Routes } from 'react-router-dom'
+
 import PrivateRoutes from './Private'
 import PublicRoutes from './Public'
 
