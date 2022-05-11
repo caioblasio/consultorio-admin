@@ -48,6 +48,21 @@ export const fetchPaymentsWithinRangeByPatient = async (
   return snapshot.docs.map(paymentMapper)
 }
 
+export const fetchPaymentsWithinRangeByHolder = async (
+  holderId,
+  startDate,
+  endDate
+) => {
+  const q = query(
+    collection(db, COLLECTION_NAME),
+    where('holderId', '==', holderId),
+    where('madeAt', '>=', startDate),
+    where('madeAt', '<=', endDate)
+  )
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map(paymentMapper)
+}
+
 export const fetchMissingPaymentsWithinRange = async (startDate, endDate) => {
   const activePatients = await fetchActivePatients()
   const currentMonthAndYearPayments = await fetchPaymentsWithinRange(

@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import { Stack, Grid } from '@mui/material'
+import { Stack } from '@mui/material'
 import { Controller } from 'react-hook-form'
 import InputMask from 'react-input-mask'
 
 import TextField from 'components/TextField'
-import Switch from 'components/Switch'
 import VALIDATION_SCHEMA from './validations'
 
 const HolderForm = ({

@@ -7,12 +7,12 @@ import {
   ChevronRight as ChevronRightIcon,
   SaveAltRounded as SaveIcon,
 } from '@mui/icons-material'
-import { fetchPaymentsWithinRangeByPatient } from 'api/database'
+import { fetchPaymentsWithinRangeByHolder } from 'api/database'
 import { formatCurrency } from 'utils/currency'
 import Card from 'components/Card'
 import useDateAdapter from 'hooks/useDateAdapter'
 
-const PaymentsCard = ({ patient, isLoading }) => {
+const PaymentsCard = ({ holder, isLoading }) => {
   const [payments, setPayments] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -31,8 +31,8 @@ const PaymentsCard = ({ patient, isLoading }) => {
         return
       }
 
-      const payments = await fetchPaymentsWithinRangeByPatient(
-        patient.id,
+      const payments = await fetchPaymentsWithinRangeByHolder(
+        holder.id,
         startDate,
         endDate
       )
@@ -61,14 +61,20 @@ const PaymentsCard = ({ patient, isLoading }) => {
     let total = 0
 
     const getValueForMonth = (dateMonth) => {
-      const payment = payments.find((payment) =>
-        adapter.isSameMonth(dateMonth, payment.reference)
+      const paymentsMadeAtMonth = payments.filter((payment) =>
+        adapter.isSameMonth(dateMonth, payment.madeAt)
       )
 
-      total = total + (payment ? payment.value : 0)
+      const monthTotal = paymentsMadeAtMonth.reduce(
+        (acc, cur) => acc + cur.value,
+        0
+      )
+
+      total = total + monthTotal
+
       return (
-        <Typography color={getPaymentColor(payment?.status)}>
-          {formatCurrency(payment?.value || 0, true)}
+        <Typography color={getPaymentColor()}>
+          {formatCurrency(monthTotal, true)}
         </Typography>
       )
     }

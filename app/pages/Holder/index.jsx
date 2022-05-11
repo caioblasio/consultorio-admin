@@ -6,7 +6,9 @@ import { fetchHolderById } from 'api/database'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import Page from 'containers/Page'
 import { SaveContext } from 'contexts/Save'
+
 import HolderCard from './HolderCard'
+import PaymentsCard from './PaymentsCard'
 
 const HolderPage = () => {
   const [holder, setHolder] = useState()
@@ -35,7 +37,7 @@ const HolderPage = () => {
           <HolderCard holder={holder} isLoading={loading} onSaving={onSaving} />
         </Grid>
         <Grid item xs={6}>
-          {/* <PaymentsCard patient={patient} isLoading={loading} /> */}
+          <PaymentsCard holder={holder} isLoading={loading} />
         </Grid>
       </Grid>
     </Page>
