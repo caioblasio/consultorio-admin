@@ -9,6 +9,7 @@ const PlannerBody = ({
   rows,
   typeMapping,
   isLoading,
+  disableCellClick,
   onCellClick,
   columns,
   components: { CellRenderer, CellActions, RowHeader, Row = PlannerRow },
@@ -33,6 +34,7 @@ const PlannerBody = ({
             isLast={index === rows.length - 1}
             columns={columns}
             typeMapping={typeMapping}
+            disableCellClick={disableCellClick}
             onCellClick={onCellClick}
             components={{
               CellRenderer,

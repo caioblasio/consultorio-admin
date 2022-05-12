@@ -10,7 +10,7 @@ const Toolbar = ({
   searchValue,
   onCreateClick,
   onExportClick,
-  hideExport = false,
+  disableExport = false,
   disabled = false,
   onSearchChange,
   children,
@@ -38,7 +38,7 @@ const Toolbar = ({
             </Button>
           </Grid>
         )}
-        {!hideExport && (
+        {!disableExport && (
           <Grid item>
             <Button
               variant="outlined"

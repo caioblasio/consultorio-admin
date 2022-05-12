@@ -10,7 +10,7 @@ const PlannerToolbar = ({
   rows,
   searchValue,
   onCreateClick,
-  hideExport,
+  disableExport,
   onSearchChange,
   components,
   localeText,
@@ -74,7 +74,7 @@ const PlannerToolbar = ({
       disabled={disabled}
       searchValue={searchValue}
       onCreateClick={onCreateClick}
-      hideExport={hideExport}
+      disableExport={disableExport}
       onSearchChange={onSearchChange}
       components={components}
       localeText={localeText}

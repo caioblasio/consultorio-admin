@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect, forwardRef } from 'react'
 import { Stack, Grid, Button, IconButton } from '@mui/material'
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker'
 import {
@@ -7,23 +7,22 @@ import {
   Add,
 } from '@mui/icons-material'
 import InputMask from 'react-input-mask'
-import { Controller, useFieldArray } from 'react-hook-form'
+import { Controller, useFieldArray, useForm } from 'react-hook-form'
 
 import Autocomplete from 'components/Autocomplete'
 import TextField from 'components/TextField'
-import Switch from 'components/Switch'
 import SubOptionHolder from './SubOptionHolder'
 import VALIDATION_SCHEMA from './validations'
 
-const PatientForm = ({
-  holders,
-  data,
-  onDataChange,
-  defaultValues = {},
-  control,
-  reset,
-  watch,
-}) => {
+const PatientForm = (
+  { holders, data, mode = 'onSubmit', onSubmit, disabled },
+  ref
+) => {
+  const { control, handleSubmit, reset, watch } = useForm({
+    defaultValues: data,
+    mode,
+  })
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'phone',
@@ -32,21 +31,26 @@ const PatientForm = ({
   const watchPhone = watch('phone')
 
   useEffect(() => {
-    let newData = defaultValues
-    if (data) {
-      const { phone, ...rest } = data
-      newData = {
-        ...rest,
-        phone: phone.map((value) => ({ value })),
-        holder: holders.find(({ id }) => id === data.holderId) || '',
-      }
+    const newData = {
+      ...data,
+      holder: holders.find(({ id }) => id === data.holderId) || '',
     }
 
     reset(newData)
   }, [data])
 
+  const handleSubmitData = useCallback(() => {
+    handleSubmit(({ holder, ...rest }) =>
+      onSubmit({ ...rest, holderId: holder?.id, isActive: true })
+    )()
+  }, [mode])
+
   return (
-    <form>
+    <form
+      ref={ref}
+      onSubmit={mode === 'onSubmit' ? handleSubmitData : undefined}
+      onBlur={mode === 'onBlur' ? handleSubmitData : undefined}
+    >
       <Stack spacing={2}>
         <Controller
           name="name"
@@ -56,14 +60,10 @@ const PatientForm = ({
             <TextField
               label="Nome Completo"
               {...field}
-              onBlur={() => {
-                field.onBlur()
-                if (onDataChange) {
-                  onDataChange()
-                }
-              }}
+              disabled={disabled}
               error={invalid}
               helperText={error?.message}
+              autoFocus
             />
           )}
         />
@@ -74,20 +74,15 @@ const PatientForm = ({
           render={({ field, fieldState: { invalid, error } }) => (
             <Autocomplete
               label="Responsável"
+              {...field}
               startAdornment={<PersonRounded />}
               options={holders}
               components={{
                 SubOptionRenderer: SubOptionHolder,
               }}
-              onInputBlur={() => {
-                field.onBlur()
-                if (onDataChange) {
-                  onDataChange()
-                }
-              }}
               error={invalid}
               helperText={error?.message}
-              {...field}
+              disabled={disabled}
             />
           )}
         />
@@ -99,42 +94,29 @@ const PatientForm = ({
             <DesktopDatePicker
               label="Início do Tratamento"
               {...field}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  onBlur={() => {
-                    params.inputProps?.onBlur()
-                    if (onDataChange) {
-                      onDataChange()
-                    }
-                  }}
-                />
-              )}
+              disabled={disabled}
+              renderInput={(params) => <TextField {...params} />}
             />
           )}
         />
         <Stack spacing={2} alignItems="end">
           {fields.map((item, index) => (
-            <Grid container columnGap={3} key={item.id}>
+            <Grid container columnGap={3} key={`field-${item.id}`}>
               <Grid item xs>
                 <Controller
-                  name={`phone.${index}.value`}
+                  name={`phone.${index}`}
                   control={control}
                   rules={{ ...VALIDATION_SCHEMA.phone }}
                   render={({ field, fieldState: { invalid, error } }) => (
                     <InputMask
                       mask="(99) 99999-9999"
                       {...field}
-                      onBlur={() => {
-                        field.onBlur()
-                        if (onDataChange) {
-                          onDataChange()
-                        }
-                      }}
+                      disabled={disabled}
                     >
                       {(inputProps) => (
                         <TextField
                           {...inputProps}
+                          disabled={disabled}
                           label="N° Celular"
                           error={invalid}
                           helperText={error?.message}
@@ -147,11 +129,9 @@ const PatientForm = ({
               {index !== 0 && (
                 <Grid item>
                   <IconButton
+                    disabled={disabled}
                     onClick={() => {
                       remove(index)
-                      if (onDataChange) {
-                        onDataChange()
-                      }
                     }}
                   >
                     <RemoveCircleOutlineOutlined />
@@ -165,7 +145,8 @@ const PatientForm = ({
               variant="text"
               size="small"
               startIcon={<Add />}
-              onClick={() => append({ value: '' })}
+              disabled={disabled}
+              onClick={() => append('')}
             >
               Adicionar novo contato
             </Button>
@@ -176,4 +157,4 @@ const PatientForm = ({
   )
 }
 
-export default PatientForm
+export default forwardRef(PatientForm)

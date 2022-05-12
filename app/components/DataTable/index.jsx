@@ -28,8 +28,9 @@ const DataTable = ({
   onDelete,
   searchValue,
   onSearchChange,
-  hideExport,
+  disableExport,
   disableSearch,
+  disableRowActions = () => false,
   localeText: {
     deleteText,
     deleteTitle,
@@ -73,30 +74,32 @@ const DataTable = ({
           width: 80,
           getActions: ({ row }) => {
             let newActions = []
-            if (onEdit) {
-              newActions = [
-                <StyledGridActionsCellItem
-                  icon={<EditButtonIcon />}
-                  onClick={() => {
-                    setRow(row)
-                    setMode(Mode.EDIT)
-                  }}
-                  label="Editar"
-                />,
-              ]
-            }
-            if (onDelete) {
-              newActions = [
-                ...newActions,
-                <StyledGridActionsCellItem
-                  icon={<DeleteButtonIcon />}
-                  onClick={() => {
-                    setRow(row)
-                    setMode(Mode.DELETE)
-                  }}
-                  label="Apagar"
-                />,
-              ]
+            if (!disableRowActions(row)) {
+              if (onEdit) {
+                newActions = [
+                  <StyledGridActionsCellItem
+                    icon={<EditButtonIcon />}
+                    onClick={() => {
+                      setRow(row)
+                      setMode(Mode.EDIT)
+                    }}
+                    label="Editar"
+                  />,
+                ]
+              }
+              if (onDelete) {
+                newActions = [
+                  ...newActions,
+                  <StyledGridActionsCellItem
+                    icon={<DeleteButtonIcon />}
+                    onClick={() => {
+                      setRow(row)
+                      setMode(Mode.DELETE)
+                    }}
+                    label="Apagar"
+                  />,
+                ]
+              }
             }
 
             return newActions
@@ -127,7 +130,7 @@ const DataTable = ({
           searchPlaceholder,
         }}
         disableSearch={disableSearch}
-        hideExport={hideExport}
+        disableExport={disableExport}
         onCreate={() => {
           setMode(Mode.CREATE)
           setRow(undefined)

@@ -1,45 +1,39 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useRef } from 'react'
 import Modal from 'components/Modal'
 import HolderForm from 'pages/Holder/HolderCard/Form'
 
 const HolderModal = ({ data, onConfirm, onClose, open = false }) => {
-  const defaultValues = {
+  const isEdit = !!data
+  const formRef = useRef()
+  const formData = {
     name: '',
     cpf: '',
-    isActive: true,
-  }
-  const { control, handleSubmit, reset, watch } = useForm({
-    defaultValues,
-  })
-
-  const handleConfirm = (submitData) => {
-    handleClose()
-    onConfirm(submitData)
+    ...(data || {}),
   }
 
-  const handleClose = () => {
-    reset()
+  const handleConfirm = (newData) => {
     onClose()
+    onConfirm(newData)
   }
 
   return (
     <Modal
       open={open}
-      onClose={handleClose}
-      title={data ? 'Editar Responsável' : 'Criar Responsável'}
+      onClose={onClose}
+      title={isEdit ? 'Editar Responsável' : 'Criar Responsável'}
       actions={[
-        { label: 'Confirmar', onClick: handleSubmit(handleConfirm) },
-        { label: 'Cancelar', onClick: handleClose },
+        {
+          label: 'Confirmar',
+          onClick: () => {
+            formRef.current.dispatchEvent(
+              new Event('submit', { bubbles: true, cancelable: true })
+            )
+          },
+        },
+        { label: 'Cancelar', onClick: onClose },
       ]}
     >
-      <HolderForm
-        data={data}
-        defaultValues={defaultValues}
-        control={control}
-        reset={reset}
-        watch={watch}
-      />
+      <HolderForm ref={formRef} data={formData} onSubmit={handleConfirm} />
     </Modal>
   )
 }

@@ -50,7 +50,7 @@ const PlannerPatients = ({
     let newMissingData = []
     const currentDate = new Date()
     filteredPatients.forEach(
-      ({ treatmentBegin, id: patientId, name: patientName }) => {
+      ({ treatmentBegin, id: patientId, name: patientName, isActive }) => {
         const patientPayments = data.filter(({ rowId }) => rowId === patientId)
         const differenceInMonths = getMonthDifference(
           treatmentBegin,
@@ -93,6 +93,10 @@ const PlannerPatients = ({
       onEdit={onEdit}
       showAllValue={showAll}
       onShowAllChange={(value) => setShowAll(value)}
+      disableCellClick={({ rowId }) => {
+        const { isActive } = filteredPatients.find(({ id }) => id === rowId)
+        return !isActive
+      }}
       components={{
         CellRenderer: CellPatients,
         CellActions: CellActionsPatients,

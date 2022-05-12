@@ -31,6 +31,7 @@ const HoldersTable = ({
       onDelete={onDelete}
       searchValue={searchValue}
       onSearchChange={onSearchChange}
+      disableRowActions={({ isActive }) => !isActive}
       components={{
         FormModal: HolderModal,
         CreateButtonIcon: PersonAddIcon,
@@ -47,7 +48,7 @@ const HoldersTable = ({
       localeText={{
         createLabel: 'Criar Responsável',
         searchPlaceholder: 'Buscar por Nome, N° Celular ou CPF...',
-        deleteText: 'Tem a certeza que quer inativar este responsável?',
+        deleteText: 'Tem a certeza que quer desativar este responsável?',
       }}
     />
   )

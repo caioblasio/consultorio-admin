@@ -1,30 +1,34 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback, forwardRef } from 'react'
 import { Stack } from '@mui/material'
-import { Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import InputMask from 'react-input-mask'
 
 import TextField from 'components/TextField'
 import VALIDATION_SCHEMA from './validations'
 
-const HolderForm = ({
-  data,
-  onDataChange,
-  defaultValues = {},
-  control,
-  reset,
-}) => {
+const HolderForm = ({ data, onSubmit, mode = 'onSubmit', disabled }, ref) => {
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: data,
+    mode,
+  })
+
   useEffect(() => {
-    let newData = defaultValues
-    if (data) {
-      const { patients, ...rest } = data
-      newData = { ...rest }
-    }
+    const { patients, ...rest } = data
+    const newData = { ...rest }
 
     reset(newData)
   }, [data])
 
+  const handleSubmitData = useCallback(() => {
+    handleSubmit((newData) => onSubmit({ ...newData, isActive: true }))()
+  }, [mode])
+
   return (
-    <form>
+    <form
+      ref={ref}
+      onSubmit={mode === 'onSubmit' ? handleSubmitData : undefined}
+      onBlur={mode === 'onBlur' ? handleSubmitData : undefined}
+    >
       <Stack spacing={2}>
         <Controller
           name="name"
@@ -34,14 +38,10 @@ const HolderForm = ({
             <TextField
               label="Nome Completo"
               {...field}
-              onBlur={() => {
-                field.onBlur()
-                if (onDataChange) {
-                  onDataChange()
-                }
-              }}
+              disabled={disabled}
               error={invalid}
               helperText={error?.message}
+              autoFocus
             />
           )}
         />
@@ -50,22 +50,14 @@ const HolderForm = ({
           control={control}
           rules={{ ...VALIDATION_SCHEMA.cpf }}
           render={({ field, fieldState: { invalid, error } }) => (
-            <InputMask
-              mask="999.999.999-99"
-              {...field}
-              onBlur={() => {
-                field.onBlur()
-                if (onDataChange) {
-                  onDataChange()
-                }
-              }}
-            >
+            <InputMask mask="999.999.999-99" {...field} disabled={disabled}>
               {(inputProps) => (
                 <TextField
                   label="CPF"
                   {...inputProps}
                   error={invalid}
                   helperText={error?.message}
+                  disabled={disabled}
                 />
               )}
             </InputMask>
@@ -76,4 +68,4 @@ const HolderForm = ({
   )
 }
 
-export default HolderForm
+export default forwardRef(HolderForm)

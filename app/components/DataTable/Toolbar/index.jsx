@@ -7,7 +7,7 @@ const DataTableToolbar = ({
   columns,
   searchValue,
   onCreate,
-  hideExport,
+  disableExport,
   onSearchChange,
   components,
   localeText,
@@ -38,7 +38,7 @@ const DataTableToolbar = ({
       disabled={disabled}
       searchValue={searchValue}
       onCreateClick={onCreate}
-      hideExport={hideExport}
+      disableExport={disableExport}
       onSearchChange={onSearchChange}
       components={components}
       localeText={localeText}

@@ -6,6 +6,7 @@ import {
 
 import DataTable from 'components/DataTable'
 import useDateAdapter from 'hooks/useDateAdapter'
+import { PATIENT_BLOCK_CONFIRM_TEXT } from 'pages/Patient/PatientCard/BlockModal/constants'
 import getColumns from './columns'
 import PatientModal from './FormModal'
 import PatientsActiveFilter from './ActiveFilter'
@@ -35,6 +36,7 @@ const PatientsTable = ({
       onDelete={onDelete}
       searchValue={searchValue}
       onSearchChange={onSearchChange}
+      disableRowActions={({ isActive }) => !isActive}
       components={{
         FormModal: (props) => <PatientModal {...props} holders={holders} />,
         CreateButtonIcon: PersonAddIcon,
@@ -51,7 +53,7 @@ const PatientsTable = ({
       localeText={{
         createLabel: 'Criar Paciente',
         searchPlaceholder: 'Buscar por Nome ou N° Celular...',
-        deleteText: 'Tem a certeza que quer inativar este paciente?',
+        deleteText: PATIENT_BLOCK_CONFIRM_TEXT,
       }}
     />
   )

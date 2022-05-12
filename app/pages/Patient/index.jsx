@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useAsyncEffect from 'use-async-effect'
 import { Grid } from '@mui/material'
-import { fetchPatientById } from 'api/database'
+import { fetchPatientById, editPatient } from 'api/database'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import Page from 'containers/Page'
 import { SaveContext } from 'contexts/Save'
@@ -29,6 +29,11 @@ const PatientPage = () => {
     setLoading(false)
   }, [])
 
+  const onEditPatient = async (patient) => {
+    await onSaving(() => editPatient(patient))
+    setPatient(patient)
+  }
+
   return (
     <Page
       breadcrumbs={<Breadcrumbs current={patient?.name} isLoading={loading} />}
@@ -38,7 +43,7 @@ const PatientPage = () => {
           <PatientCard
             patient={patient}
             isLoading={loading}
-            onSaving={onSaving}
+            onEdit={onEditPatient}
           />
         </Grid>
         <Grid item xs={4}>

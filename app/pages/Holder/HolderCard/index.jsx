@@ -1,32 +1,42 @@
-import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
+import { Stack } from '@mui/material'
+import { BlockRounded } from '@mui/icons-material'
+
 import Card from 'components/Card'
-import { editHolder } from 'api/database'
 import HolderForm from 'pages/Holder/HolderCard/Form'
+import { StyledButton } from './styles'
+import HolderBlockModal from './BlockModal'
 
-const HolderCard = ({ holder, isLoading, onSaving }) => {
-  const { control, handleSubmit, reset, watch } = useForm({
-    defaultValues: holder,
-    mode: 'onChange',
-  })
+const HolderCard = ({ holder, isLoading, onEdit }) => {
+  const [open, setOpen] = useState(false)
 
-  useEffect(() => {
-    reset(holder)
-  }, [holder])
-
-  const handleConfirm = async (submitData) => {
-    await onSaving(() => editHolder(submitData))
-  }
+  const disabled = !holder?.isActive
 
   return (
-    <Card title="Detalhes" color="info" isLoading={isLoading}>
-      <HolderForm
-        data={holder}
-        control={control}
-        reset={reset}
-        onDataChange={handleSubmit(handleConfirm)}
+    <>
+      <Card title="Detalhes" color="info" isLoading={isLoading}>
+        <Stack spacing={4}>
+          <HolderForm data={holder} onSubmit={onEdit} disabled={disabled} />
+          <StyledButton
+            startIcon={<BlockRounded />}
+            color="error"
+            variant="outlined"
+            onClick={() => setOpen(true)}
+            disabled={disabled}
+          >
+            Desativar responsável
+          </StyledButton>
+        </Stack>
+      </Card>
+      <HolderBlockModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onConfirm={async () => {
+          setOpen(false)
+          await onEdit({ ...holder, isActive: false })
+        }}
       />
-    </Card>
+    </>
   )
 }
 

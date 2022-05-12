@@ -21,8 +21,8 @@ const Planner = ({
   onSearchChange,
   typeMapping,
   isLoading = false,
-  disableCellClick = false,
-  hideExport,
+  disableCellClick = () => false,
+  disableExport = false,
   components: {
     FormModal,
     CreateButtonIcon,
@@ -78,7 +78,7 @@ const Planner = ({
       <Stack spacing={2}>
         <PlannerToolbar
           disabled={isLoading}
-          hideExport={hideExport}
+          disableExport={disableExport}
           firstDate={firstDate}
           data={data}
           rows={rows}
@@ -117,14 +117,11 @@ const Planner = ({
           typeMapping={typeMapping}
           isLoading={isLoading}
           components={{ CellRenderer, CellActions, RowHeader, Row }}
-          onCellClick={
-            disableCellClick
-              ? undefined
-              : (mode, cell) => {
-                  setMode(mode)
-                  setCell(cell)
-                }
-          }
+          disableCellClick={disableCellClick}
+          onCellClick={(mode, cell) => {
+            setMode(mode)
+            setCell(cell)
+          }}
         />
         {typeMapping && <PlannerLegend typeMapping={typeMapping} />}
       </Stack>

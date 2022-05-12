@@ -79,7 +79,7 @@ const PlannerHolders = ({ data: payments, holders, onCreate, isLoading }) => {
       localeText={{
         searchPlaceholder: 'Buscar por responsável...',
       }}
-      disableCellClick
+      disableCellClick={() => true}
     />
   )
 }

@@ -11,6 +11,7 @@ const PlannerRow = ({
   row,
   isLast,
   typeMapping,
+  disableCellClick,
   onCellClick,
   columns,
   className,
@@ -20,6 +21,41 @@ const PlannerRow = ({
     Header = ({ label }) => <Typography component="span">{label}</Typography>,
   },
 }) => {
+  const renderCell = useCallback(
+    (id, date, item) => {
+      const position = { rowId: id, columnId: date }
+      const status =
+        typeMapping && item
+          ? { ...typeMapping[item.status], id: item.status }
+          : undefined
+
+      if (item) {
+        return (
+          <PlannerCellContent
+            components={{
+              CellActions,
+            }}
+            status={status}
+            onDelete={() => onCellClick(Mode.DELETE, item)}
+            onEdit={() => onCellClick(Mode.EDIT, item)}
+            onCreate={() => onCellClick(Mode.CREATE, position)}
+            disableClick={disableCellClick(item)}
+          >
+            <CellRenderer data={data} row={row} item={item} status={status} />
+          </PlannerCellContent>
+        )
+      }
+
+      return (
+        <PlannerCellEmpty
+          disableClick={disableCellClick(position)}
+          onCreate={() => onCellClick(Mode.CREATE, position)}
+        />
+      )
+    },
+    [disableCellClick, data]
+  )
+
   const renderElements = useCallback(
     (id, isBottom) => {
       const rowData = data.filter(({ rowId }) => rowId === id)
@@ -33,10 +69,6 @@ const PlannerRow = ({
             columnId.getMonth() === month && columnId.getFullYear() === year
           )
         })
-        const status =
-          typeMapping && item
-            ? { ...typeMapping[item.status], id: item.status }
-            : undefined
 
         return (
           <StyledBodyGridItem
@@ -47,48 +79,12 @@ const PlannerRow = ({
             isRight={index === columns.length - 1}
             xs
           >
-            {item ? (
-              <PlannerCellContent
-                components={{
-                  CellActions,
-                }}
-                status={status}
-                onDelete={
-                  onCellClick ? () => onCellClick(Mode.DELETE, item) : undefined
-                }
-                onEdit={
-                  onCellClick ? () => onCellClick(Mode.EDIT, item) : undefined
-                }
-                onCreate={
-                  onCellClick
-                    ? () =>
-                        onCellClick(Mode.CREATE, { rowId: id, columnId: date })
-                    : undefined
-                }
-                disableClick={!onCellClick}
-              >
-                <CellRenderer
-                  data={data}
-                  row={row}
-                  item={item}
-                  status={status}
-                />
-              </PlannerCellContent>
-            ) : (
-              <PlannerCellEmpty
-                onCreate={
-                  onCellClick
-                    ? () =>
-                        onCellClick(Mode.CREATE, { rowId: id, columnId: date })
-                    : undefined
-                }
-              />
-            )}
+            {renderCell(id, date, item)}
           </StyledBodyGridItem>
         )
       })
     },
-    [data, columns]
+    [columns]
   )
 
   return (
