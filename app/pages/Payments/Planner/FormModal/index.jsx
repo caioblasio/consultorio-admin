@@ -35,7 +35,7 @@ const PaymentsFormModal = ({
     }
   }, [currentDate])
 
-  const { control, handleSubmit, watch, setValue, reset } = useForm({
+  const { control, handleSubmit, watch, setValue, reset, setError } = useForm({
     defaultValues,
   })
 
@@ -88,10 +88,29 @@ const PaymentsFormModal = ({
     reset(newData)
   }, [data])
 
-  const handleConfirm = ({ value, ...rest }) => {
+  const handleConfirm = ({ patient, value, ...rest }) => {
+    const reference = new Date(
+      rest.reference.getFullYear(),
+      rest.reference.getMonth()
+    )
+    const startDate = new Date(
+      patient.startDate.getFullYear(),
+      patient.startDate.getMonth()
+    )
+    if (reference < startDate) {
+      setError('reference', {
+        type: 'invalid',
+        message: 'Referência anterior ao início do tratamento do paciente',
+      })
+
+      return
+    }
+
     const submitData = {
       ...rest,
       value: standardToCentesimal(value),
+      patientId: patient.id,
+      holderId: patient.holderId,
     }
 
     handleClose()
@@ -146,12 +165,18 @@ const PaymentsFormModal = ({
             name="reference"
             control={control}
             rules={{ ...VALIDATION_SCHEMA.reference }}
-            render={({ field }) => (
+            render={({ field, fieldState: { invalid, error } }) => (
               <DatePicker
                 views={['year', 'month']}
                 label="Periodo de Referência"
                 {...field}
-                renderInput={(params) => <TextField {...params} />}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    error={invalid}
+                    helperText={error?.message}
+                  />
+                )}
               />
             )}
           />
