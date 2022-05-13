@@ -125,6 +125,7 @@ const PaymentsFormModal = ({
                 label="Tipo de Pagamento"
                 options={PAYMENT_STATUS_OPTIONS}
                 {...field}
+                autoFocus
               />
             )}
           />
