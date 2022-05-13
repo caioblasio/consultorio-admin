@@ -88,11 +88,10 @@ const PaymentsFormModal = ({
     reset(newData)
   }, [data])
 
-  const handleConfirm = ({ patient, value, ...rest }) => {
+  const handleConfirm = ({ value, ...rest }) => {
     const submitData = {
       ...rest,
       value: standardToCentesimal(value),
-      patientId: patient.id,
     }
 
     handleClose()

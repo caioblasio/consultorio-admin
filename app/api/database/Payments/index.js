@@ -82,10 +82,7 @@ export const createPayment = async (payment) => {
 
   if (existingPayments.length) {
     const existingPayment = existingPayments[0]
-    throw new PaymentAlreadyExistsError({
-      id: existingPayment.id,
-      createdAt: existingPayment.createdAt,
-    })
+    throw new PaymentAlreadyExistsError({ ...existingPayment })
   }
 
   const docRef = await addDoc(collection(db, COLLECTION_NAME), {

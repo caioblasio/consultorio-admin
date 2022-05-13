@@ -84,7 +84,7 @@ const PlannerRow = ({
         )
       })
     },
-    [columns]
+    [columns, data]
   )
 
   return (

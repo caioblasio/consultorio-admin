@@ -33,11 +33,15 @@ const PlannerPatients = ({
 
   const rows = useMemo(
     () =>
-      filteredPatients.map(({ id, name, isActive }) => ({
-        id,
-        label: name,
-        isActive,
-      })),
+      filteredPatients.map(
+        ({ id, holderId, name, isActive, treatmentBegin }) => ({
+          id,
+          label: name,
+          isActive,
+          holderId,
+          startDate: treatmentBegin,
+        })
+      ),
     [filteredPatients]
   )
 
@@ -49,34 +53,25 @@ const PlannerPatients = ({
   const missingData = useMemo(() => {
     let newMissingData = []
     const currentDate = new Date()
-    filteredPatients.forEach(
-      ({ treatmentBegin, id: patientId, name: patientName, isActive }) => {
-        const patientPayments = data.filter(({ rowId }) => rowId === patientId)
-        const differenceInMonths = getMonthDifference(
-          treatmentBegin,
-          currentDate
-        )
+    filteredPatients.forEach(({ treatmentBegin, id: patientId }) => {
+      const patientPayments = data.filter(({ rowId }) => rowId === patientId)
+      const differenceInMonths = getMonthDifference(treatmentBegin, currentDate)
 
-        for (let i = 0; i < differenceInMonths + 1; i++) {
-          const pivotDate = adapter.addMonths(treatmentBegin, i)
-          const pivotDatePayment = patientPayments.find(({ columnId }) =>
-            adapter.isSameMonth(pivotDate, columnId)
-          )
-          if (!pivotDatePayment) {
-            const missingPayment = {
-              rowId: patientId,
-              columnId: new Date(pivotDate.getFullYear(), pivotDate.getMonth()),
-              status: 'owing',
-              data: {
-                holder: patientName,
-                value: 9000,
-              },
-            }
-            newMissingData.push(missingPayment)
+      for (let i = 0; i < differenceInMonths + 1; i++) {
+        const pivotDate = adapter.addMonths(treatmentBegin, i)
+        const pivotDatePayment = patientPayments.find(({ columnId }) =>
+          adapter.isSameMonth(pivotDate, columnId)
+        )
+        if (!pivotDatePayment) {
+          const missingPayment = {
+            rowId: patientId,
+            columnId: new Date(pivotDate.getFullYear(), pivotDate.getMonth()),
+            status: 'owing',
           }
+          newMissingData.push(missingPayment)
         }
       }
-    )
+    })
 
     return newMissingData
   }, [filteredPatients, data])

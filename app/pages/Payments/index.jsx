@@ -13,6 +13,8 @@ import { SaveContext } from 'contexts/Save'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import Page from 'containers/Page'
 import ConfirmModal from 'components/ConfirmModal'
+import ErrorModal from 'components/ErrorModal'
+import PaymentBeforeTreatmentBegin from 'errors/PaymentBeforeTreatmentBegin'
 import useDateAdapter from 'hooks/useDateAdapter'
 import PaymentAlreadyExistsError from 'errors/PaymentAlreadyExists'
 import PlannerHolders from './PlannerHolders'
@@ -32,6 +34,8 @@ const PaymentsPage = () => {
 
   const [tabValue, setTabValue] = useState(0)
   const [paymentToConfirm, setPaymentToConfirm] = useState(null)
+  const [paymentWrongOperationMessage, setPaymentWrongOperationMessage] =
+    useState('')
 
   const adapter = useDateAdapter()
 
@@ -62,24 +66,58 @@ const PaymentsPage = () => {
     [paymentToConfirm]
   )
 
-  const onCreatePayment = async (payment) => {
+  const onCreatePayment = async (paymentData) => {
+    const { patient, ...restPayment } = paymentData
+
+    const payment = {
+      ...restPayment,
+      patientId: patient.id,
+      holderId: patient.holderId,
+    }
+
     try {
+      if (payment.reference.getMonth() < patient.startDate.getMonth()) {
+        throw new PaymentBeforeTreatmentBegin()
+      }
+
       const createdPaymentId = await onSaving(() => createPayment(payment))
       const newPayments = [...payments, { ...payment, id: createdPaymentId }]
       setPayments(newPayments)
     } catch (e) {
       if (e instanceof PaymentAlreadyExistsError) {
-        setPaymentToConfirm({ ...e.paymentData, ...payment })
+        setPaymentToConfirm({ ...e.paymentData, ...paymentData })
+      }
+
+      if (e instanceof PaymentBeforeTreatmentBegin) {
+        setPaymentWrongOperationMessage(e.message)
       }
     }
   }
 
-  const onEditPayment = async (payment) => {
-    await onSaving(() => editPayment(payment))
-    const paymentIndex = payments.findIndex(({ id }) => id === payment.id)
-    const newPayments = [...payments]
-    newPayments[paymentIndex] = payment
-    setPayments(newPayments)
+  const onEditPayment = async (paymentData) => {
+    const { patient, ...restPayment } = paymentData
+
+    const payment = {
+      ...restPayment,
+      patientId: patient.id,
+      holderId: patient.holderId,
+    }
+
+    try {
+      if (payment.reference.getMonth() < patient.startDate.getMonth()) {
+        throw new PaymentBeforeTreatmentBegin()
+      }
+
+      await onSaving(() => editPayment(payment))
+      const paymentIndex = payments.findIndex(({ id }) => id === payment.id)
+      const newPayments = [...payments]
+      newPayments[paymentIndex] = payment
+      setPayments(newPayments)
+    } catch (e) {
+      if (e instanceof PaymentBeforeTreatmentBegin) {
+        setPaymentWrongOperationMessage(e.message)
+      }
+    }
   }
 
   const onDeletePayment = async (paymentId) => {
@@ -92,6 +130,10 @@ const PaymentsPage = () => {
 
   const handleConfirmModalClose = () => {
     setPaymentToConfirm(null)
+  }
+
+  const handleErrorModalClose = () => {
+    setPaymentWrongOperationMessage('')
   }
 
   return (
@@ -129,6 +171,14 @@ const PaymentsPage = () => {
           text: paymentConfirmationMessage,
         }}
         onClose={handleConfirmModalClose}
+      />
+      <ErrorModal
+        open={Boolean(paymentWrongOperationMessage)}
+        localeText={{
+          title: 'Erro!',
+          text: paymentWrongOperationMessage,
+        }}
+        onClose={handleErrorModalClose}
       />
     </Page>
   )
