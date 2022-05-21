@@ -6,7 +6,10 @@ import {
 
 import DataTable from 'components/DataTable'
 import useDateAdapter from 'hooks/useDateAdapter'
-import { PATIENT_BLOCK_CONFIRM_TEXT } from 'pages/Patient/PatientCard/BlockModal/constants'
+import {
+  PATIENT_BLOCK_CONFIRM_TEXT,
+  PATIENT_BLOCK_CONFIRM_TITLE,
+} from 'pages/Patient/PatientCard/BlockModal/constants'
 import getColumns from './columns'
 import PatientModal from './FormModal'
 import PatientsActiveFilter from './ActiveFilter'
@@ -53,6 +56,7 @@ const PatientsTable = ({
       localeText={{
         createLabel: 'Criar Paciente',
         searchPlaceholder: 'Buscar por Nome ou N° Celular...',
+        deleteTitle: PATIENT_BLOCK_CONFIRM_TITLE,
         deleteText: PATIENT_BLOCK_CONFIRM_TEXT,
       }}
     />

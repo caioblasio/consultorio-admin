@@ -43,7 +43,7 @@ export const createHolder = async (holder) => {
     createdAt: serverTimestamp(),
   })
   const snapshot = await getDoc(docRef)
-  return snapshot.exists() ? snapshot.id : null
+  return snapshot.exists() ? holderMapper(snapshot) : null
 }
 
 export const editHolder = async (holder) => {

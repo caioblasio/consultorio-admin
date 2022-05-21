@@ -99,6 +99,8 @@ const PlannerPatients = ({
       }}
       localeText={{
         searchPlaceholder: 'Buscar por paciente...',
+        deleteTitle: 'Tem certeza?',
+        deleteText: 'Tem certeza que deseja excluir este pagamento?',
       }}
       typeMapping={{
         paid: {

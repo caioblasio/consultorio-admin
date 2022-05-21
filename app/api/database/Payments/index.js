@@ -90,7 +90,7 @@ export const createPayment = async (payment) => {
     createdAt: serverTimestamp(),
   })
   const snapshot = await getDoc(docRef)
-  return snapshot.exists() ? snapshot.id : null
+  return snapshot.exists() ? paymentMapper(snapshot) : null
 }
 
 export const editPayment = async (payment) => {

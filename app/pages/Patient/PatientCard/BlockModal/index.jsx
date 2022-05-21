@@ -1,7 +1,10 @@
 import React from 'react'
 
 import ConfirmModal from 'components/ConfirmModal'
-import { PATIENT_BLOCK_CONFIRM_TEXT } from './constants'
+import {
+  PATIENT_BLOCK_CONFIRM_TEXT,
+  PATIENT_BLOCK_CONFIRM_TITLE,
+} from './constants'
 
 const PatientBlockModal = ({ open, onClose, onConfirm }) => {
   return (
@@ -10,7 +13,7 @@ const PatientBlockModal = ({ open, onClose, onConfirm }) => {
       onClose={onClose}
       onConfirm={onConfirm}
       localeText={{
-        title: 'Tem a certeza?',
+        title: PATIENT_BLOCK_CONFIRM_TITLE,
         text: PATIENT_BLOCK_CONFIRM_TEXT,
       }}
     />

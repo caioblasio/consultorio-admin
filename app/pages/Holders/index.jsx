@@ -5,7 +5,6 @@ import {
   fetchAllHolders,
   createHolder,
   editHolder,
-  deleteHolder,
 } from 'api/database'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import { SaveContext } from 'contexts/Save'
@@ -52,11 +51,8 @@ const HoldersPage = () => {
   )
 
   const onCreateHolder = async (holder) => {
-    const createdHolderId = await onSaving(() => createHolder(holder))
-    const newHolders = [
-      ...holders,
-      { ...holder, id: createdHolderId, patients: [] },
-    ]
+    const createdHolder = await onSaving(() => createHolder(holder))
+    const newHolders = [...holders, { ...createdHolder, patients: [] }]
     setHolders(newHolders)
   }
 

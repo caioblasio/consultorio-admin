@@ -64,8 +64,8 @@ const PaymentsPage = () => {
 
   const onCreatePayment = async (payment) => {
     try {
-      const createdPaymentId = await onSaving(() => createPayment(payment))
-      const newPayments = [...payments, { ...payment, id: createdPaymentId }]
+      const createdPayment = await onSaving(() => createPayment(payment))
+      const newPayments = [...payments, createdPayment]
       setPayments(newPayments)
     } catch (e) {
       if (e instanceof PaymentAlreadyExistsError) {

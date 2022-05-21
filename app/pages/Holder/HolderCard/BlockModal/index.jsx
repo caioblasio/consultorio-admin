@@ -1,7 +1,10 @@
 import React from 'react'
 
 import ConfirmModal from 'components/ConfirmModal'
-import { HOLDER_BLOCK_CONFIRM_TEXT } from './constants'
+import {
+  HOLDER_BLOCK_CONFIRM_TEXT,
+  HOLDER_BLOCK_CONFIRM_TITLE,
+} from './constants'
 
 const HolderBlockModal = ({ open, onClose, onConfirm }) => {
   return (
@@ -10,7 +13,7 @@ const HolderBlockModal = ({ open, onClose, onConfirm }) => {
       onClose={onClose}
       onConfirm={onConfirm}
       localeText={{
-        title: 'Tem a certeza?',
+        title: HOLDER_BLOCK_CONFIRM_TITLE,
         text: HOLDER_BLOCK_CONFIRM_TEXT,
       }}
     />

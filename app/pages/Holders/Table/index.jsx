@@ -4,6 +4,10 @@ import {
   PersonAddRounded as PersonAddIcon,
 } from '@mui/icons-material'
 
+import {
+  HOLDER_BLOCK_CONFIRM_TEXT,
+  HOLDER_BLOCK_CONFIRM_TITLE,
+} from 'pages/Holder/HolderCard/BlockModal/constants'
 import DataTable from 'components/DataTable'
 import getColumns from './columns'
 import HoldersRow from './Row'
@@ -48,7 +52,8 @@ const HoldersTable = ({
       localeText={{
         createLabel: 'Criar Responsável',
         searchPlaceholder: 'Buscar por Nome, N° Celular ou CPF...',
-        deleteText: 'Tem a certeza que quer desativar este responsável?',
+        deleteTitle: HOLDER_BLOCK_CONFIRM_TITLE,
+        deleteText: HOLDER_BLOCK_CONFIRM_TEXT,
       }}
     />
   )

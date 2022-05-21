@@ -54,8 +54,8 @@ const PatientsPage = () => {
   )
 
   const onCreatePatient = async (patient) => {
-    const createdPatientId = await onSaving(() => createPatient(patient))
-    const newPatients = [...patients, { ...patient, id: createdPatientId }]
+    const createdPatient = await onSaving(() => createPatient(patient))
+    const newPatients = [...patients, createdPatient]
     setPatients(newPatients)
   }
 

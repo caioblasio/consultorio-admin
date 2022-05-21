@@ -58,7 +58,7 @@ export const createPatient = async (patient) => {
     createdAt: serverTimestamp(),
   })
   const snapshot = await getDoc(docRef)
-  return snapshot.exists() ? snapshot.id : null
+  return snapshot.exists() ? patientMapper(snapshot) : null
 }
 
 export const editPatient = async (patient) => {
