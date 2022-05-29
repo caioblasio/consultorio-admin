@@ -1,26 +1,14 @@
 import React, { useState, useMemo } from 'react'
-import useAsyncEffect from 'use-async-effect'
 import { Stack } from '@mui/material'
 import { BlockRounded } from '@mui/icons-material'
 
 import Card from 'components/Card'
-import { fetchAllActiveHolders } from 'api/database'
 import PatientForm from './Form'
 import PatientBlockModal from './BlockModal'
 import { StyledButton } from './styles'
 
-const PatientCard = ({ patient, isLoading, onEdit }) => {
-  const [holders, setHolders] = useState([])
+const PatientCard = ({ patient, holders, isLoading, onEdit }) => {
   const [open, setOpen] = useState(false)
-
-  useAsyncEffect(async (isMounted) => {
-    const allHolders = await fetchAllActiveHolders()
-    if (!isMounted()) {
-      return
-    }
-
-    setHolders(allHolders)
-  }, [])
 
   const allHolders = useMemo(
     () =>
