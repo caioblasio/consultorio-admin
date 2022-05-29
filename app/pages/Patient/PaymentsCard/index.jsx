@@ -9,10 +9,12 @@ import {
 } from '@mui/icons-material'
 import { fetchPaymentsWithinRangeByPatient } from 'api/database'
 import { formatCurrency } from 'utils/currency'
+import { exportToPdf } from 'utils/export'
 import Card from 'components/Card'
 import useDateAdapter from 'hooks/useDateAdapter'
+import PdfTemplate from './PdfTemplate'
 
-const PaymentsCard = ({ patient, isLoading }) => {
+const PaymentsCard = ({ patient, holders, isLoading }) => {
   const [payments, setPayments] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -36,7 +38,10 @@ const PaymentsCard = ({ patient, isLoading }) => {
         startDate,
         endDate
       )
-      if (!isMounted()) return
+      if (!isMounted()) {
+        return
+      }
+
       setPayments(payments)
       setLoading(false)
     },
@@ -53,7 +58,16 @@ const PaymentsCard = ({ patient, isLoading }) => {
     return colors[status] || colors.default
   }
 
-  const downloadReport = useCallback(() => {}, [])
+  const downloadReport = useCallback(
+    () =>
+      exportToPdf(
+        <PdfTemplate patient={patient} data={payments} holders={holders} />,
+        {
+          filename: `${__dirname}/paciente_pagamentos-${Date.now()}`,
+        }
+      ),
+    [patient, payments, holders]
+  )
 
   const report = useMemo(() => {
     let result = []
