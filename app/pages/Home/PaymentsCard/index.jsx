@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { fetchMissingPaymentsWithinRange } from 'api/database'
 import { paymentsURL } from 'configs/urls'
+import { getCurrentMonthDateRange } from 'utils/date'
 import coin from 'assets/images/coin.png'
 
 import DataCard from 'containers/DataCard'
@@ -11,10 +12,7 @@ const PaymentsCard = () => {
   const [loading, setLoading] = useState(true)
 
   useAsyncEffect(async (isMounted) => {
-    // Date picker values
-    const now = new Date()
-    const startDate = new Date(now.getFullYear(), now.getMonth())
-    const endDate = new Date(now.getFullYear(), now.getMonth() + 1)
+    const { startDate, endDate } = getCurrentMonthDateRange()
 
     const count = await fetchMissingPaymentsWithinRange(startDate, endDate)
     if (!isMounted()) return
@@ -24,7 +22,7 @@ const PaymentsCard = () => {
 
   return (
     <DataCard
-      title="Pagamentos em Falta"
+      title="Pagamentos em Falta no mês"
       color="warning"
       data={count}
       isLoading={loading}

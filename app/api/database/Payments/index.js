@@ -33,6 +33,19 @@ export const fetchPaymentsWithinRange = async (startDate, endDate) => {
   return snapshot.docs.map(paymentMapper)
 }
 
+export const fetchPaymentsWithinRangeByMadeAtDate = async (
+  startDate,
+  endDate
+) => {
+  const q = query(
+    collection(db, COLLECTION_NAME),
+    where('madeAt', '>=', startDate),
+    where('madeAt', '<=', endDate)
+  )
+  const snapshot = await getDocs(q)
+  return snapshot.docs.map(paymentMapper)
+}
+
 export const fetchPaymentsWithinRangeByPatient = async (
   patientId,
   startDate,
