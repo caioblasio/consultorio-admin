@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { CardContent, Typography, Stack } from '@mui/material'
 import {
-  fetchPaymentsWithinRange,
-  fetchPatientsWithinDateRange,
+  fetchPaymentsWithinRangeByMadeAtDate,
+  fetchPatientsCountWithinDateRangeByTreatmentBeginDate,
 } from 'api/database'
 import { formatCurrency, centesimalToStandard } from 'utils/currency'
+import { getCurrentMonthDateRange } from 'utils/date'
 import { StyledCard, StyledSummarySectionTitle, StyledSkeleton } from './styles'
 
 const SummaryCard = ({ className }) => {
@@ -14,17 +15,23 @@ const SummaryCard = ({ className }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useAsyncEffect(async (isMounted) => {
-    // Date picker values
-    const now = new Date()
-    const startDate = new Date(now.getFullYear(), now.getMonth())
-    const endDate = new Date(now.getFullYear(), now.getMonth() + 1)
-    const payments = await fetchPaymentsWithinRange(startDate, endDate)
-    const amount = payments.reduce((_, cur) => cur.value, 0)
+    const { startDate, endDate } = getCurrentMonthDateRange()
 
-    const patients = await fetchPatientsWithinDateRange(startDate, endDate)
+    const payments = await fetchPaymentsWithinRangeByMadeAtDate(
+      startDate,
+      endDate
+    )
+    const amount = payments.reduce((acc, cur) => acc + cur.value, 0)
+    const patientsCount =
+      await fetchPatientsCountWithinDateRangeByTreatmentBeginDate(
+        startDate,
+        endDate
+      )
+
     if (!isMounted()) return
+
     setAmount(amount)
-    setPatientsCount(patients.length)
+    setPatientsCount(patientsCount)
     setIsLoading(false)
   }, [])
 
@@ -43,7 +50,7 @@ const SummaryCard = ({ className }) => {
               <Typography variant="h1">Resumo</Typography>
               <div>
                 <StyledSummarySectionTitle variant="subtitle1">
-                  Saldo
+                  Receita no mês
                 </StyledSummarySectionTitle>
                 <Typography variant="h2">
                   {formatCurrency(centesimalToStandard(amount))}
@@ -51,7 +58,7 @@ const SummaryCard = ({ className }) => {
               </div>
               <div>
                 <StyledSummarySectionTitle variant="subtitle1">
-                  Pacientes
+                  Novos Pacientes no mês
                 </StyledSummarySectionTitle>
                 <Typography variant="h2">{patientsCount}</Typography>
               </div>

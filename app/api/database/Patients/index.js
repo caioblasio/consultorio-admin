@@ -42,14 +42,17 @@ export const fetchPatientsCount = async () => {
   return querySnapshot.size
 }
 
-export const fetchPatientsWithinDateRange = async (startDate, endDate) => {
+export const fetchPatientsCountWithinDateRangeByTreatmentBeginDate = async (
+  startDate,
+  endDate
+) => {
   const q = query(
     collection(db, COLLECTION_NAME),
-    where('createdAt', '>=', startDate),
-    where('createdAt', '<=', endDate)
+    where('treatmentBegin', '>=', startDate),
+    where('treatmentBegin', '<=', endDate)
   )
   const snapshot = await getDocs(q)
-  return snapshot.docs.map(patientMapper)
+  return snapshot.size
 }
 
 export const createPatient = async (patient) => {
