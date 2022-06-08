@@ -17,13 +17,41 @@ Font.register({
   fonts: [{ src: NunitoSansRegular }, { src: NunitoSansBold, fontWeight: 700 }],
 })
 
-export const page = StyleSheet.create({
-  backgroundColor: '#FAFAFA',
-  padding: '36px 0px 16px 0px',
-  fontFamily: 'Nunito Sans',
-})
+export const page = (theme) =>
+  StyleSheet.create({
+    fontFamily: 'Nunito Sans',
+    color: theme.palette.common.black,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing(4, 0, 2, 0),
+    fontSize: 12,
+  })
 
-export const section = StyleSheet.create({
-  margin: '0px 64px',
-  fontFamily: 'Nunito Sans',
-})
+export const section = (theme) =>
+  StyleSheet.create({
+    margin: theme.spacing(0, 8, 8, 8),
+  })
+
+export const title = (theme) =>
+  StyleSheet.create({
+    ...theme.typography.title1,
+    fontSize: 20,
+    letterSpacing: 0.3,
+    marginBottom: theme.spacing(2),
+  })
+
+export const flexContainer = () =>
+  StyleSheet.create({
+    display: 'flex',
+    flexDirection: 'row',
+  })
+
+export const category = (theme) =>
+  StyleSheet.create({
+    marginRight: theme.spacing(4),
+  })
+
+export const categoryTitle = (theme) =>
+  StyleSheet.create({
+    color: theme.palette.grey.dark,
+    marginBottom: theme.spacing(1),
+  })
