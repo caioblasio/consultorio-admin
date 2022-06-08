@@ -1,7 +1,14 @@
 import React, { Fragment, useCallback, useState, useMemo } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { capitalize } from 'lodash-es'
-import { Stack, Grid, Typography, IconButton, Divider } from '@mui/material'
+import {
+  Stack,
+  Grid,
+  Typography,
+  IconButton,
+  Divider,
+  useTheme,
+} from '@mui/material'
 import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
@@ -15,6 +22,7 @@ import useDateAdapter from 'hooks/useDateAdapter'
 import PdfTemplate from './PdfTemplate'
 
 const PaymentsCard = ({ patient, holders, isLoading }) => {
+  const theme = useTheme()
   const [payments, setPayments] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -58,17 +66,6 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
     return colors[status] || colors.default
   }
 
-  const downloadReport = useCallback(
-    () =>
-      exportToPdf(
-        <PdfTemplate patient={patient} data={payments} holders={holders} />,
-        {
-          filename: `${__dirname}/paciente_pagamentos-${Date.now()}`,
-        }
-      ),
-    [patient, payments, holders]
-  )
-
   const report = useMemo(() => {
     let result = []
 
@@ -79,7 +76,7 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
         adapter.isSameMonth(dateMonth, payment.reference)
       )
 
-      total = total + (payment ? payment.value : 0)
+      total += payment?.value || 0
       return (
         <Typography color={getPaymentColor(payment?.status)}>
           {formatCurrency(payment?.value || 0, true)}
@@ -121,6 +118,22 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
 
     return result
   }, [year, payments])
+
+  const downloadReport = useCallback(
+    () =>
+      exportToPdf(
+        <PdfTemplate
+          patient={patient}
+          data={payments}
+          holders={holders}
+          theme={theme}
+        />,
+        {
+          filename: `${__dirname}/paciente_pagamentos-${Date.now()}`,
+        }
+      ),
+    [patient, payments, holders]
+  )
 
   return (
     <Card
