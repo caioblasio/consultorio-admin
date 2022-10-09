@@ -71,10 +71,3 @@ export const editPatient = async (patient) => {
   const snapshot = await getDoc(docRef)
   return snapshot.exists() ? snapshot.id : null
 }
-
-export const deletePatient = async (id) => {
-  const docRef = doc(collection(db, COLLECTION_NAME), id)
-  const snapshot = await getDoc(docRef)
-  await deleteDoc(docRef)
-  return snapshot.exists() ? snapshot.id : null
-}

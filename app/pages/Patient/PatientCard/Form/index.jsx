@@ -40,8 +40,13 @@ const PatientForm = (
   }, [data])
 
   const handleSubmitData = useCallback(() => {
-    handleSubmit(({ holder, ...rest }) =>
-      onSubmit({ ...rest, holderId: holder?.id, isActive: true })
+    handleSubmit(({ holder, treatmentBegin, ...rest }) =>
+      onSubmit({
+        ...rest,
+        treatmentBegin: new Date(treatmentBegin.setHours(12, 0, 0, 0)),
+        holderId: holder?.id,
+        isActive: true,
+      })
     )()
   }, [mode])
 

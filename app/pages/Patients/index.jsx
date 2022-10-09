@@ -4,7 +4,6 @@ import {
   fetchAllPatients,
   createPatient,
   editPatient,
-  deletePatient,
   fetchAllActiveHolders,
 } from 'api/database'
 import Breadcrumbs from 'containers/Breadcrumbs'

@@ -1,5 +1,6 @@
 import React, { useContext, useState, useMemo } from 'react'
 import useAsyncEffect from 'use-async-effect'
+import { omit } from 'lodash-es'
 import {
   fetchAllPatients,
   fetchAllHolders,
@@ -68,7 +69,7 @@ const HoldersPage = () => {
   }
 
   const onDeleteHolder = async (holder) => {
-    const newHolder = { ...holder, isActive: false }
+    const newHolder = { ...omit(holder, 'patients'), isActive: false }
     await onSaving(() => editHolder(newHolder))
     const holderIndex = holders.findIndex(({ id }) => id === newHolder.id)
     const newHolders = [...holders]

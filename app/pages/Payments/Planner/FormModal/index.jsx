@@ -76,7 +76,7 @@ const PaymentsFormModal = ({
       }
 
       if (data.data) {
-        const { value, ...rest } = data.data
+        const { value, holder, ...rest } = data.data
         newData = {
           ...newData,
           ...rest,
@@ -108,6 +108,16 @@ const PaymentsFormModal = ({
 
     const submitData = {
       ...rest,
+      reference: new Date(
+        rest.reference.getFullYear(),
+        rest.reference.getMonth(),
+        15,
+        12,
+        0,
+        0,
+        0
+      ),
+      madeAt: new Date(rest.madeAt.setHours(12, 0, 0, 0)),
       value: standardToCentesimal(value),
       patientId: patient.id,
       holderId: patient.holderId,
