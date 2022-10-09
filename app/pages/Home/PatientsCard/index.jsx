@@ -19,7 +19,7 @@ const PatientsCard = () => {
 
   return (
     <DataCard
-      title="Pacientes Ativos"
+      title="Total de Pacientes Ativos"
       color="info"
       data={count}
       isLoading={loading}
