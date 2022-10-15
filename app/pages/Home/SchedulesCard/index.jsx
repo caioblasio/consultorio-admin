@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
-import { fetchPatientsCount } from 'api/database'
+import { fetchActivePatientsCount } from 'api/database'
 import calendar from 'assets/images/calendar.png'
 import DataCard from 'containers/DataCard'
 
@@ -9,7 +9,7 @@ const SchedulesCard = () => {
   const [loading, setLoading] = useState(true)
 
   useAsyncEffect(async (isMounted) => {
-    await fetchPatientsCount()
+    await fetchActivePatientsCount()
     if (!isMounted()) return
     setLoading(false)
   }, [])

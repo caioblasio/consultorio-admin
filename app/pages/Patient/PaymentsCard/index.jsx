@@ -31,15 +31,15 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
 
   const [year, setYear] = useState(currentYear)
 
-  const startDate = new Date(year, 0, 1)
-  const endDate = new Date(year, 11, 31, 23, 59, 59)
-
   useAsyncEffect(
     async (isMounted) => {
       setLoading(true)
       if (isLoading) {
         return
       }
+
+      const startDate = new Date(year, 0, 1)
+      const endDate = new Date(year, 11, 31, 23, 59, 59)
 
       const payments = await fetchPaymentsWithinRangeByPatient(
         patient.id,
@@ -53,7 +53,7 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
       setPayments(payments)
       setLoading(false)
     },
-    [isLoading]
+    [isLoading, year]
   )
 
   const getPaymentColor = (status) => {
