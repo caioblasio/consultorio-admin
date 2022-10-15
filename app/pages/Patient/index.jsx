@@ -2,7 +2,11 @@ import React, { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import useAsyncEffect from 'use-async-effect'
 import { Grid } from '@mui/material'
-import { fetchPatientById, editPatient } from 'api/database'
+import {
+  fetchPatientById,
+  editPatient,
+  fetchAllActiveHolders,
+} from 'api/database'
 import Breadcrumbs from 'containers/Breadcrumbs'
 import Page from 'containers/Page'
 import { SaveContext } from 'contexts/Save'
@@ -12,11 +16,21 @@ import PatientCard from './PatientCard'
 import PaymentsCard from './PaymentsCard'
 
 const PatientPage = () => {
+  const [holders, setHolders] = useState([])
   const [patient, setPatient] = useState()
   const [loading, setLoading] = useState(true)
   const { onSaving } = useContext(SaveContext)
 
   const { patientId } = useParams()
+
+  useAsyncEffect(async (isMounted) => {
+    const allHolders = await fetchAllActiveHolders()
+    if (!isMounted()) {
+      return
+    }
+
+    setHolders(allHolders)
+  }, [])
 
   useAsyncEffect(async (isMounted) => {
     const patient = await fetchPatientById(patientId)
@@ -42,6 +56,7 @@ const PatientPage = () => {
         <Grid item xs={4}>
           <PatientCard
             patient={patient}
+            holders={holders}
             isLoading={loading}
             onEdit={onEditPatient}
           />
@@ -50,7 +65,11 @@ const PatientPage = () => {
           <ScheduleCard patient={patient} isLoading={loading} />
         </Grid>
         <Grid item xs={4}>
-          <PaymentsCard patient={patient} isLoading={loading} />
+          <PaymentsCard
+            patient={patient}
+            holders={holders}
+            isLoading={loading}
+          />
         </Grid>
       </Grid>
     </Page>

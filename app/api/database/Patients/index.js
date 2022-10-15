@@ -37,9 +37,13 @@ export const fetchActivePatients = async () => {
   return snapshot.docs.map(patientMapper)
 }
 
-export const fetchPatientsCount = async () => {
-  const querySnapshot = await getDocs(collection(db, COLLECTION_NAME))
-  return querySnapshot.size
+export const fetchActivePatientsCount = async () => {
+  const q = query(
+    collection(db, COLLECTION_NAME),
+    where('isActive', '==', true)
+  )
+  const snapshot = await getDocs(q)
+  return snapshot.size
 }
 
 export const fetchPatientsCountWithinDateRangeByTreatmentBeginDate = async (

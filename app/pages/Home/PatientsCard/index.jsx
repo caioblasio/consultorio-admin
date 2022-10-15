@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { patientsURL } from 'configs/urls'
-import { fetchPatientsCount } from 'api/database'
+import { fetchActivePatientsCount } from 'api/database'
 import user from 'assets/images/user.png'
 
 import DataCard from 'containers/DataCard'
@@ -11,7 +11,7 @@ const PatientsCard = () => {
   const [loading, setLoading] = useState(true)
 
   useAsyncEffect(async (isMounted) => {
-    const count = await fetchPatientsCount()
+    const count = await fetchActivePatientsCount()
     if (!isMounted()) return
     setCount(count)
     setLoading(false)

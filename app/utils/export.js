@@ -1,3 +1,5 @@
+import { pdf } from '@react-pdf/renderer'
+
 export const exportToCsv = (
   data,
   { filename = `gerado-${Date.now()}`, withBom = true } = {}
@@ -9,6 +11,14 @@ export const exportToCsv = (
     }
   )
   exportAs(blob, filename)
+}
+
+export const exportToPdf = (data, { filename = `gerado-${Date.now()}` }) => {
+  pdf(data)
+    .toBlob()
+    .then((blob) => {
+      exportAs(blob, filename)
+    })
 }
 
 export const exportAs = (blob, filename = document.title) => {

@@ -1,7 +1,14 @@
 import React, { Fragment, useCallback, useState, useMemo } from 'react'
 import useAsyncEffect from 'use-async-effect'
 import { capitalize } from 'lodash-es'
-import { Stack, Grid, Typography, IconButton, Divider } from '@mui/material'
+import {
+  Stack,
+  Grid,
+  Typography,
+  IconButton,
+  Divider,
+  useTheme,
+} from '@mui/material'
 import {
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
@@ -9,10 +16,13 @@ import {
 } from '@mui/icons-material'
 import { fetchPaymentsWithinRangeByPatient } from 'api/database'
 import { formatCurrency } from 'utils/currency'
+import { exportToPdf } from 'utils/export'
 import Card from 'components/Card'
 import useDateAdapter from 'hooks/useDateAdapter'
+import PdfTemplate from './PdfTemplate'
 
-const PaymentsCard = ({ patient, isLoading }) => {
+const PaymentsCard = ({ patient, holders, isLoading }) => {
+  const theme = useTheme()
   const [payments, setPayments] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -21,9 +31,6 @@ const PaymentsCard = ({ patient, isLoading }) => {
 
   const [year, setYear] = useState(currentYear)
 
-  const startDate = new Date(year, 0, 1)
-  const endDate = new Date(year, 11, 31, 23, 59, 59)
-
   useAsyncEffect(
     async (isMounted) => {
       setLoading(true)
@@ -31,16 +38,22 @@ const PaymentsCard = ({ patient, isLoading }) => {
         return
       }
 
+      const startDate = new Date(year, 0, 1)
+      const endDate = new Date(year, 11, 31, 23, 59, 59)
+
       const payments = await fetchPaymentsWithinRangeByPatient(
         patient.id,
         startDate,
         endDate
       )
-      if (!isMounted()) return
+      if (!isMounted()) {
+        return
+      }
+
       setPayments(payments)
       setLoading(false)
     },
-    [isLoading]
+    [isLoading, year]
   )
 
   const getPaymentColor = (status) => {
@@ -53,8 +66,6 @@ const PaymentsCard = ({ patient, isLoading }) => {
     return colors[status] || colors.default
   }
 
-  const downloadReport = useCallback(() => {}, [])
-
   const report = useMemo(() => {
     let result = []
 
@@ -65,7 +76,7 @@ const PaymentsCard = ({ patient, isLoading }) => {
         adapter.isSameMonth(dateMonth, payment.reference)
       )
 
-      total = total + (payment ? payment.value : 0)
+      total += payment?.value || 0
       return (
         <Typography color={getPaymentColor(payment?.status)}>
           {formatCurrency(payment?.value || 0, true)}
@@ -107,6 +118,22 @@ const PaymentsCard = ({ patient, isLoading }) => {
 
     return result
   }, [year, payments])
+
+  const downloadReport = useCallback(
+    () =>
+      exportToPdf(
+        <PdfTemplate
+          patient={patient}
+          data={payments}
+          holders={holders}
+          theme={theme}
+        />,
+        {
+          filename: `${__dirname}/paciente_pagamentos-${Date.now()}`,
+        }
+      ),
+    [patient, payments, holders]
+  )
 
   return (
     <Card

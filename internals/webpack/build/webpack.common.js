@@ -1,4 +1,4 @@
-const { BannerPlugin, DefinePlugin } = require('webpack')
+const { BannerPlugin, DefinePlugin, ProvidePlugin } = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 require('../../scripts/utils/dotenv')
 
@@ -44,6 +44,14 @@ module.exports = {
   resolve: {
     modules: [`${__root}/app`, 'node_modules'],
     extensions: ['.jsx', '.js'],
+    fallback: {
+      process: require.resolve('process/browser'),
+      zlib: require.resolve('browserify-zlib'),
+      stream: require.resolve('stream-browserify'),
+      util: require.resolve('util'),
+      buffer: require.resolve('buffer'),
+      assert: require.resolve('assert'),
+    },
   },
   plugins: [
     new DefinePlugin({
@@ -58,6 +66,10 @@ module.exports = {
       inject: true,
       template: 'public/index.html',
       favicon: `${__root}/public/favicon.ico`,
+    }),
+    new ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+      process: 'process/browser',
     }),
   ],
 }
