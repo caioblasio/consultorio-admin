@@ -2,6 +2,8 @@ import {
   getAuth,
   onAuthStateChanged as firebase_onAuthStateChanged,
   signOut as firebase_signOut,
+  setPersistence,
+  browserSessionPersistence,
 } from 'firebase/auth'
 import { signInWithEmailAndPassword } from './emailAndPassword'
 
@@ -21,7 +23,7 @@ const onAuthStateChanged = (callback) => {
   })
 }
 
-const signIn = (credentials, provider = 'emailAndPassword') => {
+const signIn = async (credentials, provider = 'emailAndPassword') => {
   const auth = getAuth()
   const { email, password } = credentials
 
@@ -35,6 +37,10 @@ const signIn = (credentials, provider = 'emailAndPassword') => {
     throw new Error(
       `The provider ${provider} is not registered for authentication.`
     )
+  }
+
+  if (process.env.NODE_ENV !== 'development') {
+    await setPersistence(auth, browserSessionPersistence)
   }
 
   return signInMethod

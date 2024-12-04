@@ -61,6 +61,7 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
       paid: 'success.dark',
       forgiven: 'info.dark',
       owing: 'error.dark',
+      noData: 'grey.dark',
       default: 'text.primary',
     }
     return colors[status] || colors.default
@@ -71,14 +72,20 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
 
     let total = 0
 
-    const getValueForMonth = (dateMonth) => {
+    const getValueForMonth = (dateMonth, shouldHavePaymentInfo) => {
       const payment = payments.find((payment) =>
         adapter.isSameMonth(dateMonth, payment.reference)
       )
 
+      const paymentStatus = payment?.status
+
       total += payment?.value || 0
       return (
-        <Typography color={getPaymentColor(payment?.status)}>
+        <Typography
+          color={getPaymentColor(
+            shouldHavePaymentInfo ? paymentStatus : 'noData'
+          )}
+        >
           {formatCurrency(payment?.value || 0, true)}
         </Typography>
       )
@@ -88,12 +95,20 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
       const dateMonth = new Date(year, i)
       const month = adapter.format(dateMonth, 'month')
 
+      const shouldHavePaymentInfo =
+        adapter.isBefore(patient?.treatmentBegin, dateMonth) ||
+        adapter.isSameMonth(patient?.treatmentBegin, dateMonth)
+
       const item = (
         <Grid container justifyContent="space-between" key={`${month}-${i}`}>
           <Grid item>
-            <Typography color="grey.dark">{capitalize(month)}</Typography>
+            <Typography
+              color={shouldHavePaymentInfo ? 'text.primary' : 'grey.dark'}
+            >
+              {capitalize(month)}
+            </Typography>
           </Grid>
-          <Grid item>{getValueForMonth(dateMonth)}</Grid>
+          <Grid item>{getValueForMonth(dateMonth, shouldHavePaymentInfo)}</Grid>
         </Grid>
       )
       result = [...result, item]
@@ -126,6 +141,8 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
           patient={patient}
           data={payments}
           holders={holders}
+          year={year}
+          dateAdapter={adapter}
           theme={theme}
         />,
         {
@@ -151,7 +168,10 @@ const PaymentsCard = ({ patient, holders, isLoading }) => {
       <Stack spacing={2}>
         <Grid container alignItems="center">
           <Grid item>
-            <IconButton onClick={() => setYear(year - 1)}>
+            <IconButton
+              onClick={() => setYear(year - 1)}
+              disabled={year === patient?.treatmentBegin?.getFullYear()}
+            >
               <ChevronLeftIcon />
             </IconButton>
           </Grid>

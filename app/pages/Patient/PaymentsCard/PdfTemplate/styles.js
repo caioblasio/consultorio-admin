@@ -39,10 +39,11 @@ export const title = (theme) =>
     marginBottom: theme.spacing(2),
   })
 
-export const flexContainer = () =>
+export const flexContainer = (opts = {}) =>
   StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
+    ...opts,
   })
 
 export const category = (theme) =>
@@ -54,4 +55,16 @@ export const categoryTitle = (theme) =>
   StyleSheet.create({
     color: theme.palette.grey.dark,
     marginBottom: theme.spacing(1),
+  })
+
+export const row = (theme, status) =>
+  StyleSheet.create({
+    marginBottom: theme.spacing(1),
+    ...(status === 'owing' && { color: theme.palette.error.dark }),
+    ...(status === 'forgiven' && { color: theme.palette.grey.dark }),
+  })
+
+export const rowItem = () =>
+  StyleSheet.create({
+    flex: 1,
   })
